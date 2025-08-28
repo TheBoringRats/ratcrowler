@@ -1,0 +1,48 @@
+# Site settings
+title: "RatCrawler Documentation"
+description: "Comprehensive web crawler and multi-source trending analysis system"
+url: "https://theboringrats.github.io"
+baseurl: "/ratcrawler"
+repository: "TheBoringRats/ratcrawler"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - .bundle/
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - .bundle
+
+# Include files
+include:
+  - _pages
+
+# SEO and social
+author: TheBoringRats
+email: theboringrats@gmail.com
+twitter_username: theboringrats
+github_username: TheBoringRats
+
+# Custom variables
+logo: /assets/images/logo.png
+social_links:
+  github: https://github.com/TheBoringRats/ratcrawler
+  email: mailto:theboringrats@gmail.com

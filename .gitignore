@@ -1,0 +1,44 @@
+# Rust
+*/target/
+**/*.rs.bk
+Cargo.lock
+top-1m.csv
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+*.env
+.env/
+.venv/
+venv/
+ENV/
+env/
+pip-wheel-metadata/
+.mypy_cache/
+.pytest_cache/
+.coverage
+.tox/
+*.log
+
+# Common
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+*.bak
+*.tmp
+website_crawler.db
+test.db
+x_cookies.json
+web_crawl.db
