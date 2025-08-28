@@ -1,12 +1,20 @@
 # RatCrawler Documentation
 
-This directory contains the complete documentation for RatCrawler, hosted on GitHub Pages.
+This directory contains the complete documentation for RatCrawler, hosted on GitHub Pages with custom styling and layouts.
 
 ## 📁 Documentation Structure
 
 ```
 docs/
 ├── _config.yml              # Jekyll configuration
+├── _layouts/
+│   └── default.html         # Custom layout with Google Fonts
+├── _includes/
+│   ├── header.html          # Custom header
+│   └── footer.html          # Custom footer
+├── assets/
+│   └── css/
+│       └── main.scss        # Custom SCSS with perfect styling
 ├── index.md                 # Main documentation page
 ├── getting-started/
 │   ├── installation.md      # Installation guide
@@ -19,6 +27,16 @@ docs/
 │   └── index.md             # Contributing guide
 └── README.md                # This file
 ```
+
+## 🎨 Custom Styling
+
+The documentation features a custom SCSS stylesheet (`assets/css/main.scss`) with:
+
+- **Modern Design**: Gradient backgrounds, custom fonts, and smooth animations
+- **Responsive Layout**: Mobile-friendly design that works on all devices
+- **Dark Mode Ready**: CSS variables for easy theme customization
+- **Professional Typography**: Inter font for body text, JetBrains Mono for code
+- **Custom Components**: Styled buttons, code blocks, tables, and navigation
 
 ## 🚀 GitHub Pages Setup
 
@@ -49,6 +67,35 @@ bundle exec jekyll serve
 
 # View at http://localhost:4000
 ```
+
+## 🔧 Customization
+
+### Colors and Branding
+
+Modify `assets/css/main.scss` to customize:
+
+- CSS custom properties for colors
+- Gradient definitions
+- Typography settings
+- Component styling
+
+### Site Configuration
+
+Update `_config.yml` for:
+
+- Site title and description
+- Author information
+- Social media links
+- Navigation structure
+
+### Layout Customization
+
+Edit `_layouts/default.html` to modify:
+
+- HTML structure
+- Font loading
+- Meta tags
+- SEO optimization
 
 ## 📝 Writing Documentation
 
@@ -292,7 +339,6 @@ Track documentation effectiveness:
 
 ---
 
-<div style="text-align: center; margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
-  <p><strong>📖 Happy documenting! 📖</strong></p>
-  <p>Built with ❤️ by TheBoringRats</p>
-</div>
+📖 Happy documenting! 📖
+
+Built with ❤️ by TheBoringRats

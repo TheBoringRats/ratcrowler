@@ -34,6 +34,16 @@ exclude:
 # Include files
 include:
   - _pages
+  - _includes
+  - _layouts
+
+# Header navigation
+header_pages:
+  - index.md
+  - getting-started/quick-start.md
+  - features/web-crawling.md
+  - api-reference/index.md
+  - contributing/index.md
 
 # SEO and social
 author: TheBoringRats
