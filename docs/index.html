@@ -1,666 +1,888 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RatCrawler - Advanced Web Crawling & Analysis System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1f2937',
-                        secondary: '#374151',
-                        accent: '#3b82f6',
-                        success: '#10b981',
-                        warning: '#f59e0b',
-                        danger: '#ef4444'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1f2937",
+              secondary: "#374151",
+              accent: "#3b82f6",
+              success: "#10b981",
+              warning: "#f59e0b",
+              danger: "#ef4444",
+            },
+          },
+        },
+      };
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="bg-gray-50 text-gray-900">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
-                        <span class="font-bold text-xl text-primary">RatCrawler</span>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#overview" class="text-gray-700 hover:text-accent transition-colors">Overview</a>
-                    <a href="#features" class="text-gray-700 hover:text-accent transition-colors">Features</a>
-                    <a href="#architecture" class="text-gray-700 hover:text-accent transition-colors">Architecture</a>
-                    <a href="#installation" class="text-gray-700 hover:text-accent transition-colors">Installation</a>
-                    <a href="#usage" class="text-gray-700 hover:text-accent transition-colors">Usage</a>
-                    <a href="#api" class="text-gray-700 hover:text-accent transition-colors">API</a>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+              <span class="font-bold text-xl text-primary">RatCrawler</span>
             </div>
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="#overview"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Overview</a
+            >
+            <a
+              href="#features"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Features</a
+            >
+            <a
+              href="#architecture"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Architecture</a
+            >
+            <a
+              href="#installation"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Installation</a
+            >
+            <a
+              href="#usage"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Usage</a
+            >
+            <a
+              href="#api"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >API</a
+            >
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-primary to-secondary text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="mb-8">
-                <i class="fas fa-spider text-6xl text-accent mb-4"></i>
-            </div>
-            <h1 class="text-5xl font-bold mb-6">🕷️ RatCrawler</h1>
-            <p class="text-xl mb-8 text-gray-300">A comprehensive web crawler and multi-source trending analysis system</p>
-            <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <span class="bg-accent px-4 py-2 rounded-full text-sm font-medium">Python 3.8+</span>
-                <span class="bg-orange-500 px-4 py-2 rounded-full text-sm font-medium">Rust 1.70+</span>
-                <span class="bg-green-500 px-4 py-2 rounded-full text-sm font-medium">SQLite Database</span>
-                <span class="bg-purple-500 px-4 py-2 rounded-full text-sm font-medium">MIT License</span>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#installation" class="bg-accent hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold transition-colors">
-                    <i class="fas fa-download mr-2"></i>Get Started
-                </a>
-                <a href="https://github.com/TheBoringRats/ratcrowler" class="border-2 border-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors">
-                    <i class="fab fa-github mr-2"></i>View on GitHub
-                </a>
-            </div>
+    <section
+      class="bg-gradient-to-br from-primary to-secondary text-white py-20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="mb-8">
+          <i class="fas fa-spider text-6xl text-accent mb-4"></i>
         </div>
+        <h1 class="text-5xl font-bold mb-6">🕷️ RatCrawler</h1>
+        <p class="text-xl mb-8 text-gray-300">
+          A comprehensive web crawler and multi-source trending analysis system
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 mb-8">
+          <span class="bg-accent px-4 py-2 rounded-full text-sm font-medium"
+            >Python 3.8+</span
+          >
+          <span class="bg-orange-500 px-4 py-2 rounded-full text-sm font-medium"
+            >Rust 1.70+</span
+          >
+          <span class="bg-green-500 px-4 py-2 rounded-full text-sm font-medium"
+            >SQLite Database</span
+          >
+          <span class="bg-purple-500 px-4 py-2 rounded-full text-sm font-medium"
+            >MIT License</span
+          >
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#installation"
+            class="bg-accent hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <i class="fas fa-download mr-2"></i>Get Started
+          </a>
+          <a
+            href="https://github.com/TheBoringRats/ratcrowler"
+            class="border-2 border-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <i class="fab fa-github mr-2"></i>View on GitHub
+          </a>
+        </div>
+      </div>
     </section>
 
     <!-- Overview Section -->
     <section id="overview" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">Overview</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    RatCrawler is a comprehensive web crawling and multi-source trending analysis system available in two high-performance implementations.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h3 class="text-2xl font-bold text-primary mb-6">🐍 Python Version (Primary)</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Enhanced Production Crawler with scheduled automation</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Backlink Analysis Engine with PageRank and domain authority</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Comprehensive Trending Analysis across multiple platforms</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>SQLite Database with optimized schema</span>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-primary mb-6">🦀 Rust Version (High-Performance)</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Async/Await concurrency with tokio runtime</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Memory-Safe with zero-cost abstractions</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Lightning-Fast compiled performance</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check text-success mt-1 mr-3"></i>
-                            <span>Multi-Source Data Aggregation with parallel processing</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">Overview</h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            RatCrawler is a comprehensive web crawling and multi-source trending
+            analysis system available in two high-performance implementations.
+          </p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              🐍 Python Version (Primary)
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span
+                  >Enhanced Production Crawler with scheduled automation</span
+                >
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span
+                  >Backlink Analysis Engine with PageRank and domain
+                  authority</span
+                >
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span
+                  >Comprehensive Trending Analysis across multiple
+                  platforms</span
+                >
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span>SQLite Database with optimized schema</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              🦀 Rust Version (High-Performance)
+            </h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span>Async/Await concurrency with tokio runtime</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span>Memory-Safe with zero-cost abstractions</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span>Lightning-Fast compiled performance</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-success mt-1 mr-3"></i>
+                <span
+                  >Multi-Source Data Aggregation with parallel processing</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Features Section -->
     <section id="features" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">🚀 Features</h2>
-                <p class="text-xl text-gray-600">Comprehensive web crawling and analysis capabilities</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Web Crawling -->
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-globe text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Advanced Web Crawling</h3>
-                    <ul class="text-gray-600 space-y-2">
-                        <li>• Priority-based crawling frontier</li>
-                        <li>• Robots.txt compliance</li>
-                        <li>• Content deduplication</li>
-                        <li>• Incremental recrawling</li>
-                        <li>• Redirect chain handling</li>
-                    </ul>
-                </div>
-
-                <!-- Backlink Analysis -->
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-link text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Backlink Analysis</h3>
-                    <ul class="text-gray-600 space-y-2">
-                        <li>• PageRank calculation</li>
-                        <li>• Domain authority scoring</li>
-                        <li>• Spam link detection</li>
-                        <li>• Anchor text analysis</li>
-                        <li>• Link graph visualization</li>
-                    </ul>
-                </div>
-
-                <!-- Trending Analysis -->
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-chart-line text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Trending Analysis</h3>
-                    <ul class="text-gray-600 space-y-2">
-                        <li>• Google Trends integration</li>
-                        <li>• Social media trends</li>
-                        <li>• Financial market analysis</li>
-                        <li>• News aggregation</li>
-                        <li>• Real-time insights</li>
-                    </ul>
-                </div>
-
-                <!-- Database -->
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-database text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Robust Database</h3>
-                    <ul class="text-gray-600 space-y-2">
-                        <li>• SQLite with optimized schema</li>
-                        <li>• Session-based crawling</li>
-                        <li>• Comprehensive indexing</li>
-                        <li>• Export capabilities</li>
-                        <li>• Data persistence</li>
-                    </ul>
-                </div>
-
-                <!-- Performance -->
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-tachometer-alt text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">High Performance</h3>
-                    <ul class="text-gray-600 space-y-2">
-                        <li>• Async/Await concurrency</li>
-                        <li>• Memory-efficient processing</li>
-                        <li>• Configurable delays</li>
-                        <li>• Parallel processing</li>
-                        <li>• Optimized algorithms</li>
-                    </ul>
-                </div>
-
-                <!-- Automation -->
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-clock text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Scheduled Automation</h3>
-                    <ul class="text-gray-600 space-y-2">
-                        <li>• Configurable scheduling</li>
-                        <li>• Automated recrawling</li>
-                        <li>• Background processing</li>
-                        <li>• System monitoring</li>
-                        <li>• Error recovery</li>
-                    </ul>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">🚀 Features</h2>
+          <p class="text-xl text-gray-600">
+            Comprehensive web crawling and analysis capabilities
+          </p>
         </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Web Crawling -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <div class="text-accent mb-4">
+              <i class="fas fa-globe text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Advanced Web Crawling
+            </h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• Priority-based crawling frontier</li>
+              <li>• Robots.txt compliance</li>
+              <li>• Content deduplication</li>
+              <li>• Incremental recrawling</li>
+              <li>• Redirect chain handling</li>
+            </ul>
+          </div>
+
+          <!-- Backlink Analysis -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <div class="text-accent mb-4">
+              <i class="fas fa-link text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Backlink Analysis
+            </h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• PageRank calculation</li>
+              <li>• Domain authority scoring</li>
+              <li>• Spam link detection</li>
+              <li>• Anchor text analysis</li>
+              <li>• Link graph visualization</li>
+            </ul>
+          </div>
+
+          <!-- Trending Analysis -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <div class="text-accent mb-4">
+              <i class="fas fa-chart-line text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Trending Analysis
+            </h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• Google Trends integration</li>
+              <li>• Social media trends</li>
+              <li>• Financial market analysis</li>
+              <li>• News aggregation</li>
+              <li>• Real-time insights</li>
+            </ul>
+          </div>
+
+          <!-- Database -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <div class="text-accent mb-4">
+              <i class="fas fa-database text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">Robust Database</h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• SQLite with optimized schema</li>
+              <li>• Session-based crawling</li>
+              <li>• Comprehensive indexing</li>
+              <li>• Export capabilities</li>
+              <li>• Data persistence</li>
+            </ul>
+          </div>
+
+          <!-- Performance -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <div class="text-accent mb-4">
+              <i class="fas fa-tachometer-alt text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              High Performance
+            </h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• Async/Await concurrency</li>
+              <li>• Memory-efficient processing</li>
+              <li>• Configurable delays</li>
+              <li>• Parallel processing</li>
+              <li>• Optimized algorithms</li>
+            </ul>
+          </div>
+
+          <!-- Automation -->
+          <div
+            class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            <div class="text-accent mb-4">
+              <i class="fas fa-clock text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Scheduled Automation
+            </h3>
+            <ul class="text-gray-600 space-y-2">
+              <li>• Configurable scheduling</li>
+              <li>• Automated recrawling</li>
+              <li>• Background processing</li>
+              <li>• System monitoring</li>
+              <li>• Error recovery</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Architecture Section -->
     <section id="architecture" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">🏗️ Architecture</h2>
-                <p class="text-xl text-gray-600">Modular and scalable system design</p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="bg-gray-50 p-8 rounded-lg">
-                    <h3 class="text-2xl font-bold text-primary mb-6">Core Components</h3>
-                    <div class="space-y-6">
-                        <div class="flex items-start">
-                            <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                                <i class="fas fa-cog"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-primary">Crawler Engine</h4>
-                                <p class="text-gray-600">Handles web page discovery, content extraction, and link following</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                                <i class="fas fa-link"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-primary">Backlink Processor</h4>
-                                <p class="text-gray-600">Analyzes link relationships, calculates PageRank, and detects spam</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                                <i class="fas fa-chart-bar"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-primary">Trends Analyzer</h4>
-                                <p class="text-gray-600">Aggregates data from multiple sources for trending analysis</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                                <i class="fas fa-database"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-primary">Database Layer</h4>
-                                <p class="text-gray-600">Manages data persistence, indexing, and query optimization</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-gray-50 p-8 rounded-lg">
-                    <h3 class="text-2xl font-bold text-primary mb-6">Data Flow</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center">
-                            <div class="bg-success text-white p-2 rounded-full mr-4">
-                                <span class="text-sm font-bold">1</span>
-                            </div>
-                            <span class="text-gray-700">Seed URLs are loaded and prioritized</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="bg-success text-white p-2 rounded-full mr-4">
-                                <span class="text-sm font-bold">2</span>
-                            </div>
-                            <span class="text-gray-700">Pages are crawled with respect to robots.txt</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="bg-success text-white p-2 rounded-full mr-4">
-                                <span class="text-sm font-bold">3</span>
-                            </div>
-                            <span class="text-gray-700">Content is extracted and stored in database</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="bg-success text-white p-2 rounded-full mr-4">
-                                <span class="text-sm font-bold">4</span>
-                            </div>
-                            <span class="text-gray-700">Backlinks are discovered and analyzed</span>
-                        </div>
-                        <div class="flex items-center">
-                            <div class="bg-success text-white p-2 rounded-full mr-4">
-                                <span class="text-sm font-bold">5</span>
-                            </div>
-                            <span class="text-gray-700">Trends data is aggregated and processed</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">🏗️ Architecture</h2>
+          <p class="text-xl text-gray-600">
+            Modular and scalable system design
+          </p>
         </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+          <div class="bg-gray-50 p-8 rounded-lg">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              Core Components
+            </h3>
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                  <i class="fas fa-cog"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-primary">Crawler Engine</h4>
+                  <p class="text-gray-600">
+                    Handles web page discovery, content extraction, and link
+                    following
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                  <i class="fas fa-link"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-primary">Backlink Processor</h4>
+                  <p class="text-gray-600">
+                    Analyzes link relationships, calculates PageRank, and
+                    detects spam
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                  <i class="fas fa-chart-bar"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-primary">Trends Analyzer</h4>
+                  <p class="text-gray-600">
+                    Aggregates data from multiple sources for trending analysis
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-start">
+                <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                  <i class="fas fa-database"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-primary">Database Layer</h4>
+                  <p class="text-gray-600">
+                    Manages data persistence, indexing, and query optimization
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-8 rounded-lg">
+            <h3 class="text-2xl font-bold text-primary mb-6">Data Flow</h3>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <div class="bg-success text-white p-2 rounded-full mr-4">
+                  <span class="text-sm font-bold">1</span>
+                </div>
+                <span class="text-gray-700"
+                  >Seed URLs are loaded and prioritized</span
+                >
+              </div>
+              <div class="flex items-center">
+                <div class="bg-success text-white p-2 rounded-full mr-4">
+                  <span class="text-sm font-bold">2</span>
+                </div>
+                <span class="text-gray-700"
+                  >Pages are crawled with respect to robots.txt</span
+                >
+              </div>
+              <div class="flex items-center">
+                <div class="bg-success text-white p-2 rounded-full mr-4">
+                  <span class="text-sm font-bold">3</span>
+                </div>
+                <span class="text-gray-700"
+                  >Content is extracted and stored in database</span
+                >
+              </div>
+              <div class="flex items-center">
+                <div class="bg-success text-white p-2 rounded-full mr-4">
+                  <span class="text-sm font-bold">4</span>
+                </div>
+                <span class="text-gray-700"
+                  >Backlinks are discovered and analyzed</span
+                >
+              </div>
+              <div class="flex items-center">
+                <div class="bg-success text-white p-2 rounded-full mr-4">
+                  <span class="text-sm font-bold">5</span>
+                </div>
+                <span class="text-gray-700"
+                  >Trends data is aggregated and processed</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Installation Section -->
     <section id="installation" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">🔧 Installation</h2>
-                <p class="text-xl text-gray-600">Get RatCrawler up and running quickly</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12">
-                <!-- Python Installation -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold text-primary mb-6">
-                        <i class="fab fa-python text-3xl text-accent mr-3"></i>
-                        Python Version
-                    </h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-bold text-primary mb-2">1. Install Dependencies</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <code class="text-sm text-gray-800">
-pip install requests beautifulsoup4 networkx schedule feedparser newspaper3k lxml_html_clean
-                                </code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-primary mb-2">2. Clone Repository</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <code class="text-sm text-gray-800">
-git clone https://github.com/TheBoringRats/ratcrowler.git<br>
-cd ratcrowler
-                                </code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-primary mb-2">3. Quick Start</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <code class="text-sm text-gray-800">
-python3 main.py
-                                </code>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rust Installation -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold text-primary mb-6">
-                        <i class="fab fa-rust text-3xl text-orange-500 mr-3"></i>
-                        Rust Version
-                    </h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-bold text-primary mb-2">1. Install Rust</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <code class="text-sm text-gray-800">
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-                                </code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-primary mb-2">2. Build Project</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <code class="text-sm text-gray-800">
-cd rust_version<br>
-cargo build --release
-                                </code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-primary mb-2">3. Run Crawler</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <code class="text-sm text-gray-800">
-./target/release/rat-crawler crawl https://example.com
-                                </code>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">🔧 Installation</h2>
+          <p class="text-xl text-gray-600">
+            Get RatCrawler up and running quickly
+          </p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-12">
+          <!-- Python Installation -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              <i class="fab fa-python text-3xl text-accent mr-3"></i>
+              Python Version
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-bold text-primary mb-2">
+                  1. Install Dependencies
+                </h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    pip install requests beautifulsoup4 networkx schedule
+                    feedparser newspaper3k lxml_html_clean
+                  </code>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-2">2. Clone Repository</h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    git clone https://github.com/TheBoringRats/ratcrowler.git<br />
+                    cd ratcrowler
+                  </code>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-2">3. Quick Start</h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800"> python3 main.py </code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rust Installation -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              <i class="fab fa-rust text-3xl text-orange-500 mr-3"></i>
+              Rust Version
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-bold text-primary mb-2">1. Install Rust</h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |
+                    sh
+                  </code>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-2">2. Build Project</h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    cd rust_version<br />
+                    cargo build --release
+                  </code>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-primary mb-2">3. Run Crawler</h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    ./target/release/rat-crawler crawl https://example.com
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Usage Section -->
     <section id="usage" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">🎮 Usage</h2>
-                <p class="text-xl text-gray-600">Examples and command-line usage</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Python Usage -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-primary mb-4">🐍 Python Commands</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-primary">Basic Crawling</h4>
-                            <div class="bg-white p-3 rounded border-l-4 border-accent">
-                                <code class="text-sm">python3 main.py</code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-primary">Google Trends Analysis</h4>
-                            <div class="bg-white p-3 rounded border-l-4 border-accent">
-                                <code class="text-sm">cd engine && python3 googletrends.py --limit 5</code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-primary">Backlink Analysis</h4>
-                            <div class="bg-white p-3 rounded border-l-4 border-accent">
-                                <code class="text-sm">python3 backlinkprocessor.py</code>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rust Usage -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-primary mb-4">🦀 Rust Commands</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-primary">Web Crawling</h4>
-                            <div class="bg-white p-3 rounded border-l-4 border-accent">
-                                <code class="text-sm">./rat-crawler crawl https://example.com</code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-primary">Backlink Analysis</h4>
-                            <div class="bg-white p-3 rounded border-l-4 border-accent">
-                                <code class="text-sm">./rat-crawler backlinks https://example.com</code>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-primary">Integrated Analysis</h4>
-                            <div class="bg-white p-3 rounded border-l-4 border-accent">
-                                <code class="text-sm">./rat-crawler integrated https://example.com</code>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Configuration -->
-            <div class="mt-12 bg-gray-50 p-8 rounded-lg">
-                <h3 class="text-2xl font-bold text-primary mb-6">⚙️ Configuration</h3>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h4 class="font-bold text-primary mb-3">Crawler Settings</h4>
-                        <ul class="space-y-2 text-gray-600">
-                            <li>• <strong>delay:</strong> Request delay between pages</li>
-                            <li>• <strong>max_depth:</strong> Maximum crawl depth</li>
-                            <li>• <strong>max_pages:</strong> Maximum pages to crawl</li>
-                            <li>• <strong>user_agent:</strong> Custom user agent string</li>
-                            <li>• <strong>stay_on_domain:</strong> Domain restriction</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-primary mb-3">Database Settings</h4>
-                        <ul class="space-y-2 text-gray-600">
-                            <li>• <strong>db_path:</strong> SQLite database location</li>
-                            <li>• <strong>export_json:</strong> JSON export option</li>
-                            <li>• <strong>export_csv:</strong> CSV export option</li>
-                            <li>• <strong>recrawl_days:</strong> Recrawl frequency</li>
-                            <li>• <strong>analyze_backlinks:</strong> Backlink analysis toggle</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">🎮 Usage</h2>
+          <p class="text-xl text-gray-600">Examples and command-line usage</p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Python Usage -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-xl font-bold text-primary mb-4">
+              🐍 Python Commands
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold text-primary">Basic Crawling</h4>
+                <div class="bg-white p-3 rounded border-l-4 border-accent">
+                  <code class="text-sm">python3 main.py</code>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary">
+                  Google Trends Analysis
+                </h4>
+                <div class="bg-white p-3 rounded border-l-4 border-accent">
+                  <code class="text-sm"
+                    >cd engine && python3 googletrends.py --limit 5</code
+                  >
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary">Backlink Analysis</h4>
+                <div class="bg-white p-3 rounded border-l-4 border-accent">
+                  <code class="text-sm">python3 backlinkprocessor.py</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rust Usage -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-xl font-bold text-primary mb-4">
+              🦀 Rust Commands
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold text-primary">Web Crawling</h4>
+                <div class="bg-white p-3 rounded border-l-4 border-accent">
+                  <code class="text-sm"
+                    >./rat-crawler crawl https://example.com</code
+                  >
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary">Backlink Analysis</h4>
+                <div class="bg-white p-3 rounded border-l-4 border-accent">
+                  <code class="text-sm"
+                    >./rat-crawler backlinks https://example.com</code
+                  >
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold text-primary">Integrated Analysis</h4>
+                <div class="bg-white p-3 rounded border-l-4 border-accent">
+                  <code class="text-sm"
+                    >./rat-crawler integrated https://example.com</code
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration -->
+        <div class="mt-12 bg-gray-50 p-8 rounded-lg">
+          <h3 class="text-2xl font-bold text-primary mb-6">⚙️ Configuration</h3>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="font-bold text-primary mb-3">Crawler Settings</h4>
+              <ul class="space-y-2 text-gray-600">
+                <li>• <strong>delay:</strong> Request delay between pages</li>
+                <li>• <strong>max_depth:</strong> Maximum crawl depth</li>
+                <li>• <strong>max_pages:</strong> Maximum pages to crawl</li>
+                <li>• <strong>user_agent:</strong> Custom user agent string</li>
+                <li>• <strong>stay_on_domain:</strong> Domain restriction</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-bold text-primary mb-3">Database Settings</h4>
+              <ul class="space-y-2 text-gray-600">
+                <li>• <strong>db_path:</strong> SQLite database location</li>
+                <li>• <strong>export_json:</strong> JSON export option</li>
+                <li>• <strong>export_csv:</strong> CSV export option</li>
+                <li>• <strong>recrawl_days:</strong> Recrawl frequency</li>
+                <li>
+                  • <strong>analyze_backlinks:</strong> Backlink analysis toggle
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- API Section -->
     <section id="api" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-primary mb-4">📚 API Reference</h2>
-                <p class="text-xl text-gray-600">Core classes and methods</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Python API -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary mb-4">🐍 Python API</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-accent">EnhancedProductionCrawler</h4>
-                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                <li>• <code>comprehensive_crawl()</code> - Full crawling with analysis</li>
-                                <li>• <code>crawl_page_content()</code> - Single page crawling</li>
-                                <li>• <code>export_results()</code> - Export crawl data</li>
-                                <li>• <code>get_all_backlinks()</code> - Retrieve backlinks</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-accent">BacklinkProcessor</h4>
-                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                <li>• <code>crawl_backlinks()</code> - Discover backlinks</li>
-                                <li>• <code>calculate_pagerank()</code> - PageRank computation</li>
-                                <li>• <code>calculate_domain_authority()</code> - Domain scoring</li>
-                                <li>• <code>detect_link_spam()</code> - Spam detection</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Rust API -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary mb-4">🦀 Rust API</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="font-semibold text-accent">WebsiteCrawler</h4>
-                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                <li>• <code>crawl()</code> - Async web crawling</li>
-                                <li>• <code>crawl_single_page()</code> - Single page processing</li>
-                                <li>• <code>extract_urls()</code> - URL discovery</li>
-                                <li>• <code>can_crawl()</code> - Robots.txt checking</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-accent">BacklinkProcessor</h4>
-                            <ul class="text-sm text-gray-600 mt-2 space-y-1">
-                                <li>• <code>analyze_backlinks()</code> - Backlink analysis</li>
-                                <li>• <code>calculate_domain_authority()</code> - Authority scoring</li>
-                                <li>• <code>detect_spam_links()</code> - Spam detection</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">📚 API Reference</h2>
+          <p class="text-xl text-gray-600">Core classes and methods</p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Python API -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold text-primary mb-4">🐍 Python API</h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold text-accent">
+                  EnhancedProductionCrawler
+                </h4>
+                <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                  <li>
+                    • <code>comprehensive_crawl()</code> - Full crawling with
+                    analysis
+                  </li>
+                  <li>
+                    • <code>crawl_page_content()</code> - Single page crawling
+                  </li>
+                  <li>• <code>export_results()</code> - Export crawl data</li>
+                  <li>
+                    • <code>get_all_backlinks()</code> - Retrieve backlinks
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-accent">BacklinkProcessor</h4>
+                <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                  <li>• <code>crawl_backlinks()</code> - Discover backlinks</li>
+                  <li>
+                    • <code>calculate_pagerank()</code> - PageRank computation
+                  </li>
+                  <li>
+                    • <code>calculate_domain_authority()</code> - Domain scoring
+                  </li>
+                  <li>• <code>detect_link_spam()</code> - Spam detection</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rust API -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold text-primary mb-4">🦀 Rust API</h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="font-semibold text-accent">WebsiteCrawler</h4>
+                <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                  <li>• <code>crawl()</code> - Async web crawling</li>
+                  <li>
+                    • <code>crawl_single_page()</code> - Single page processing
+                  </li>
+                  <li>• <code>extract_urls()</code> - URL discovery</li>
+                  <li>• <code>can_crawl()</code> - Robots.txt checking</li>
+                </ul>
+              </div>
+              <div>
+                <h4 class="font-semibold text-accent">BacklinkProcessor</h4>
+                <ul class="text-sm text-gray-600 mt-2 space-y-1">
+                  <li>
+                    • <code>analyze_backlinks()</code> - Backlink analysis
+                  </li>
+                  <li>
+                    • <code>calculate_domain_authority()</code> - Authority
+                    scoring
+                  </li>
+                  <li>• <code>detect_spam_links()</code> - Spam detection</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-primary text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
-                        <span class="font-bold text-xl">RatCrawler</span>
-                    </div>
-                    <p class="text-gray-300">
-                        Advanced web crawling and analysis system for comprehensive data collection and trending analysis.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Quick Links</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#overview" class="text-gray-300 hover:text-accent transition-colors">Overview</a></li>
-                        <li><a href="#features" class="text-gray-300 hover:text-accent transition-colors">Features</a></li>
-                        <li><a href="#installation" class="text-gray-300 hover:text-accent transition-colors">Installation</a></li>
-                        <li><a href="#usage" class="text-gray-300 hover:text-accent transition-colors">Usage</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Resources</h4>
-                    <ul class="space-y-2">
-                        <li><a href="https://github.com/TheBoringRats/ratcrowler" class="text-gray-300 hover:text-accent transition-colors">GitHub Repository</a></li>
-                        <li><a href="#api" class="text-gray-300 hover:text-accent transition-colors">API Documentation</a></li>
-                        <li><a href="#architecture" class="text-gray-300 hover:text-accent transition-colors">Architecture</a></li>
-                        <li><a href="https://github.com/TheBoringRats/ratcrowler/issues" class="text-gray-300 hover:text-accent transition-colors">Issues</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg mb-4">Community</h4>
-                    <ul class="space-y-2">
-                        <li><a href="https://github.com/TheBoringRats/ratcrowler/blob/main/CONTRIBUTING.md" class="text-gray-300 hover:text-accent transition-colors">Contributing</a></li>
-                        <li><a href="https://github.com/TheBoringRats/ratcrowler/blob/main/LICENSE" class="text-gray-300 hover:text-accent transition-colors">License</a></li>
-                        <li><a href="https://github.com/TheBoringRats/ratcrowler/blob/main/README.md" class="text-gray-300 hover:text-accent transition-colors">README</a></li>
-                    </ul>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <div class="flex items-center mb-4">
+              <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+              <span class="font-bold text-xl">RatCrawler</span>
             </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p class="text-gray-300">
-                    © 2025 RatCrawler. Built with ❤️ by TheBoringRats.
-                    <br>
-                    <span class="text-sm">Inspired by the silent and agile nature of a rat.</span>
-                </p>
-            </div>
+            <p class="text-gray-300">
+              Advanced web crawling and analysis system for comprehensive data
+              collection and trending analysis.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#overview"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Overview</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#features"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#installation"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Installation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#usage"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Usage</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Resources</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="https://github.com/TheBoringRats/ratcrowler"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >GitHub Repository</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#api"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >API Documentation</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#architecture"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Architecture</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/TheBoringRats/ratcrowler/issues"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Issues</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Community</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="https://github.com/TheBoringRats/ratcrowler/blob/main/CONTRIBUTING.md"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Contributing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/TheBoringRats/ratcrowler/blob/main/LICENSE"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >License</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/TheBoringRats/ratcrowler/blob/main/README.md"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >README</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+          <p class="text-gray-300">
+            © 2025 RatCrawler. Built with ❤️ by TheBoringRats.
+            <br />
+            <span class="text-sm"
+              >Inspired by the silent and agile nature of a rat.</span
+            >
+          </p>
+        </div>
+      </div>
     </footer>
 
     <!-- Scroll to top button -->
-    <button id="scrollToTop" class="fixed bottom-8 right-8 bg-accent text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300">
-        <i class="fas fa-arrow-up"></i>
+    <button
+      id="scrollToTop"
+      class="fixed bottom-8 right-8 bg-accent text-white p-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300"
+    >
+      <i class="fas fa-arrow-up"></i>
     </button>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
             });
+          }
         });
+      });
 
-        // Scroll to top button
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.remove('opacity-0');
-            } else {
-                scrollToTopBtn.classList.add('opacity-0');
-            }
+      // Scroll to top button
+      const scrollToTopBtn = document.getElementById("scrollToTop");
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.classList.remove("opacity-0");
+        } else {
+          scrollToTopBtn.classList.add("opacity-0");
+        }
+      });
+
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
         });
+      });
 
-        scrollToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+      // Add animation to feature cards on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
         });
+      }, observerOptions);
 
-        // Add animation to feature cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Initially hide feature cards
-        document.querySelectorAll('.bg-white.p-6.rounded-lg.shadow-md').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
+      // Initially hide feature cards
+      document
+        .querySelectorAll(".bg-white.p-6.rounded-lg.shadow-md")
+        .forEach((card) => {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(20px)";
+          card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(card);
         });
     </script>
-</body>
+  </body>
 </html>

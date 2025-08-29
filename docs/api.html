@@ -1,393 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RatCrawler API Documentation</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1f2937',
-                        secondary: '#374151',
-                        accent: '#3b82f6',
-                        success: '#10b981',
-                        warning: '#f59e0b',
-                        danger: '#ef4444'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1f2937",
+              secondary: "#374151",
+              accent: "#3b82f6",
+              success: "#10b981",
+              warning: "#f59e0b",
+              danger: "#ef4444",
+            },
+          },
+        },
+      };
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="bg-gray-50 text-gray-900">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
-                        <span class="font-bold text-xl text-primary">RatCrawler</span>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-accent transition-colors">Home</a>
-                    <a href="#python-api" class="text-gray-700 hover:text-accent transition-colors">Python API</a>
-                    <a href="#rust-api" class="text-gray-700 hover:text-accent transition-colors">Rust API</a>
-                    <a href="#database" class="text-gray-700 hover:text-accent transition-colors">Database</a>
-                    <a href="#examples" class="text-gray-700 hover:text-accent transition-colors">Examples</a>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+              <span class="font-bold text-xl text-primary">RatCrawler</span>
             </div>
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Home</a
+            >
+            <a
+              href="#python-api"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Python API</a
+            >
+            <a
+              href="#rust-api"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Rust API</a
+            >
+            <a
+              href="#database"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Database</a
+            >
+            <a
+              href="#examples"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Examples</a
+            >
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Header -->
-    <section class="bg-gradient-to-br from-primary to-secondary text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold mb-4">📚 API Documentation</h1>
-            <p class="text-xl text-gray-300">Complete reference for RatCrawler's APIs</p>
-        </div>
+    <section
+      class="bg-gradient-to-br from-primary to-secondary text-white py-16"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl font-bold mb-4">📚 API Documentation</h1>
+        <p class="text-xl text-gray-300">
+          Complete reference for RatCrawler's APIs
+        </p>
+      </div>
     </section>
 
     <!-- Python API Section -->
     <section id="python-api" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">
-                    <i class="fab fa-python text-accent mr-3"></i>
-                    Python API Reference
-                </h2>
-                <p class="text-gray-600">Detailed documentation for Python implementation classes and methods</p>
-            </div>
-
-            <!-- EnhancedProductionCrawler -->
-            <div class="bg-gray-50 p-8 rounded-lg mb-8">
-                <h3 class="text-2xl font-bold text-primary mb-6">EnhancedProductionCrawler</h3>
-                <p class="text-gray-600 mb-6">Main crawler class that combines web content crawling with backlink analysis.</p>
-
-                <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>comprehensive_crawl(seed_urls: List[str]) -> Dict</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Execute comprehensive crawling and analysis using a priority queue frontier.</p>
-                        <div class="bg-gray-100 p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>seed_urls</code> - List of starting URLs to crawl</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Dictionary with complete analysis results including pages crawled, backlinks found, and performance metrics</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>crawl_page_content(url: str) -> Optional[Dict]</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Crawl a single page and extract comprehensive content data.</p>
-                        <div class="bg-gray-100 p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>url</code> - URL to crawl</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Dictionary with page content data or None if crawling failed</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>export_results(results: Dict)</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Export crawl results to JSON and CSV files.</p>
-                        <div class="bg-gray-100 p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>results</code> - Results dictionary from comprehensive_crawl</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BacklinkProcessor -->
-            <div class="bg-gray-50 p-8 rounded-lg mb-8">
-                <h3 class="text-2xl font-bold text-primary mb-6">BacklinkProcessor</h3>
-                <p class="text-gray-600 mb-6">Handles backlink discovery, analysis, and PageRank calculations.</p>
-
-                <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>crawl_backlinks(seed_urls: List[str], max_depth: int = 2)</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Crawl and discover backlinks starting from seed URLs.</p>
-                        <div class="bg-gray-100 p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>seed_urls</code> - Starting URLs for backlink discovery</li>
-                                <li>• <code>max_depth</code> - Maximum depth for crawling (default: 2)</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>calculate_pagerank(damping_factor: float = 0.85) -> Dict</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Calculate PageRank scores for all discovered pages.</p>
-                        <div class="bg-gray-100 p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>damping_factor</code> - PageRank damping factor (default: 0.85)</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Dictionary mapping URLs to PageRank scores</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>calculate_domain_authority()</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Calculate domain authority scores based on backlink profiles.</p>
-                        <div class="bg-gray-100 p-3 rounded">
-                            <strong>Stores:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Domain authority scores in the database</li>
-                                <li>• Scores range from 0-100 based on backlink quality and diversity</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            <i class="fab fa-python text-accent mr-3"></i>
+            Python API Reference
+          </h2>
+          <p class="text-gray-600">
+            Detailed documentation for Python implementation classes and methods
+          </p>
         </div>
+
+        <!-- EnhancedProductionCrawler -->
+        <div class="bg-gray-50 p-8 rounded-lg mb-8">
+          <h3 class="text-2xl font-bold text-primary mb-6">
+            EnhancedProductionCrawler
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Main crawler class that combines web content crawling with backlink
+            analysis.
+          </p>
+
+          <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
+          <div class="space-y-6">
+            <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code>comprehensive_crawl(seed_urls: List[str]) -> Dict</code>
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Execute comprehensive crawling and analysis using a priority
+                queue frontier.
+              </p>
+              <div class="bg-gray-100 p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>
+                    • <code>seed_urls</code> - List of starting URLs to crawl
+                  </li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>
+                    • Dictionary with complete analysis results including pages
+                    crawled, backlinks found, and performance metrics
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code>crawl_page_content(url: str) -> Optional[Dict]</code>
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Crawl a single page and extract comprehensive content data.
+              </p>
+              <div class="bg-gray-100 p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• <code>url</code> - URL to crawl</li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>
+                    • Dictionary with page content data or None if crawling
+                    failed
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code>export_results(results: Dict)</code>
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Export crawl results to JSON and CSV files.
+              </p>
+              <div class="bg-gray-100 p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>
+                    • <code>results</code> - Results dictionary from
+                    comprehensive_crawl
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BacklinkProcessor -->
+        <div class="bg-gray-50 p-8 rounded-lg mb-8">
+          <h3 class="text-2xl font-bold text-primary mb-6">
+            BacklinkProcessor
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Handles backlink discovery, analysis, and PageRank calculations.
+          </p>
+
+          <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
+          <div class="space-y-6">
+            <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code
+                  >crawl_backlinks(seed_urls: List[str], max_depth: int =
+                  2)</code
+                >
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Crawl and discover backlinks starting from seed URLs.
+              </p>
+              <div class="bg-gray-100 p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>
+                    • <code>seed_urls</code> - Starting URLs for backlink
+                    discovery
+                  </li>
+                  <li>
+                    • <code>max_depth</code> - Maximum depth for crawling
+                    (default: 2)
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code
+                  >calculate_pagerank(damping_factor: float = 0.85) ->
+                  Dict</code
+                >
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Calculate PageRank scores for all discovered pages.
+              </p>
+              <div class="bg-gray-100 p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>
+                    • <code>damping_factor</code> - PageRank damping factor
+                    (default: 0.85)
+                  </li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• Dictionary mapping URLs to PageRank scores</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code>calculate_domain_authority()</code>
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Calculate domain authority scores based on backlink profiles.
+              </p>
+              <div class="bg-gray-100 p-3 rounded">
+                <strong>Stores:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• Domain authority scores in the database</li>
+                  <li>
+                    • Scores range from 0-100 based on backlink quality and
+                    diversity
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Rust API Section -->
     <section id="rust-api" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">
-                    <i class="fab fa-rust text-orange-500 mr-3"></i>
-                    Rust API Reference
-                </h2>
-                <p class="text-gray-600">Detailed documentation for Rust implementation structs and methods</p>
-            </div>
-
-            <!-- WebsiteCrawler -->
-            <div class="bg-white p-8 rounded-lg mb-8">
-                <h3 class="text-2xl font-bold text-primary mb-6">WebsiteCrawler</h3>
-                <p class="text-gray-600 mb-6">High-performance async web crawler with concurrent processing.</p>
-
-                <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
-                <div class="space-y-6">
-                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>async fn crawl(&mut self, seed_urls: Vec&lt;String&gt;, database: &mut WebsiteCrawlerDatabase) -> Result&lt;CrawlResult, CrawlError&gt;</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Execute comprehensive web crawling with priority-based frontier.</p>
-                        <div class="bg-white p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>seed_urls</code> - Vector of starting URLs</li>
-                                <li>• <code>database</code> - Mutable reference to database instance</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Result containing crawl statistics or error</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>async fn crawl_single_page(&self, url: &str, depth: usize) -> Result&lt;CrawledPage, CrawlError&gt;</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Crawl a single page and extract structured data.</p>
-                        <div class="bg-white p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>url</code> - URL to crawl</li>
-                                <li>• <code>depth</code> - Current crawl depth</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Result containing crawled page data or error</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>fn extract_urls(&self, html: &str, base_url: &str) -> Vec&lt;String&gt;</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Extract all URLs from HTML content.</p>
-                        <div class="bg-white p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>html</code> - HTML content to parse</li>
-                                <li>• <code>base_url</code> - Base URL for resolving relative links</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Vector of extracted URLs</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BacklinkProcessor (Rust) -->
-            <div class="bg-white p-8 rounded-lg mb-8">
-                <h3 class="text-2xl font-bold text-primary mb-6">BacklinkProcessor</h3>
-                <p class="text-gray-600 mb-6">Async backlink analysis with parallel processing capabilities.</p>
-
-                <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
-                <div class="space-y-6">
-                    <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
-                        <h5 class="font-bold text-primary mb-2">
-                            <code>async fn analyze_backlinks(&self, url: &str) -> Result&lt;BacklinkAnalysis, BacklinkError&gt;</code>
-                        </h5>
-                        <p class="text-gray-600 mb-3">Analyze backlinks for a given URL with comprehensive metrics.</p>
-                        <div class="bg-white p-3 rounded">
-                            <strong>Parameters:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• <code>url</code> - Target URL for backlink analysis</li>
-                            </ul>
-                            <strong>Returns:</strong>
-                            <ul class="text-sm text-gray-700 mt-1">
-                                <li>• Result containing backlink analysis data</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            <i class="fab fa-rust text-orange-500 mr-3"></i>
+            Rust API Reference
+          </h2>
+          <p class="text-gray-600">
+            Detailed documentation for Rust implementation structs and methods
+          </p>
         </div>
+
+        <!-- WebsiteCrawler -->
+        <div class="bg-white p-8 rounded-lg mb-8">
+          <h3 class="text-2xl font-bold text-primary mb-6">WebsiteCrawler</h3>
+          <p class="text-gray-600 mb-6">
+            High-performance async web crawler with concurrent processing.
+          </p>
+
+          <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
+          <div class="space-y-6">
+            <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code
+                  >async fn crawl(&mut self, seed_urls: Vec&lt;String&gt;,
+                  database: &mut WebsiteCrawlerDatabase) ->
+                  Result&lt;CrawlResult, CrawlError&gt;</code
+                >
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Execute comprehensive web crawling with priority-based frontier.
+              </p>
+              <div class="bg-white p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• <code>seed_urls</code> - Vector of starting URLs</li>
+                  <li>
+                    • <code>database</code> - Mutable reference to database
+                    instance
+                  </li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• Result containing crawl statistics or error</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code
+                  >async fn crawl_single_page(&self, url: &str, depth: usize) ->
+                  Result&lt;CrawledPage, CrawlError&gt;</code
+                >
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Crawl a single page and extract structured data.
+              </p>
+              <div class="bg-white p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• <code>url</code> - URL to crawl</li>
+                  <li>• <code>depth</code> - Current crawl depth</li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• Result containing crawled page data or error</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code
+                  >fn extract_urls(&self, html: &str, base_url: &str) ->
+                  Vec&lt;String&gt;</code
+                >
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Extract all URLs from HTML content.
+              </p>
+              <div class="bg-white p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• <code>html</code> - HTML content to parse</li>
+                  <li>
+                    • <code>base_url</code> - Base URL for resolving relative
+                    links
+                  </li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• Vector of extracted URLs</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BacklinkProcessor (Rust) -->
+        <div class="bg-white p-8 rounded-lg mb-8">
+          <h3 class="text-2xl font-bold text-primary mb-6">
+            BacklinkProcessor
+          </h3>
+          <p class="text-gray-600 mb-6">
+            Async backlink analysis with parallel processing capabilities.
+          </p>
+
+          <h4 class="text-lg font-semibold text-primary mb-4">Methods:</h4>
+          <div class="space-y-6">
+            <div class="bg-gray-50 p-6 rounded-lg border-l-4 border-accent">
+              <h5 class="font-bold text-primary mb-2">
+                <code
+                  >async fn analyze_backlinks(&self, url: &str) ->
+                  Result&lt;BacklinkAnalysis, BacklinkError&gt;</code
+                >
+              </h5>
+              <p class="text-gray-600 mb-3">
+                Analyze backlinks for a given URL with comprehensive metrics.
+              </p>
+              <div class="bg-white p-3 rounded">
+                <strong>Parameters:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• <code>url</code> - Target URL for backlink analysis</li>
+                </ul>
+                <strong>Returns:</strong>
+                <ul class="text-sm text-gray-700 mt-1">
+                  <li>• Result containing backlink analysis data</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Database Section -->
     <section id="database" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">
-                    <i class="fas fa-database text-accent mr-3"></i>
-                    Database Schema
-                </h2>
-                <p class="text-gray-600">SQLite database structure and table definitions</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Tables -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-primary mb-4">Core Tables</h3>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded border-l-4 border-accent">
-                            <h4 class="font-bold text-primary">crawl_sessions</h4>
-                            <p class="text-sm text-gray-600 mb-2">Tracks crawling sessions and their metadata</p>
-                            <ul class="text-xs text-gray-700">
-                                <li>• id (PRIMARY KEY)</li>
-                                <li>• start_time (TIMESTAMP)</li>
-                                <li>• seed_urls (TEXT)</li>
-                                <li>• config (TEXT)</li>
-                                <li>• end_time (TIMESTAMP)</li>
-                                <li>• status (TEXT)</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-4 rounded border-l-4 border-accent">
-                            <h4 class="font-bold text-primary">crawled_pages</h4>
-                            <p class="text-sm text-gray-600 mb-2">Stores crawled page content and metadata</p>
-                            <ul class="text-xs text-gray-700">
-                                <li>• id (PRIMARY KEY)</li>
-                                <li>• session_id (FOREIGN KEY)</li>
-                                <li>• url (TEXT, NOT NULL)</li>
-                                <li>• title (TEXT)</li>
-                                <li>• content_text (TEXT)</li>
-                                <li>• content_html (TEXT)</li>
-                                <li>• word_count (INTEGER)</li>
-                                <li>• crawl_time (TIMESTAMP)</li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-4 rounded border-l-4 border-accent">
-                            <h4 class="font-bold text-primary">backlinks</h4>
-                            <p class="text-sm text-gray-600 mb-2">Stores discovered backlink relationships</p>
-                            <ul class="text-xs text-gray-700">
-                                <li>• id (PRIMARY KEY)</li>
-                                <li>• session_id (FOREIGN KEY)</li>
-                                <li>• source_url (TEXT)</li>
-                                <li>• target_url (TEXT)</li>
-                                <li>• anchor_text (TEXT)</li>
-                                <li>• is_nofollow (BOOLEAN)</li>
-                                <li>• crawl_date (TIMESTAMP)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Database Methods -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold text-primary mb-4">Database Methods</h3>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded border-l-4 border-success">
-                            <h4 class="font-bold text-primary">WebsiteCrawlerDatabase</h4>
-                            <ul class="text-sm text-gray-700 space-y-1">
-                                <li>• <code>create_crawl_session()</code></li>
-                                <li>• <code>store_crawled_page()</code></li>
-                                <li>• <code>store_backlinks()</code></li>
-                                <li>• <code>get_all_crawled_urls()</code></li>
-                                <li>• <code>get_crawl_summary()</code></li>
-                            </ul>
-                        </div>
-
-                        <div class="bg-white p-4 rounded border-l-4 border-success">
-                            <h4 class="font-bold text-primary">BacklinkDatabase</h4>
-                            <ul class="text-sm text-gray-700 space-y-1">
-                                <li>• <code>store_backlinks()</code></li>
-                                <li>• <code>get_backlinks_for_url()</code></li>
-                                <li>• <code>store_domain_scores()</code></li>
-                                <li>• <code>get_domain_authority()</code></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            <i class="fas fa-database text-accent mr-3"></i>
+            Database Schema
+          </h2>
+          <p class="text-gray-600">
+            SQLite database structure and table definitions
+          </p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Tables -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-xl font-bold text-primary mb-4">Core Tables</h3>
+            <div class="space-y-4">
+              <div class="bg-white p-4 rounded border-l-4 border-accent">
+                <h4 class="font-bold text-primary">crawl_sessions</h4>
+                <p class="text-sm text-gray-600 mb-2">
+                  Tracks crawling sessions and their metadata
+                </p>
+                <ul class="text-xs text-gray-700">
+                  <li>• id (PRIMARY KEY)</li>
+                  <li>• start_time (TIMESTAMP)</li>
+                  <li>• seed_urls (TEXT)</li>
+                  <li>• config (TEXT)</li>
+                  <li>• end_time (TIMESTAMP)</li>
+                  <li>• status (TEXT)</li>
+                </ul>
+              </div>
+
+              <div class="bg-white p-4 rounded border-l-4 border-accent">
+                <h4 class="font-bold text-primary">crawled_pages</h4>
+                <p class="text-sm text-gray-600 mb-2">
+                  Stores crawled page content and metadata
+                </p>
+                <ul class="text-xs text-gray-700">
+                  <li>• id (PRIMARY KEY)</li>
+                  <li>• session_id (FOREIGN KEY)</li>
+                  <li>• url (TEXT, NOT NULL)</li>
+                  <li>• title (TEXT)</li>
+                  <li>• content_text (TEXT)</li>
+                  <li>• content_html (TEXT)</li>
+                  <li>• word_count (INTEGER)</li>
+                  <li>• crawl_time (TIMESTAMP)</li>
+                </ul>
+              </div>
+
+              <div class="bg-white p-4 rounded border-l-4 border-accent">
+                <h4 class="font-bold text-primary">backlinks</h4>
+                <p class="text-sm text-gray-600 mb-2">
+                  Stores discovered backlink relationships
+                </p>
+                <ul class="text-xs text-gray-700">
+                  <li>• id (PRIMARY KEY)</li>
+                  <li>• session_id (FOREIGN KEY)</li>
+                  <li>• source_url (TEXT)</li>
+                  <li>• target_url (TEXT)</li>
+                  <li>• anchor_text (TEXT)</li>
+                  <li>• is_nofollow (BOOLEAN)</li>
+                  <li>• crawl_date (TIMESTAMP)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Database Methods -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <h3 class="text-xl font-bold text-primary mb-4">
+              Database Methods
+            </h3>
+            <div class="space-y-4">
+              <div class="bg-white p-4 rounded border-l-4 border-success">
+                <h4 class="font-bold text-primary">WebsiteCrawlerDatabase</h4>
+                <ul class="text-sm text-gray-700 space-y-1">
+                  <li>• <code>create_crawl_session()</code></li>
+                  <li>• <code>store_crawled_page()</code></li>
+                  <li>• <code>store_backlinks()</code></li>
+                  <li>• <code>get_all_crawled_urls()</code></li>
+                  <li>• <code>get_crawl_summary()</code></li>
+                </ul>
+              </div>
+
+              <div class="bg-white p-4 rounded border-l-4 border-success">
+                <h4 class="font-bold text-primary">BacklinkDatabase</h4>
+                <ul class="text-sm text-gray-700 space-y-1">
+                  <li>• <code>store_backlinks()</code></li>
+                  <li>• <code>get_backlinks_for_url()</code></li>
+                  <li>• <code>store_domain_scores()</code></li>
+                  <li>• <code>get_domain_authority()</code></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Examples Section -->
     <section id="examples" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">
-                    <i class="fas fa-code text-accent mr-3"></i>
-                    Code Examples
-                </h2>
-                <p class="text-gray-600">Practical examples for using RatCrawler APIs</p>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            <i class="fas fa-code text-accent mr-3"></i>
+            Code Examples
+          </h2>
+          <p class="text-gray-600">
+            Practical examples for using RatCrawler APIs
+          </p>
+        </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Python Examples -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary mb-4">🐍 Python Examples</h3>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Python Examples -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold text-primary mb-4">
+              🐍 Python Examples
+            </h3>
 
-                    <div class="mb-6">
-                        <h4 class="font-semibold text-accent mb-2">Basic Crawling</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <pre class="text-sm text-gray-800"><code>from crawler import EnhancedProductionCrawler
+            <div class="mb-6">
+              <h4 class="font-semibold text-accent mb-2">Basic Crawling</h4>
+              <div class="bg-gray-100 p-4 rounded-lg">
+                <pre
+                  class="text-sm text-gray-800"
+                ><code>from crawler import EnhancedProductionCrawler
 
 # Initialize crawler
 config = {
@@ -405,13 +536,15 @@ results = crawler.comprehensive_crawl(seed_urls)
 
 print(f"Crawled {results['pages_crawled']} pages")
 print(f"Found {results['backlinks_found']} backlinks")</code></pre>
-                        </div>
-                    </div>
+              </div>
+            </div>
 
-                    <div class="mb-6">
-                        <h4 class="font-semibold text-accent mb-2">Backlink Analysis</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <pre class="text-sm text-gray-800"><code>from backlinkprocessor import BacklinkProcessor
+            <div class="mb-6">
+              <h4 class="font-semibold text-accent mb-2">Backlink Analysis</h4>
+              <div class="bg-gray-100 p-4 rounded-lg">
+                <pre
+                  class="text-sm text-gray-800"
+                ><code>from backlinkprocessor import BacklinkProcessor
 
 # Initialize processor
 processor = BacklinkProcessor(delay=1.0)
@@ -425,18 +558,20 @@ pagerank_scores = processor.calculate_pagerank()
 processor.calculate_domain_authority()
 
 print(f"Analyzed {len(processor.backlinks)} backlinks")</code></pre>
-                        </div>
-                    </div>
-                </div>
+              </div>
+            </div>
+          </div>
 
-                <!-- Rust Examples -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary mb-4">🦀 Rust Examples</h3>
+          <!-- Rust Examples -->
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold text-primary mb-4">
+              🦀 Rust Examples
+            </h3>
 
-                    <div class="mb-6">
-                        <h4 class="font-semibold text-accent mb-2">Async Crawling</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
+            <div class="mb-6">
+              <h4 class="font-semibold text-accent mb-2">Async Crawling</h4>
+              <div class="bg-gray-100 p-4 rounded-lg">
+                <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
 
 #[tokio::main]
 async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
@@ -456,13 +591,13 @@ async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     println!("Crawled {} pages", result.pages_crawled);
     Ok(())
 }</code></pre>
-                        </div>
-                    </div>
+              </div>
+            </div>
 
-                    <div class="mb-6">
-                        <h4 class="font-semibold text-accent mb-2">Backlink Analysis</h4>
-                        <div class="bg-gray-100 p-4 rounded-lg">
-                            <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
+            <div class="mb-6">
+              <h4 class="font-semibold text-accent mb-2">Backlink Analysis</h4>
+              <div class="bg-gray-100 p-4 rounded-lg">
+                <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
 
 #[tokio::main]
 async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
@@ -479,21 +614,23 @@ async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     println!("Found {} backlinks", analysis.total_backlinks);
     Ok(())
 }</code></pre>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-primary text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-300">
-                © 2025 RatCrawler API Documentation.
-                <a href="index.html" class="text-accent hover:text-blue-300">← Back to Home</a>
-            </p>
-        </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-gray-300">
+          © 2025 RatCrawler API Documentation.
+          <a href="index.html" class="text-accent hover:text-blue-300"
+            >← Back to Home</a
+          >
+        </p>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

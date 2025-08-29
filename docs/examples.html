@@ -1,79 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RatCrawler Examples & Tutorials</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1f2937',
-                        secondary: '#374151',
-                        accent: '#3b82f6',
-                        success: '#10b981',
-                        warning: '#f59e0b',
-                        danger: '#ef4444'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1f2937",
+              secondary: "#374151",
+              accent: "#3b82f6",
+              success: "#10b981",
+              warning: "#f59e0b",
+              danger: "#ef4444",
+            },
+          },
+        },
+      };
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="bg-gray-50 text-gray-900">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
-                        <span class="font-bold text-xl text-primary">RatCrawler</span>
-                    </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-accent transition-colors">Home</a>
-                    <a href="#quick-start" class="text-gray-700 hover:text-accent transition-colors">Quick Start</a>
-                    <a href="#tutorials" class="text-gray-700 hover:text-accent transition-colors">Tutorials</a>
-                    <a href="#use-cases" class="text-gray-700 hover:text-accent transition-colors">Use Cases</a>
-                    <a href="#advanced" class="text-gray-700 hover:text-accent transition-colors">Advanced</a>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0 flex items-center">
+              <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+              <span class="font-bold text-xl text-primary">RatCrawler</span>
             </div>
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Home</a
+            >
+            <a
+              href="#quick-start"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Quick Start</a
+            >
+            <a
+              href="#tutorials"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Tutorials</a
+            >
+            <a
+              href="#use-cases"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Use Cases</a
+            >
+            <a
+              href="#advanced"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Advanced</a
+            >
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Header -->
-    <section class="bg-gradient-to-br from-primary to-secondary text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold mb-4">🚀 Examples & Tutorials</h1>
-            <p class="text-xl text-gray-300">Learn how to use RatCrawler with practical examples</p>
-        </div>
+    <section
+      class="bg-gradient-to-br from-primary to-secondary text-white py-16"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h1 class="text-4xl font-bold mb-4">🚀 Examples & Tutorials</h1>
+        <p class="text-xl text-gray-300">
+          Learn how to use RatCrawler with practical examples
+        </p>
+      </div>
     </section>
 
     <!-- Quick Start Section -->
     <section id="quick-start" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">⚡ Quick Start Guide</h2>
-                <p class="text-gray-600">Get up and running with RatCrawler in minutes</p>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            ⚡ Quick Start Guide
+          </h2>
+          <p class="text-gray-600">
+            Get up and running with RatCrawler in minutes
+          </p>
+        </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Python Quick Start -->
-                <div class="bg-gray-50 p-8 rounded-lg">
-                    <h3 class="text-2xl font-bold text-primary mb-6">
-                        <i class="fab fa-python text-accent mr-3"></i>
-                        Python Quick Start
-                    </h3>
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Python Quick Start -->
+          <div class="bg-gray-50 p-8 rounded-lg">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              <i class="fab fa-python text-accent mr-3"></i>
+              Python Quick Start
+            </h3>
 
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="font-bold text-primary mb-3">1. Basic Web Crawling</h4>
-                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
-                                <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
+            <div class="space-y-6">
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  1. Basic Web Crawling
+                </h4>
+                <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                  <pre
+                    class="text-sm text-gray-800"
+                  ><code>#!/usr/bin/env python3
 from crawler import EnhancedProductionCrawler
 
 # Configure crawler
@@ -90,13 +125,17 @@ seed_urls = ['https://example.com', 'https://python.org']
 
 results = crawler.comprehensive_crawl(seed_urls)
 print(f"✅ Crawled {results['pages_crawled']} pages")</code></pre>
-                            </div>
-                        </div>
+                </div>
+              </div>
 
-                        <div>
-                            <h4 class="font-bold text-primary mb-3">2. Backlink Analysis</h4>
-                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
-                                <pre class="text-sm text-gray-800"><code>from backlinkprocessor import BacklinkProcessor
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  2. Backlink Analysis
+                </h4>
+                <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                  <pre
+                    class="text-sm text-gray-800"
+                  ><code>from backlinkprocessor import BacklinkProcessor
 
 # Analyze backlinks
 processor = BacklinkProcessor(delay=1.0)
@@ -107,23 +146,25 @@ pagerank = processor.calculate_pagerank()
 processor.calculate_domain_authority()
 
 print(f"Found {len(processor.backlinks)} backlinks")</code></pre>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <!-- Rust Quick Start -->
-                <div class="bg-gray-50 p-8 rounded-lg">
-                    <h3 class="text-2xl font-bold text-primary mb-6">
-                        <i class="fab fa-rust text-orange-500 mr-3"></i>
-                        Rust Quick Start
-                    </h3>
+          <!-- Rust Quick Start -->
+          <div class="bg-gray-50 p-8 rounded-lg">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              <i class="fab fa-rust text-orange-500 mr-3"></i>
+              Rust Quick Start
+            </h3>
 
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="font-bold text-primary mb-3">1. Async Web Crawling</h4>
-                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
-                                <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
+            <div class="space-y-6">
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  1. Async Web Crawling
+                </h4>
+                <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                  <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
 use tokio;
 
 #[tokio::main]
@@ -144,13 +185,15 @@ async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
     println!("Crawled {} pages successfully!", result.pages_crawled);
     Ok(())
 }</code></pre>
-                            </div>
-                        </div>
+                </div>
+              </div>
 
-                        <div>
-                            <h4 class="font-bold text-primary mb-3">2. Command Line Usage</h4>
-                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
-                                <pre class="text-sm text-gray-800"><code># Build the project
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  2. Command Line Usage
+                </h4>
+                <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                  <pre class="text-sm text-gray-800"><code># Build the project
 cargo build --release
 
 # Crawl a website
@@ -161,40 +204,50 @@ cargo build --release
 
 # Integrated analysis
 ./target/release/rat-crawler integrated https://example.com</code></pre>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Tutorials Section -->
     <section id="tutorials" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">📖 Step-by-Step Tutorials</h2>
-                <p class="text-gray-600">Detailed guides for common use cases</p>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            📖 Step-by-Step Tutorials
+          </h2>
+          <p class="text-gray-600">Detailed guides for common use cases</p>
+        </div>
+
+        <div class="space-y-12">
+          <!-- Tutorial 1: Website Analysis -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <div class="flex items-center mb-6">
+              <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                <i class="fas fa-search text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-primary">
+                  Website Content Analysis
+                </h3>
+                <p class="text-gray-600">
+                  Extract and analyze content from websites
+                </p>
+              </div>
             </div>
 
-            <div class="space-y-12">
-                <!-- Tutorial 1: Website Analysis -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                            <i class="fas fa-search text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-primary">Website Content Analysis</h3>
-                            <p class="text-gray-600">Extract and analyze content from websites</p>
-                        </div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h4 class="font-bold text-primary mb-3">🐍 Python Implementation</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <pre class="text-sm text-gray-800"><code>from crawler import EnhancedProductionCrawler
+            <div class="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  🐍 Python Implementation
+                </h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <pre
+                    class="text-sm text-gray-800"
+                  ><code>from crawler import EnhancedProductionCrawler
 from backlinkprocessor import BacklinkProcessor
 
 def analyze_website(url):
@@ -223,13 +276,15 @@ def analyze_website(url):
 
 # Usage
 results = analyze_website('https://example.com')</code></pre>
-                            </div>
-                        </div>
+                </div>
+              </div>
 
-                        <div>
-                            <h4 class="font-bold text-primary mb-3">🦀 Rust Implementation</h4>
-                            <div class="bg-gray-100 p-4 rounded-lg">
-                                <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  🦀 Rust Implementation
+                </h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
 use tokio;
 
 async fn analyze_website(url: &str) -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
@@ -270,25 +325,31 @@ async fn analyze_website(url: &str) -> Result&lt;(), Box&lt;dyn std::error::Erro
 
     Ok(())
 }</code></pre>
-                            </div>
-                        </div>
-                    </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <!-- Tutorial 2: SEO Analysis -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-success text-white p-3 rounded-lg mr-4">
-                            <i class="fas fa-chart-line text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-primary">SEO & Backlink Analysis</h3>
-                            <p class="text-gray-600">Analyze SEO metrics and backlink profiles</p>
-                        </div>
-                    </div>
+          <!-- Tutorial 2: SEO Analysis -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <div class="flex items-center mb-6">
+              <div class="bg-success text-white p-3 rounded-lg mr-4">
+                <i class="fas fa-chart-line text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-primary">
+                  SEO & Backlink Analysis
+                </h3>
+                <p class="text-gray-600">
+                  Analyze SEO metrics and backlink profiles
+                </p>
+              </div>
+            </div>
 
-                    <div class="bg-gray-100 p-6 rounded-lg">
-                        <pre class="text-sm text-gray-800"><code>from backlinkprocessor import BacklinkProcessor
+            <div class="bg-gray-100 p-6 rounded-lg">
+              <pre
+                class="text-sm text-gray-800"
+              ><code>from backlinkprocessor import BacklinkProcessor
 import networkx as nx
 
 def seo_analysis(target_url):
@@ -320,23 +381,27 @@ def seo_analysis(target_url):
 
 # Analyze your website
 report = seo_analysis('https://yourwebsite.com')</code></pre>
-                    </div>
-                </div>
+            </div>
+          </div>
 
-                <!-- Tutorial 3: Scheduled Crawling -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex items-center mb-6">
-                        <div class="bg-warning text-white p-3 rounded-lg mr-4">
-                            <i class="fas fa-clock text-2xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-primary">Automated Scheduled Crawling</h3>
-                            <p class="text-gray-600">Set up automated crawling with scheduling</p>
-                        </div>
-                    </div>
+          <!-- Tutorial 3: Scheduled Crawling -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <div class="flex items-center mb-6">
+              <div class="bg-warning text-white p-3 rounded-lg mr-4">
+                <i class="fas fa-clock text-2xl"></i>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-primary">
+                  Automated Scheduled Crawling
+                </h3>
+                <p class="text-gray-600">
+                  Set up automated crawling with scheduling
+                </p>
+              </div>
+            </div>
 
-                    <div class="bg-gray-100 p-6 rounded-lg">
-                        <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
+            <div class="bg-gray-100 p-6 rounded-lg">
+              <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
 import schedule
 import time
 from datetime import datetime
@@ -390,140 +455,161 @@ def main():
 
 if __name__ == "__main__":
     main()</code></pre>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Use Cases Section -->
     <section id="use-cases" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">💼 Real-World Use Cases</h2>
-                <p class="text-gray-600">Practical applications of RatCrawler</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Use Case 1 -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-search text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">SEO Monitoring</h3>
-                    <p class="text-gray-600 mb-4">
-                        Monitor website SEO metrics, track backlinks, and analyze competitor strategies.
-                    </p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• Track PageRank changes</li>
-                        <li>• Monitor domain authority</li>
-                        <li>• Analyze competitor backlinks</li>
-                        <li>• Detect new linking domains</li>
-                    </ul>
-                </div>
-
-                <!-- Use Case 2 -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-newspaper text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Content Aggregation</h3>
-                    <p class="text-gray-600 mb-4">
-                        Collect and analyze content from news sites, blogs, and industry publications.
-                    </p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• Automated content discovery</li>
-                        <li>• News trend analysis</li>
-                        <li>• Content quality assessment</li>
-                        <li>• Topic clustering</li>
-                    </ul>
-                </div>
-
-                <!-- Use Case 3 -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-chart-bar text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Market Research</h3>
-                    <p class="text-gray-600 mb-4">
-                        Research market trends, competitor analysis, and industry insights.
-                    </p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• Competitor website analysis</li>
-                        <li>• Industry trend monitoring</li>
-                        <li>• Product feature tracking</li>
-                        <li>• Pricing strategy analysis</li>
-                    </ul>
-                </div>
-
-                <!-- Use Case 4 -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-shield-alt text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Security Research</h3>
-                    <p class="text-gray-600 mb-4">
-                        Identify security vulnerabilities and monitor for malicious content.
-                    </p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• Malware detection</li>
-                        <li>• Phishing site identification</li>
-                        <li>• Security vulnerability scanning</li>
-                        <li>• Dark web monitoring</li>
-                    </ul>
-                </div>
-
-                <!-- Use Case 5 -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-graduation-cap text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">Academic Research</h3>
-                    <p class="text-gray-600 mb-4">
-                        Collect data for academic studies, web science research, and network analysis.
-                    </p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• Web graph analysis</li>
-                        <li>• Link network studies</li>
-                        <li>• Content analysis research</li>
-                        <li>• Digital humanities projects</li>
-                    </ul>
-                </div>
-
-                <!-- Use Case 6 -->
-                <div class="bg-gray-50 p-6 rounded-lg">
-                    <div class="text-accent mb-4">
-                        <i class="fas fa-robot text-3xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3">AI Training Data</h3>
-                    <p class="text-gray-600 mb-4">
-                        Collect diverse web content for training machine learning models.
-                    </p>
-                    <ul class="text-sm text-gray-700 space-y-1">
-                        <li>• Text corpus collection</li>
-                        <li>• Multi-domain datasets</li>
-                        <li>• Language model training</li>
-                        <li>• Content classification data</li>
-                    </ul>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            💼 Real-World Use Cases
+          </h2>
+          <p class="text-gray-600">Practical applications of RatCrawler</p>
         </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Use Case 1 -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <div class="text-accent mb-4">
+              <i class="fas fa-search text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">SEO Monitoring</h3>
+            <p class="text-gray-600 mb-4">
+              Monitor website SEO metrics, track backlinks, and analyze
+              competitor strategies.
+            </p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>• Track PageRank changes</li>
+              <li>• Monitor domain authority</li>
+              <li>• Analyze competitor backlinks</li>
+              <li>• Detect new linking domains</li>
+            </ul>
+          </div>
+
+          <!-- Use Case 2 -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <div class="text-accent mb-4">
+              <i class="fas fa-newspaper text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Content Aggregation
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Collect and analyze content from news sites, blogs, and industry
+              publications.
+            </p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>• Automated content discovery</li>
+              <li>• News trend analysis</li>
+              <li>• Content quality assessment</li>
+              <li>• Topic clustering</li>
+            </ul>
+          </div>
+
+          <!-- Use Case 3 -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <div class="text-accent mb-4">
+              <i class="fas fa-chart-bar text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">Market Research</h3>
+            <p class="text-gray-600 mb-4">
+              Research market trends, competitor analysis, and industry
+              insights.
+            </p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>• Competitor website analysis</li>
+              <li>• Industry trend monitoring</li>
+              <li>• Product feature tracking</li>
+              <li>• Pricing strategy analysis</li>
+            </ul>
+          </div>
+
+          <!-- Use Case 4 -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <div class="text-accent mb-4">
+              <i class="fas fa-shield-alt text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Security Research
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Identify security vulnerabilities and monitor for malicious
+              content.
+            </p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>• Malware detection</li>
+              <li>• Phishing site identification</li>
+              <li>• Security vulnerability scanning</li>
+              <li>• Dark web monitoring</li>
+            </ul>
+          </div>
+
+          <!-- Use Case 5 -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <div class="text-accent mb-4">
+              <i class="fas fa-graduation-cap text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              Academic Research
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Collect data for academic studies, web science research, and
+              network analysis.
+            </p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>• Web graph analysis</li>
+              <li>• Link network studies</li>
+              <li>• Content analysis research</li>
+              <li>• Digital humanities projects</li>
+            </ul>
+          </div>
+
+          <!-- Use Case 6 -->
+          <div class="bg-gray-50 p-6 rounded-lg">
+            <div class="text-accent mb-4">
+              <i class="fas fa-robot text-3xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-3">
+              AI Training Data
+            </h3>
+            <p class="text-gray-600 mb-4">
+              Collect diverse web content for training machine learning models.
+            </p>
+            <ul class="text-sm text-gray-700 space-y-1">
+              <li>• Text corpus collection</li>
+              <li>• Multi-domain datasets</li>
+              <li>• Language model training</li>
+              <li>• Content classification data</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Advanced Section -->
     <section id="advanced" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4">🔬 Advanced Examples</h2>
-                <p class="text-gray-600">Complex implementations and custom integrations</p>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-3xl font-bold text-primary mb-4">
+            🔬 Advanced Examples
+          </h2>
+          <p class="text-gray-600">
+            Complex implementations and custom integrations
+          </p>
+        </div>
 
-            <div class="space-y-8">
-                <!-- Custom Crawler -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold text-primary mb-6">Custom Crawler with ML Analysis</h3>
-                    <div class="bg-gray-100 p-6 rounded-lg">
-                        <pre class="text-sm text-gray-800"><code>import torch
+        <div class="space-y-8">
+          <!-- Custom Crawler -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              Custom Crawler with ML Analysis
+            </h3>
+            <div class="bg-gray-100 p-6 rounded-lg">
+              <pre class="text-sm text-gray-800"><code>import torch
 import transformers
 from crawler import EnhancedProductionCrawler
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -581,14 +667,16 @@ config = {
 
 ml_crawler = MLAnalysisCrawler(config)
 results = ml_crawler.comprehensive_crawl_with_ml(['https://example.com'])</code></pre>
-                    </div>
-                </div>
+            </div>
+          </div>
 
-                <!-- Distributed Crawling -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <h3 class="text-2xl font-bold text-primary mb-6">Distributed Crawling Setup</h3>
-                    <div class="bg-gray-100 p-6 rounded-lg">
-                        <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
+          <!-- Distributed Crawling -->
+          <div class="bg-white p-8 rounded-lg shadow-md">
+            <h3 class="text-2xl font-bold text-primary mb-6">
+              Distributed Crawling Setup
+            </h3>
+            <div class="bg-gray-100 p-6 rounded-lg">
+              <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
 import multiprocessing as mp
 import queue
 import time
@@ -663,20 +751,22 @@ urls = [f'https://example.com/page{i}' for i in range(20)]
 
 results = distributed_crawler.distribute_crawl(urls, config)
 print(f"Distributed crawl completed: {len(results)} pages")</code></pre>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-primary text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-300">
-                © 2025 RatCrawler Examples & Tutorials.
-                <a href="index.html" class="text-accent hover:text-blue-300">← Back to Home</a>
-            </p>
-        </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-gray-300">
+          © 2025 RatCrawler Examples & Tutorials.
+          <a href="index.html" class="text-accent hover:text-blue-300"
+            >← Back to Home</a
+          >
+        </p>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

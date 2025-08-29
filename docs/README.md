@@ -42,19 +42,19 @@ The documentation uses Tailwind CSS with a custom color scheme:
 
 ```javascript
 tailwind.config = {
-    theme: {
-        extend: {
-            colors: {
-                primary: '#1f2937',    // Dark gray
-                secondary: '#374151',  // Medium gray
-                accent: '#3b82f6',     // Blue
-                success: '#10b981',    // Green
-                warning: '#f59e0b',    // Orange
-                danger: '#ef4444'      // Red
-            }
-        }
-    }
-}
+  theme: {
+    extend: {
+      colors: {
+        primary: "#1f2937", // Dark gray
+        secondary: "#374151", // Medium gray
+        accent: "#3b82f6", // Blue
+        success: "#10b981", // Green
+        warning: "#f59e0b", // Orange
+        danger: "#ef4444", // Red
+      },
+    },
+  },
+};
 ```
 
 ### Adding New Pages
