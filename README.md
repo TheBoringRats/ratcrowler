@@ -13,7 +13,13 @@
 
 ---
 
-_Inspired by the silent and agile nature of a rat, RatCrawler navigates the internet efficiently, indexing, scraping, and analyzing content across millions of pages. Our comprehensive trending analysis system aggregates data from Google Trends, social media platforms, financial markets, and emerging news sources to provide real-time insights into trending topics and market movements._
+\_Inspired by the silent and agile nature of a rat, RatCrawler navigates the-------
+
+## 🗄️ Database Schema 🗄️ Database Schema
+
+### Python Database (`website_crawler.db`) 🗄️ Database Schema️ Database Schema
+
+### Python Database (`website_crawler.db`)ternet efficiently, indexing, scraping, and analyzing content across millions of pages. Our comprehensive trending a## 🔍 Google Trends Integrationalysis system aggregates data from Google Trends, social media platforms, financial markets, and emerging news sources to provide real-time insights into trending topics and market movements.\_
 
 </div>
 
@@ -307,7 +313,286 @@ pagerank_scores = processor.calculate_pagerank()
 
 ---
 
+## � Weekly Crawling Workflow
+
+RatCrawler implements a sophisticated **7-day automated workflow** that systematically crawls websites, extracts backlinks, and analyzes domain authority. The system automatically discovers new domains and expands the crawl frontier.
+
+### 🗓️ Weekly Schedule
+
+| Day           | Time        | Activity                   | Description                                               |
+| ------------- | ----------- | -------------------------- | --------------------------------------------------------- |
+| **Monday**    | 08:00       | 🔗 **Backlink Extraction** | Crawl all seed URLs, extract backlinks, store in database |
+| **Tuesday**   | 08:00       | 🌐 **Seed Domain Crawl**   | Deep crawl of all pages within seed domains               |
+| **Wednesday** | 08:00       | 🏗️ **Subdomain Analysis**  | Crawl discovered subdomains and analyze content           |
+| **Thursday**  | 08:00       | 🏗️ **Subdomain Analysis**  | Continue subdomain crawling (extended session)            |
+| **Friday**    | 08:00       | 📥 **Data Retrieval**      | Extract and save backlink data for analysis               |
+| **Saturday**  | 08:00       | 📥 **Data Retrieval**      | Additional backlink data extraction                       |
+| **Sunday**    | 08:00       | 📊 **System Status**       | Generate reports and system health check                  |
+| **Daily**     | 00:00-02:00 | ⚙️ **Engine Services**     | 2-hour maintenance window for data processing             |
+
+### 🔄 Workflow Details
+
+#### Day 1: Backlink Extraction (Monday)
+
+```python
+# Configuration for backlink-focused crawling
+backlink_config = {
+    'max_depth': 1,          # Shallow crawl for backlinks
+    'max_pages': 50,         # Limited pages per domain
+    'analyze_backlinks': True,
+    'stay_on_domain': False  # Allow external link discovery
+}
+
+# Extract backlinks from all seed URLs
+results = crawler.comprehensive_crawl(seed_urls)
+```
+
+**Key Activities:**
+
+- Visit all URLs in `seed_urls.json`
+- Extract outbound links (backlinks for other sites)
+- Store backlinks in database with metadata
+- Calculate initial domain authority scores
+- **Auto-Discovery**: Identify high-authority domains (score > 50)
+- **Auto-Expansion**: Add valuable domains to `seed_urls.json`
+
+#### Day 2: Seed Domain Deep Crawl (Tuesday)
+
+```python
+# Configuration for comprehensive domain coverage
+domain_config = {
+    'max_depth': 4,          # Deeper exploration
+    'max_pages': 200,        # More pages per domain
+    'stay_on_domain': True,  # Stay within seed domains
+    'analyze_backlinks': False
+}
+```
+
+**Key Activities:**
+
+- Crawl all pages within seed domains
+- Extract comprehensive content and metadata
+- Build internal link graphs
+- Identify subdomains for further analysis
+
+#### Days 3-4: Subdomain Analysis (Wednesday-Thursday)
+
+```python
+# Configuration for subdomain exploration
+subdomain_config = {
+    'max_depth': 3,
+    'max_pages': 150,
+    'stay_on_domain': False,
+    'analyze_backlinks': True
+}
+
+# Get discovered subdomains from database
+subdomains = crawler.database.get_discovered_subdomains()
+```
+
+**Key Activities:**
+
+- Analyze previously discovered subdomains
+- Crawl subdomain content and extract backlinks
+- Update domain authority scores
+- Identify additional crawl targets
+
+#### Daily Engine Services (00:00-02:00)
+
+```python
+# 2-hour automated maintenance window
+def run_daily_engine_services():
+    # Update domain authority scores
+    domain_scores = crawler.database.get_domain_authority_scores()
+
+    # Recalculate PageRank scores
+    pagerank_scores = crawler.database.get_pagerank_scores()
+
+    # Clean up old data (keep last 30 days)
+    cleanup_count = crawler.database.cleanup_old_data(days_old=30)
+
+    # Analyze recent backlinks
+    recent_backlinks = crawler.database.get_recent_backlinks(hours=24)
+```
+
+**Key Activities:**
+
+- **Domain Authority Updates**: Recalculate domain scores
+- **PageRank Recalculation**: Update page importance scores
+- **Data Cleanup**: Remove old records while preserving recent data
+- **Backlink Analysis**: Process new backlinks from recent crawls
+- **System Optimization**: Database maintenance and performance tuning
+
+### 🎯 Smart Domain Discovery
+
+```python
+def add_necessary_domains_to_seeds(crawler, threshold_score=50):
+    """Add high-authority domains to seed URLs"""
+    domain_scores = crawler.database.get_domain_authority_scores()
+
+    for domain, score in domain_scores.items():
+        if score >= threshold_score and domain not in current_seeds:
+            # Add to seed_urls.json
+            new_url = f"https://{domain}"
+            seed_urls.append(new_url)
+```
+
+**Discovery Criteria:**
+
+- Domain Authority Score > 50
+- Not already in seed URLs
+- Successful previous crawls
+- Quality backlink profile
+
+### 📊 Monitoring & Reporting
+
+#### System Status (Sunday)
+
+```python
+def show_system_status():
+    all_backlinks = crawler.get_all_backlinks()
+    crawled_urls = crawler.database.get_all_crawled_urls()
+
+    print(f"Total pages crawled: {len(crawled_urls)}")
+    print(f"Total backlinks: {len(all_backlinks)}")
+    print(f"Database size: {os.path.getsize('website_crawler.db')} bytes")
+```
+
+#### Real-time Monitoring
+
+- **Database Health**: Connection status and performance
+- **Crawl Progress**: Pages processed, errors encountered
+- **Backlink Growth**: New backlinks discovered daily
+- **Domain Expansion**: New domains added to seed list
+
+### 🚀 Running the Workflow
+
+#### Automated Mode (Recommended)
+
+```bash
+# Start the automated weekly crawler
+python3 main.py
+```
+
+#### Manual Testing
+
+```bash
+# Test individual components
+python3 test_workflow.py
+
+# Run specific day functions
+python3 -c "from main import perform_backlink_extraction; perform_backlink_extraction()"
+```
+
+#### Configuration
+
+```python
+# Customize workflow in main.py
+config = {
+    'delay': 1.5,              # Request delay (seconds)
+    'max_depth': 3,            # Crawl depth
+    'max_pages': 100,          # Pages per session
+    'db_path': 'website_crawler.db',
+    'domain_threshold': 50,    # Minimum authority for auto-addition
+    'analyze_backlinks': True,
+    'stay_on_domain': True
+}
+```
+
+### 📈 Benefits of This Workflow
+
+1. **Systematic Coverage**: Ensures comprehensive crawling of seed domains
+2. **Smart Discovery**: Automatically finds valuable new domains
+3. **Resource Management**: Distributes crawling load across the week
+4. **Data Freshness**: Regular updates while avoiding duplicate work
+5. **Scalability**: Easy to add new domains and adjust crawl parameters
+6. **Maintenance**: Automated cleanup and optimization
+7. **Monitoring**: Regular health checks and reporting
+
+### 🔧 Customization
+
+#### Adjusting the Schedule
+
+```python
+# Modify schedule in main.py
+schedule.every().monday.at("09:00").do(perform_backlink_extraction)  # Change time
+schedule.every(2).days.do(perform_subdomain_crawl)  # Change frequency
+```
+
+#### Modifying Discovery Criteria
+
+```python
+# Adjust domain addition threshold
+add_necessary_domains_to_seeds(crawler, threshold_score=75)  # Higher bar
+```
+
+#### Custom Engine Services
+
+```python
+# Add custom maintenance tasks
+def custom_engine_task():
+    # Your custom processing logic
+    pass
+
+# Add to daily services
+schedule.every().day.at("01:00").do(custom_engine_task)
+```
+
+---
+
 ## 🔍 Google Trends Integration
+
+### Features
+
+- **50+ Countries** supported
+- **Real-time Trends** from Google Trends RSS
+- **Article Summaries** with intelligent extraction
+- **Rate Limiting** protection
+- **JSON Export** with structured data
+
+### Usage
+
+```bash
+# Basic trends fetch
+cd engine
+python3 googletrends.py
+
+# Advanced configuration
+python3 googletrends.py
+  --limit 10
+  --delay 5
+  --summaries
+  --output custom_trends.json
+  --max-retries 3
+```
+
+### Sample Output
+
+```json
+{
+  "United States": [
+    {
+      "trend_title": "breaking news",
+      "approx_traffic": "1M+",
+      "published": "2025-08-29T12:00:00Z",
+      "news_items": [
+        {
+          "title": "News Article Title",
+          "url": "https://news.example.com/article",
+          "source": "News Source"
+        }
+      ],
+      "summary": "Article summary extracted from content..."
+    }
+  ]
+}
+```
+
+---
+
+## 🗄️ Database Schema
+
+## �🔍 Google Trends Integration
 
 ### Features
 

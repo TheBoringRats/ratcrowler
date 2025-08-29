@@ -7,6 +7,16 @@ feedparser>=6.0.0
 newspaper3k>=0.2.8
 lxml_html_clean>=0.4.0
 
+# Database dependencies - Turso (libSQL)
+libsql-client>=0.1.0
+python-dotenv>=1.0.0  # For Turso credentials
+
+# Web framework for monitoring dashboard
+fastapi>=0.100.0
+uvicorn>=0.23.0
+jinja2>=3.1.0
+python-multipart>=0.0.6
+
 # Optional dependencies for enhanced features
 pandas>=1.5.0
 matplotlib>=3.6.0

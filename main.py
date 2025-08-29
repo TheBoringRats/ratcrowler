@@ -12,7 +12,7 @@ from datetime import datetime
 import schedule
 
 # Import the crawler from the correct module
-from crawler import EnhancedProductionCrawler
+from rat.crawler import EnhancedProductionCrawler
 
 def create_default_config():
     """Create default configuration for the crawler."""
@@ -61,6 +61,48 @@ def load_seed_urls(seed_file='seed_urls.json'):
         print(f"❌ Error loading seed file: {e}")
         sys.exit(1)
 
+def add_necessary_domains_to_seeds(crawler, threshold_score=50):
+    """Add domains with high authority scores to seed URLs."""
+    try:
+        # Get domain authority scores from the database
+        domain_scores = crawler.database.get_domain_authority_scores()
+
+        if not domain_scores:
+            print("ℹ️ No domain authority scores found")
+            return
+
+        # Load current seed URLs
+        seed_file = 'seed_urls.json'
+        current_seeds = load_seed_urls(seed_file)
+
+        # Extract domains from current seeds
+        from urllib.parse import urlparse
+        current_domains = {urlparse(url).netloc for url in current_seeds}
+
+        # Find domains that meet the threshold and aren't already in seeds
+        new_domains = []
+        for domain, score in domain_scores.items():
+            if score >= threshold_score and domain not in current_domains:
+                # Create a sample URL for the domain
+                sample_url = f"https://{domain}"
+                new_domains.append(sample_url)
+                print(f"📈 Adding high-authority domain to seeds: {domain} (score: {score:.1f})")
+
+        if new_domains:
+            # Add new domains to seed file
+            updated_seeds = current_seeds + new_domains
+            with open(seed_file, 'w') as f:
+                json.dump(updated_seeds, f, indent=2)
+            print(f"✅ Added {len(new_domains)} new domains to {seed_file}")
+            return new_domains
+        else:
+            print("ℹ️ No new domains meet the threshold for addition to seeds")
+
+    except Exception as e:
+        print(f"❌ Error adding domains to seeds: {e}")
+
+    return []
+
 def main():
     """Main function to run the scheduled crawler."""
     # Load configuration
@@ -83,22 +125,91 @@ def main():
         print(f"❌ Failed to initialize crawler: {e}")
         sys.exit(1)
 
-    def perform_full_crawl():
-        """Perform a full comprehensive crawl."""
-        print(f"\n🚀 Starting full crawl at {datetime.now()}")
+    def perform_backlink_extraction():
+        """Day 1: Extract backlinks from all seed URLs and store in database."""
+        print(f"\n🔗 Starting backlink extraction at {datetime.now()}")
         try:
-            results = crawler.comprehensive_crawl(valid_urls)
+            # Configure for backlink-focused crawling
+            backlink_config = config.copy()
+            backlink_config['max_depth'] = 1  # Shallow crawl for backlinks
+            backlink_config['max_pages'] = 50  # Limit pages per domain
+            backlink_config['analyze_backlinks'] = True
+
+            # Create new crawler instance with backlink config
+            backlink_crawler = EnhancedProductionCrawler(backlink_config)
+
+            results = backlink_crawler.comprehensive_crawl(valid_urls)
 
             if results.get('success'):
-                crawler.print_summary(results)
-                if config.get('export_json') or config.get('export_csv'):
-                    crawler.export_results(results)
-                print("\n✅ Full crawl completed successfully!")
+                backlink_crawler.print_summary(results)
+
+                # Add high-authority domains to seeds
+                new_domains = add_necessary_domains_to_seeds(backlink_crawler)
+
+                print(f"\n✅ Backlink extraction completed successfully!")
+                if new_domains:
+                    print(f"📈 Added {len(new_domains)} new domains to seed URLs")
             else:
-                print(f"\n❌ Full crawl failed: {results.get('error', 'Unknown error')}")
+                print(f"\n❌ Backlink extraction failed: {results.get('error', 'Unknown error')}")
 
         except Exception as e:
-            print(f"❌ Error during full crawl: {e}")
+            print(f"❌ Error during backlink extraction: {e}")
+
+    def perform_seed_domain_crawl():
+        """Day 2: Crawl all pages from seed URL domains."""
+        print(f"\n🌐 Starting seed domain crawl at {datetime.now()}")
+        try:
+            # Reload seed URLs (may have been updated)
+            current_seeds = load_seed_urls(seed_file)
+
+            # Configure for deeper domain crawling
+            domain_config = config.copy()
+            domain_config['max_depth'] = 4  # Deeper crawl within domains
+            domain_config['max_pages'] = 200  # More pages per domain
+            domain_config['stay_on_domain'] = True  # Stay within seed domains
+            domain_config['analyze_backlinks'] = False  # Skip backlink analysis
+
+            domain_crawler = EnhancedProductionCrawler(domain_config)
+            results = domain_crawler.comprehensive_crawl(current_seeds)
+
+            if results.get('success'):
+                domain_crawler.print_summary(results)
+                print(f"\n✅ Seed domain crawl completed successfully!")
+            else:
+                print(f"\n❌ Seed domain crawl failed: {results.get('error', 'Unknown error')}")
+
+        except Exception as e:
+            print(f"❌ Error during seed domain crawl: {e}")
+
+    def perform_subdomain_crawl():
+        """Days 3-4: Crawl necessary subdomain pages."""
+        print(f"\n🏗️ Starting subdomain crawl at {datetime.now()}")
+        try:
+            # Get subdomains from previously crawled data
+            subdomains = crawler.database.get_discovered_subdomains()
+
+            if not subdomains:
+                print("ℹ️ No subdomains found for crawling")
+                return
+
+            # Configure for subdomain crawling
+            subdomain_config = config.copy()
+            subdomain_config['max_depth'] = 3
+            subdomain_config['max_pages'] = 150
+            subdomain_config['stay_on_domain'] = False  # Allow subdomain crawling
+            subdomain_config['analyze_backlinks'] = True
+
+            subdomain_crawler = EnhancedProductionCrawler(subdomain_config)
+            results = subdomain_crawler.comprehensive_crawl(subdomains)
+
+            if results.get('success'):
+                subdomain_crawler.print_summary(results)
+                print(f"\n✅ Subdomain crawl completed successfully!")
+            else:
+                print(f"\n❌ Subdomain crawl failed: {results.get('error', 'Unknown error')}")
+
+        except Exception as e:
+            print(f"❌ Error during subdomain crawl: {e}")
 
     def retrieve_backlinks():
         """Retrieve and save backlinks from database."""
@@ -139,20 +250,82 @@ def main():
         except Exception as e:
             print(f"Error getting status: {e}")
 
-    # Set up schedule (one day full crawl, five days query)
-    print("\n⏰ Setting up scheduled tasks...")
-    schedule.every().monday.at("08:00").do(perform_full_crawl)
-    schedule.every().tuesday.at("08:00").do(retrieve_backlinks)
-    schedule.every().wednesday.at("08:00").do(retrieve_backlinks)
-    schedule.every().thursday.at("08:00").do(retrieve_backlinks)
-    schedule.every().friday.at("08:00").do(retrieve_backlinks)
-    schedule.every().saturday.at("08:00").do(retrieve_backlinks)
-    schedule.every().sunday.at("08:00").do(show_system_status)
+    def run_daily_engine_services():
+        """Daily 2-hour process: Run all engine services from 12AM-2AM."""
+        print(f"\n🚀 Starting daily engine services at {datetime.now()}")
 
-    print("✅ Scheduler configured:")
-    print("  - Monday 08:00: Full crawl")
-    print("  - Tue-Fri 08:00: Backlink retrieval")
-    print("  - Sunday 08:00: System status")
+        start_time = time.time()
+        max_duration = 2 * 60 * 60  # 2 hours in seconds
+
+        try:
+            while time.time() - start_time < max_duration:
+                # Run various engine services
+                print("🔄 Running engine service cycle...")
+
+                # Service 1: Update domain authority scores
+                try:
+                    domain_scores = crawler.database.get_domain_authority_scores()
+                    if domain_scores:
+                        print(f"📊 Updated domain authority for {len(domain_scores)} domains")
+                except Exception as e:
+                    print(f"⚠️ Domain authority update failed: {e}")
+
+                # Service 2: Recalculate PageRank scores
+                try:
+                    pagerank_data = crawler.database.get_pagerank_scores()
+                    if pagerank_data:
+                        print(f"🔢 Recalculated PageRank for {len(pagerank_data)} pages")
+                except Exception as e:
+                    print(f"⚠️ PageRank calculation failed: {e}")
+
+                # Service 3: Clean up old data
+                try:
+                    cleanup_count = crawler.database.cleanup_old_data(days_old=30)
+                    if cleanup_count > 0:
+                        print(f"🧹 Cleaned up {cleanup_count} old records")
+                except Exception as e:
+                    print(f"⚠️ Data cleanup failed: {e}")
+
+                # Service 4: Update backlink analysis
+                try:
+                    recent_backlinks = crawler.database.get_recent_backlinks(hours=24)
+                    if recent_backlinks:
+                        print(f"🔗 Analyzed {len(recent_backlinks)} recent backlinks")
+                except Exception as e:
+                    print(f"⚠️ Backlink analysis failed: {e}")
+
+                # Wait before next cycle
+                time.sleep(300)  # 5 minutes between cycles
+
+        except KeyboardInterrupt:
+            print("🛑 Daily engine services interrupted by user")
+        except Exception as e:
+            print(f"❌ Error in daily engine services: {e}")
+
+        print(f"✅ Daily engine services completed at {datetime.now()}")
+
+    # Set up weekly schedule (Monday to Sunday cycle)
+    print("\n⏰ Setting up weekly schedule...")
+    schedule.every().monday.at("08:00").do(perform_backlink_extraction)    # Day 1: Backlink extraction
+    schedule.every().tuesday.at("08:00").do(perform_seed_domain_crawl)     # Day 2: Seed domain crawl
+    schedule.every().wednesday.at("08:00").do(perform_subdomain_crawl)     # Day 3: Subdomain crawl
+    schedule.every().thursday.at("08:00").do(perform_subdomain_crawl)      # Day 4: Subdomain crawl (continued)
+    schedule.every().friday.at("08:00").do(retrieve_backlinks)             # Day 5: Backlink retrieval
+    schedule.every().saturday.at("08:00").do(retrieve_backlinks)           # Day 6: Backlink retrieval
+    schedule.every().sunday.at("08:00").do(show_system_status)             # Day 7: System status
+
+    # Set up daily 2-hour engine services (12AM-2AM)
+    schedule.every().day.at("00:00").do(run_daily_engine_services)
+
+    print("✅ Weekly schedule configured:")
+    print("  - Monday 08:00: Backlink extraction from seed URLs")
+    print("  - Tuesday 08:00: Crawl all seed domain pages")
+    print("  - Wednesday 08:00: Crawl necessary subdomains")
+    print("  - Thursday 08:00: Continue subdomain crawling")
+    print("  - Friday 08:00: Backlink data retrieval")
+    print("  - Saturday 08:00: Backlink data retrieval")
+    print("  - Sunday 08:00: System status report")
+    print("  - Daily 00:00-02:00: Engine services (2 hours)")
     print("\n⏰ Scheduler started. Waiting for scheduled tasks...")
     print("Press Ctrl+C to stop the scheduler")
 
