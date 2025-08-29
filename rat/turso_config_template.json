@@ -1,0 +1,25 @@
+{
+  "databases": [
+    {
+      "name": "crawler_db_1",
+      "url": "https://your-first-db.turso.io",
+      "auth_token": "your_first_auth_token_here",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0
+    },
+    {
+      "name": "crawler_db_2",
+      "url": "https://your-second-db.turso.io",
+      "auth_token": "your_second_auth_token_here",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0
+    },
+    {
+      "name": "crawler_db_3",
+      "url": "https://your-third-db.turso.io",
+      "auth_token": "your_third_auth_token_here",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0
+    }
+  ]
+}
