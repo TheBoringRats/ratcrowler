@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turso Database Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .progress-bar[data-status="healthy"] {
+        background-color: #10b981;
+      }
+      .progress-bar[data-status="warning"] {
+        background-color: #f59e0b;
+      }
+      .progress-bar[data-status="critical"] {
+        background-color: #ef4444;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+      <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">
+          🗄️ Turso Database Monitor
+        </h1>
+        <p class="text-gray-600">
+          Monitor multiple Turso databases with real-time analytics and
+          automatic rotation
+        </p>
+      </header>
+
+      <!-- System Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h3 class="text-lg font-semibold text-gray-800">Total Databases</h3>
+          <p class="text-2xl font-bold text-blue-600" id="total-databases">
+            {{ data.summary.total_databases }}
+          </p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h3 class="text-lg font-semibold text-gray-800">Active Databases</h3>
+          <p class="text-2xl font-bold text-green-600" id="active-databases">
+            {{ data.summary.active_databases }}
+          </p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h3 class="text-lg font-semibold text-gray-800">Warning Databases</h3>
+          <p class="text-2xl font-bold text-yellow-600" id="warning-databases">
+            {{ data.summary.warning_databases }}
+          </p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h3 class="text-lg font-semibold text-gray-800">
+            Critical Databases
+          </h3>
+          <p class="text-2xl font-bold text-red-600" id="critical-databases">
+            {{ data.summary.critical_databases }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Database List -->
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Databases</h2>
+          <button
+            onclick="showAddDatabaseModal()"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            + Add Database
+          </button>
+        </div>
+        <div class="space-y-4" id="databases-list">
+          {% for db in data.databases %}
+          <div
+            class="border rounded-lg p-4 {{ 'border-green-200 bg-green-50' if db.status == 'healthy' else 'border-yellow-200 bg-yellow-50' if db.status == 'warning' else 'border-red-200 bg-red-50' }}"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-lg font-semibold">{{ db.name }}</h3>
+              <span
+                class="px-2 py-1 text-xs rounded {{ 'bg-green-100 text-green-800' if db.status == 'healthy' else 'bg-yellow-100 text-yellow-800' if db.status == 'warning' else 'bg-red-100 text-red-800' }}"
+              >
+                {{ db.status.upper() }}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p class="text-gray-600">Storage</p>
+                <p class="font-semibold">
+                  {{ format_bytes(db.storage_used) }} / {{
+                  format_bytes(db.storage_quota) }}
+                </p>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                  <div
+                    class="h-2 rounded-full progress-bar"
+                    data-status="{{ db.status }}"
+                    style="width: {{ db.storage_percent }}%"
+                  ></div>
+                </div>
+              </div>
+              <div>
+                <p class="text-gray-600">Monthly Writes</p>
+                <p class="font-semibold">
+                  {{ db.monthly_writes|number_format }} / {{
+                  db.write_limit|number_format }}
+                </p>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                  <div
+                    class="h-2 rounded-full progress-bar"
+                    data-status="{{ db.status }}"
+                    style="width: {{ db.write_percent }}%"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold mb-4">🚨 Active Alerts</h2>
+        <div id="alerts-list">
+          {% for db in data.databases %} {% if db.status == 'warning' %}
+          <div
+            class="p-3 rounded mb-2 bg-yellow-100 border-yellow-300 border-l-4"
+          >
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-semibold">{{ db.name }}</span>
+                <span class="text-sm text-gray-600">(WARNING)</span>
+                <p class="text-sm mt-1">
+                  {{ db.name }} is approaching capacity limits
+                </p>
+              </div>
+              <span class="text-xs text-gray-500"
+                >{{ data.last_updated[:19] }}</span
+              >
+            </div>
+          </div>
+          {% elif db.status == 'critical' %}
+          <div class="p-3 rounded mb-2 bg-red-100 border-red-300 border-l-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-semibold">{{ db.name }}</span>
+                <span class="text-sm text-gray-600">(CRITICAL)</span>
+                <p class="text-sm mt-1">
+                  {{ db.name }} has exceeded safe capacity limits
+                </p>
+              </div>
+              <span class="text-xs text-gray-500"
+                >{{ data.last_updated[:19] }}</span
+              >
+            </div>
+          </div>
+          {% endif %} {% endfor %} {% if not data.databases or not [db for db in
+          data.databases if db.status in ['warning', 'critical']] %}
+          <p class="text-gray-500 text-center py-4">No active alerts</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Database Modal -->
+    <div
+      id="addDatabaseModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center"
+    >
+      <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold mb-4">Add New Database</h3>
+        <form id="addDatabaseForm">
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Database Name</label>
+            <input
+              type="text"
+              name="name"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Database URL</label>
+            <input
+              type="url"
+              name="url"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Auth Token</label>
+            <input
+              type="password"
+              name="auth_token"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1"
+              >Monthly Write Limit</label
+            >
+            <input
+              type="number"
+              name="monthly_write_limit"
+              value="10000000"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1"
+              >Storage Quota (GB)</label
+            >
+            <input
+              type="number"
+              name="storage_quota_gb"
+              value="5.0"
+              step="0.1"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <div class="flex justify-end space-x-2">
+            <button
+              type="button"
+              onclick="hideAddDatabaseModal()"
+              class="px-4 py-2 text-gray-600"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Add Database
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      let refreshInterval;
+
+      // Load data on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        // Auto-refresh every 30 seconds
+        refreshInterval = setInterval(() => {
+          refreshDashboard();
+        }, 30000);
+      });
+
+      async function refreshDashboard() {
+        try {
+          const response = await fetch("/api/dashboard");
+          const data = await response.json();
+
+          if (data) {
+            // Update system overview
+            document.getElementById("total-databases").textContent =
+              data.summary.total_databases;
+            document.getElementById("active-databases").textContent =
+              data.summary.active_databases;
+            document.getElementById("warning-databases").textContent =
+              data.summary.warning_databases;
+            document.getElementById("critical-databases").textContent =
+              data.summary.critical_databases;
+
+            // Update database list
+            updateDatabaseList(data.databases);
+
+            // Update alerts
+            updateAlerts(data);
+          }
+        } catch (error) {
+          console.error("Error refreshing dashboard:", error);
+        }
+      }
+
+      function updateDatabaseList(databases) {
+        const container = document.getElementById("databases-list");
+        container.innerHTML = "";
+
+        databases.forEach((db) => {
+          const card = document.createElement("div");
+          card.className = `border rounded-lg p-4 ${
+            db.status === "healthy"
+              ? "border-green-200 bg-green-50"
+              : db.status === "warning"
+              ? "border-yellow-200 bg-yellow-50"
+              : "border-red-200 bg-red-50"
+          }`;
+
+          card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-semibold">${db.name}</h3>
+                        <span class="px-2 py-1 text-xs rounded ${
+                          db.status === "healthy"
+                            ? "bg-green-100 text-green-800"
+                            : db.status === "warning"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-red-100 text-red-800"
+                        }">${db.status.toUpperCase()}</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="text-gray-600">Storage</p>
+                            <p class="font-semibold">${formatBytes(
+                              db.storage_used
+                            )} / ${formatBytes(db.storage_quota)}</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="h-2 rounded-full ${
+                                  db.status === "critical"
+                                    ? "bg-red-500"
+                                    : db.status === "warning"
+                                    ? "bg-yellow-500"
+                                    : "bg-green-500"
+                                }" style="width: ${db.storage_percent}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-gray-600">Monthly Writes</p>
+                            <p class="font-semibold">${db.monthly_writes.toLocaleString()} / ${db.write_limit.toLocaleString()}</p>
+                            <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                <div class="h-2 rounded-full ${
+                                  db.status === "critical"
+                                    ? "bg-red-500"
+                                    : db.status === "warning"
+                                    ? "bg-yellow-500"
+                                    : "bg-green-500"
+                                }" style="width: ${db.write_percent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+          container.appendChild(card);
+        });
+      }
+
+      function updateAlerts(data) {
+        const container = document.getElementById("alerts-list");
+
+        // Generate alerts based on database status
+        const alerts = [];
+        data.databases.forEach((db) => {
+          if (db.status === "warning") {
+            alerts.push({
+              type: "WARNING",
+              message: `${db.name} is approaching capacity limits`,
+              database: db.name,
+            });
+          } else if (db.status === "critical") {
+            alerts.push({
+              type: "CRITICAL",
+              message: `${db.name} has exceeded safe capacity limits`,
+              database: db.name,
+            });
+          }
+        });
+
+        if (alerts.length === 0) {
+          container.innerHTML =
+            '<p class="text-gray-500 text-center py-4">No active alerts</p>';
+          return;
+        }
+
+        container.innerHTML = "";
+        alerts.forEach((alert) => {
+          const alertDiv = document.createElement("div");
+          alertDiv.className = `p-3 rounded mb-2 ${
+            alert.type === "CRITICAL"
+              ? "bg-red-100 border-red-300"
+              : "bg-yellow-100 border-yellow-300"
+          } border-l-4`;
+
+          alertDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="font-semibold">${alert.database}</span>
+                            <span class="text-sm text-gray-600">(${
+                              alert.type
+                            })</span>
+                            <p class="text-sm mt-1">${alert.message}</p>
+                        </div>
+                        <span class="text-xs text-gray-500">${new Date().toLocaleString()}</span>
+                    </div>
+                `;
+
+          container.appendChild(alertDiv);
+        });
+      }
+
+      function showAddDatabaseModal() {
+        document.getElementById("addDatabaseModal").classList.remove("hidden");
+      }
+
+      function hideAddDatabaseModal() {
+        document.getElementById("addDatabaseModal").classList.add("hidden");
+      }
+
+      document
+        .getElementById("addDatabaseForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(e.target);
+          const data = Object.fromEntries(formData);
+
+          try {
+            const response = await fetch("/api/database", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: data.name,
+                url: data.url,
+                auth_token: data.auth_token,
+                monthly_write_limit: parseInt(data.monthly_write_limit),
+                storage_quota_gb: parseFloat(data.storage_quota_gb),
+              }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              alert("Database added successfully!");
+              hideAddDatabaseModal();
+              e.target.reset();
+              refreshDashboard();
+            } else {
+              alert("Error: " + (result.detail || "Unknown error"));
+            }
+          } catch (error) {
+            alert("Error adding database: " + error.message);
+          }
+        });
+
+      function formatBytes(bytes) {
+        const units = ["B", "KB", "MB", "GB", "TB"];
+        let size = bytes;
+        let unitIndex = 0;
+
+        while (size >= 1024 && unitIndex < units.length - 1) {
+          size /= 1024;
+          unitIndex++;
+        }
+
+        return `${size.toFixed(1)} ${units[unitIndex]}`;
+      }
+    </script>
+  </body>
+</html>
