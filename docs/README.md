@@ -1,344 +1,114 @@
 # RatCrawler Documentation
 
-This directory contains the complete documentation for RatCrawler, hosted on GitHub Pages with custom styling and layouts.
+This folder contains the complete documentation website for RatCrawler, built with HTML and Tailwind CSS for hosting on GitHub Pages.
 
-## 📁 Documentation Structure
+## 📁 Files Structure
 
 ```
 docs/
-├── _config.yml              # Jekyll configuration
-├── _layouts/
-│   └── default.html         # Custom layout with Google Fonts
-├── _includes/
-│   ├── header.html          # Custom header
-│   └── footer.html          # Custom footer
-├── assets/
-│   └── css/
-│       └── main.scss        # Custom SCSS with perfect styling
-├── index.md                 # Main documentation page
-├── getting-started/
-│   ├── installation.md      # Installation guide
-│   └── quick-start.md       # Quick start tutorial
-├── features/
-│   └── web-crawling.md      # Web crawling features
-├── api-reference/
-│   └── index.md             # Complete API reference
-├── contributing/
-│   └── index.md             # Contributing guide
-└── README.md                # This file
+├── index.html          # Main homepage
+├── api.html           # API documentation
+├── examples.html      # Examples and tutorials
+├── config.html        # Configuration guide
+├── contributing.html  # Contributing guidelines
+└── README.md         # This file
 ```
 
-## 🎨 Custom Styling
+## 🚀 Hosting on GitHub Pages
 
-The documentation features a custom SCSS stylesheet (`assets/css/main.scss`) with:
+### Option 1: Host from docs/ folder (Recommended)
 
-- **Modern Design**: Gradient backgrounds, custom fonts, and smooth animations
-- **Responsive Layout**: Mobile-friendly design that works on all devices
-- **Dark Mode Ready**: CSS variables for easy theme customization
-- **Professional Typography**: Inter font for body text, JetBrains Mono for code
-- **Custom Components**: Styled buttons, code blocks, tables, and navigation
+1. **Go to your repository settings on GitHub**
+2. **Navigate to "Pages" section**
+3. **Under "Source", select "Deploy from a branch"**
+4. **Choose "main" branch and "/docs" folder**
+5. **Click "Save"**
 
-## 🚀 GitHub Pages Setup
+Your documentation will be available at: `https://yourusername.github.io/ratcrawler/`
 
-### Automatic Deployment
+### Option 2: Host from root (Alternative)
 
-This documentation is automatically deployed to GitHub Pages when:
+If you prefer to host from the repository root:
 
-1. **Repository Settings**: GitHub Pages is enabled for the `docs/` folder
-2. **Push to Main**: Changes pushed to the `main` branch trigger deployment
-3. **Jekyll Build**: GitHub automatically builds the site using Jekyll
+1. **Move all HTML files from `docs/` to the repository root**
+2. **Update internal links to remove `/docs/` prefix**
+3. **In GitHub Pages settings, select "main" branch and "/" (root)**
 
-### Manual Testing
+## 🎨 Customization
 
-To test the documentation locally before deploying:
+### Colors and Styling
 
-```bash
-# Install Jekyll and dependencies
-gem install jekyll bundler
+The documentation uses Tailwind CSS with a custom color scheme:
 
-# Navigate to docs directory
-cd docs
-
-# Install dependencies
-bundle install
-
-# Serve locally
-bundle exec jekyll serve
-
-# View at http://localhost:4000
-```
-
-## 🔧 Customization
-
-### Colors and Branding
-
-Modify `assets/css/main.scss` to customize:
-
-- CSS custom properties for colors
-- Gradient definitions
-- Typography settings
-- Component styling
-
-### Site Configuration
-
-Update `_config.yml` for:
-
-- Site title and description
-- Author information
-- Social media links
-- Navigation structure
-
-### Layout Customization
-
-Edit `_layouts/default.html` to modify:
-
-- HTML structure
-- Font loading
-- Meta tags
-- SEO optimization
-
-## 📝 Writing Documentation
-
-### File Structure
-
-- Use Markdown (`.md`) files for all documentation
-- Organize content in logical directories
-- Use Jekyll front matter for metadata
-
-### Front Matter
-
-Each documentation page should include front matter:
-
-```yaml
----
-layout: default
-title: "Page Title"
-nav_order: 1
-parent: Parent Section (optional)
-description: "Brief description for SEO"
-permalink: /custom/path/ (optional)
----
-```
-
-### Navigation
-
-Pages are automatically organized in the navigation based on:
-
-- `nav_order`: Controls the order in navigation
-- `parent`: Creates hierarchical navigation
-- Directory structure: Files in subdirectories create sections
-
-### Writing Guidelines
-
-#### Headings
-
-```markdown
-# Page Title (H1 - only one per page)
-
-## Section (H2)
-
-### Subsection (H3)
-
-#### Sub-subsection (H4)
-```
-
-#### Code Blocks
-
-```python
-# Python code
-def example_function():
-    return "Hello, World!"
-```
-
-```bash
-# Terminal commands
-echo "Hello, World!"
-```
-
-#### Lists
-
-```markdown
-- Item 1
-- Item 2
-  - Nested item
-  - Another nested item
-- Item 3
-```
-
-#### Links
-
-```markdown
-[Link Text](url)
-[Relative Link](../path/to/file.md)
-[API Reference](../api-reference/index.md)
-```
-
-#### Tables
-
-```markdown
-| Column 1 | Column 2 | Column 3 |
-| -------- | -------- | -------- |
-| Data 1   | Data 2   | Data 3   |
-| Data 4   | Data 5   | Data 6   |
-```
-
-## 🎨 Styling and Themes
-
-### Default Theme
-
-The documentation uses Jekyll's Minima theme with custom styling:
-
-- **Clean Design**: Minimal, distraction-free layout
-- **Responsive**: Works on desktop, tablet, and mobile
-- **Dark Mode**: Automatic dark/light mode switching
-- **Search**: Built-in search functionality
-
-### Custom CSS
-
-Add custom styles in `docs/assets/css/main.scss`:
-
-```scss
-// Custom styles
-.site-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.page-content {
-  max-width: 1200px;
+```javascript
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                primary: '#1f2937',    // Dark gray
+                secondary: '#374151',  // Medium gray
+                accent: '#3b82f6',     // Blue
+                success: '#10b981',    // Green
+                warning: '#f59e0b',    // Orange
+                danger: '#ef4444'      // Red
+            }
+        }
+    }
 }
 ```
 
-## 🔍 SEO and Metadata
+### Adding New Pages
 
-### Page Metadata
+1. **Create a new HTML file** following the existing structure
+2. **Update navigation** in all HTML files to include the new page
+3. **Add the page link** to the footer navigation
+4. **Test locally** by opening the HTML files in a browser
 
-Each page includes:
+### Modifying Content
 
-- **Title**: Page title in browser tab
-- **Description**: SEO description
-- **Keywords**: Automatically generated from content
-- **Canonical URL**: Prevents duplicate content issues
+- **Main content** is in the `<main>` or `<section>` tags
+- **Navigation** is in the `<nav>` element at the top
+- **Footer** contains links and copyright information
+- **Styles** are defined in the `<style>` tag or Tailwind classes
 
-### Site Metadata
+## 🔧 Local Development
 
-Configured in `_config.yml`:
+To test the documentation locally:
 
-```yaml
-title: "RatCrawler Documentation"
-description: "Comprehensive web crawler and multi-source trending analysis system"
-author: TheBoringRats
-```
+1. **Open any HTML file** in your web browser
+2. **Navigate between pages** using the links
+3. **Test responsiveness** by resizing your browser window
+4. **Check all links** work correctly
 
-## 📊 Analytics and Tracking
+## 📱 Features
 
-### GitHub Insights
-
-Track documentation usage through:
-
-- **Page Views**: GitHub provides traffic analytics
-- **Popular Content**: See which pages are most visited
-- **Referral Sources**: Understand how users find the docs
-
-### Custom Analytics (Optional)
-
-Add Google Analytics or similar:
-
-```html
-<!-- Add to _includes/head.html -->
-<script
-  async
-  src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"
-></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-  gtag("js", new Date());
-  gtag("config", "GA_TRACKING_ID");
-</script>
-```
-
-## 🔄 Maintenance
-
-### Regular Updates
-
-- **Review Content**: Regularly check for outdated information
-- **Update Examples**: Ensure code examples work with current versions
-- **Fix Links**: Check for broken internal and external links
-- **Performance**: Optimize images and large files
-
-### Version Management
-
-- **Version Badges**: Show current version in documentation
-- **Changelog**: Document significant changes
-- **Deprecation Notices**: Warn about deprecated features
+- **Responsive Design**: Works on desktop, tablet, and mobile
+- **Modern UI**: Clean, professional appearance with Tailwind CSS
+- **Fast Loading**: Minimal dependencies, optimized for performance
+- **SEO Friendly**: Proper meta tags and semantic HTML
+- **Accessible**: Screen reader friendly with proper ARIA labels
 
 ## 🤝 Contributing to Documentation
 
-### Content Guidelines
+When updating the documentation:
 
-1. **Be Clear**: Use simple, straightforward language
-2. **Be Comprehensive**: Cover all aspects of the topic
-3. **Be Consistent**: Follow established patterns and conventions
-4. **Be Current**: Keep information up to date
-
-### Review Process
-
-1. **Self-Review**: Check your own work before submitting
-2. **Peer Review**: Have others review technical accuracy
-3. **Technical Review**: Ensure code examples work
-4. **Editorial Review**: Check grammar, spelling, and clarity
-
-### Tools and Resources
-
-- **Markdown Linter**: Use tools like `markdownlint` for consistency
-- **Link Checker**: Tools like `lychee` to find broken links
-- **Spell Checker**: Check spelling and grammar
-- **Accessibility Checker**: Ensure content is accessible
+1. **Follow the existing structure** and styling patterns
+2. **Test all links** and navigation
+3. **Ensure mobile responsiveness**
+4. **Update the table of contents** if adding new sections
+5. **Keep the design consistent** across all pages
 
 ## 📞 Support
 
-### Getting Help
+If you need help with the documentation:
 
-- **Documentation Issues**: [GitHub Issues](https://github.com/TheBoringRats/ratcrawler/issues)
-- **General Questions**: [GitHub Discussions](https://github.com/TheBoringRats/ratcrawler/discussions)
-- **Contact**: [theboringrats@gmail.com](mailto:theboringrats@gmail.com)
+- **Check existing issues** on GitHub
+- **Create a new issue** with detailed description
+- **Join the discussion** in GitHub Discussions
+- **Check the contributing guide** for more information
 
-### Resources
-
-- [Jekyll Documentation](https://jekyllrb.com/docs/)
-- [GitHub Pages Guide](https://docs.github.com/en/pages)
-- [Markdown Guide](https://www.markdownguide.org/)
-- [Minima Theme](https://github.com/jekyll/minima)
+## Built with ❤️ for the RatCrawler community
 
 ---
 
-## 🚀 Deployment Checklist
-
-Before deploying documentation updates:
-
-- [ ] Test locally with `bundle exec jekyll serve`
-- [ ] Check for broken links
-- [ ] Validate all code examples
-- [ ] Review for spelling and grammar
-- [ ] Ensure mobile responsiveness
-- [ ] Test search functionality
-- [ ] Verify all images load correctly
-- [ ] Check page load performance
-
-## 📈 Success Metrics
-
-Track documentation effectiveness:
-
-- **Page Views**: Monitor traffic to documentation
-- **Time on Page**: Measure engagement
-- **Search Queries**: Analyze what users are looking for
-- **Issue Resolution**: Track if docs reduce support requests
-- **User Feedback**: Collect feedback on documentation quality
-
----
-
-📖 Happy documenting! 📖
-
-Built with ❤️ by TheBoringRats
+Built with ❤️ for the RatCrawler community

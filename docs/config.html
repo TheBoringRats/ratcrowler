@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RatCrawler Configuration Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1f2937',
+                        secondary: '#374151',
+                        accent: '#3b82f6',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+                        <span class="font-bold text-xl text-primary">RatCrawler</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-accent transition-colors">Home</a>
+                    <a href="#basic-config" class="text-gray-700 hover:text-accent transition-colors">Basic Config</a>
+                    <a href="#advanced-config" class="text-gray-700 hover:text-accent transition-colors">Advanced</a>
+                    <a href="#environment" class="text-gray-700 hover:text-accent transition-colors">Environment</a>
+                    <a href="#examples" class="text-gray-700 hover:text-accent transition-colors">Examples</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-br from-primary to-secondary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">⚙️ Configuration Guide</h1>
+            <p class="text-xl text-gray-300">Complete configuration reference for RatCrawler</p>
+        </div>
+    </section>
+
+    <!-- Basic Configuration -->
+    <section id="basic-config" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">🔧 Basic Configuration</h2>
+                <p class="text-gray-600">Essential settings for getting started with RatCrawler</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Python Config -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">
+                        <i class="fab fa-python text-accent mr-3"></i>
+                        Python Configuration
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-3">Core Crawling Settings</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">delay</code>
+                                    <span class="text-gray-600 ml-2">Request delay between pages (seconds)</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: 1.5, Recommended: 1.0-3.0</div>
+                                </div>
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">max_depth</code>
+                                    <span class="text-gray-600 ml-2">Maximum crawl depth</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: 3, Range: 1-10</div>
+                                </div>
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">max_pages</code>
+                                    <span class="text-gray-600 ml-2">Maximum pages to crawl</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: 100, Range: 10-10000</div>
+                                </div>
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">user_agent</code>
+                                    <span class="text-gray-600 ml-2">Custom user agent string</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: Enhanced-Web-Crawler/1.0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-3">Domain & Scope Settings</h4>
+                            <div class="space-y-4">
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">stay_on_domain</code>
+                                    <span class="text-gray-600 ml-2">Restrict crawling to seed domain</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: True, Type: boolean</div>
+                                </div>
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">allowed_domains</code>
+                                    <span class="text-gray-600 ml-2">List of allowed domains</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: [], Type: list</div>
+                                </div>
+                                <div>
+                                    <code class="bg-gray-100 px-2 py-1 rounded text-sm">db_path</code>
+                                    <span class="text-gray-600 ml-2">Database file path</span>
+                                    <div class="text-sm text-gray-500 mt-1">Default: website_crawler.db</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rust Config -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">
+                        <i class="fab fa-rust text-orange-500 mr-3"></i>
+                        Rust Configuration
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-3">CrawlConfig Structure</h4>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <pre class="text-sm text-gray-800"><code>pub struct CrawlConfig {
+    pub user_agent: String,        // Default: "RatCrawler/1.0"
+    pub timeout_secs: u64,         // Default: 30
+    pub max_redirects: usize,      // Default: 5
+    pub max_depth: usize,          // Default: 3
+    pub max_pages: usize,          // Default: 100
+    pub delay_ms: u64,             // Default: 1000
+    pub respect_robots_txt: bool,  // Default: true
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-3">BacklinkConfig Structure</h4>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <pre class="text-sm text-gray-800"><code>pub struct BacklinkConfig {
+    pub user_agent: String,        // Default: "RatCrawler-Backlinks/1.0"
+    pub timeout_secs: u64,         // Default: 60
+    pub max_redirects: usize,      // Default: 5
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Example -->
+            <div class="mt-12 bg-gray-50 p-8 rounded-lg">
+                <h3 class="text-2xl font-bold text-primary mb-6">📝 Complete Configuration Example</h3>
+                <div class="bg-white p-6 rounded-lg">
+                    <pre class="text-sm text-gray-800"><code># Python Configuration Dictionary
+config = {
+    # Basic crawling settings
+    'delay': 1.5,                    # Seconds between requests
+    'max_depth': 3,                  # Maximum link depth
+    'max_pages': 100,                # Maximum pages to crawl
+    'user_agent': 'MyCrawler/1.0',   # Custom user agent
+
+    # Domain restrictions
+    'stay_on_domain': True,          # Stay within seed domain
+    'allowed_domains': [],           # Additional allowed domains
+
+    # Database settings
+    'db_path': 'crawler.db',         # Database file path
+    'recrawl_days': 7,               # Days between recrawls
+
+    # Analysis settings
+    'analyze_backlinks': True,       # Enable backlink analysis
+
+    # Export settings
+    'export_json': True,             # Export results as JSON
+    'export_csv': False,             # Export data as CSV
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Configuration -->
+    <section id="advanced-config" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">🔬 Advanced Configuration</h2>
+                <p class="text-gray-600">Fine-tune RatCrawler for specific use cases</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Performance Tuning -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-6">⚡ Performance Tuning</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-accent mb-3">Request Optimization</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>delay:</strong> Balance speed vs politeness (1.0-5.0s)</li>
+                                <li><strong>timeout:</strong> Request timeout (10-60s)</li>
+                                <li><strong>max_redirects:</strong> Maximum redirects to follow (3-10)</li>
+                                <li><strong>concurrent_requests:</strong> Parallel requests (1-10)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-accent mb-3">Memory Management</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>max_pages:</strong> Limit memory usage (100-10000)</li>
+                                <li><strong>content_size_limit:</strong> Max content size (1MB-10MB)</li>
+                                <li><strong>cache_size:</strong> URL cache size (1000-10000)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-accent mb-3">Database Optimization</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>batch_size:</strong> Database batch operations (10-100)</li>
+                                <li><strong>vacuum_interval:</strong> Database cleanup frequency</li>
+                                <li><strong>index_strategy:</strong> Database indexing approach</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Filtering -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-6">🎯 Content Filtering</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-accent mb-3">URL Patterns</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>include_patterns:</strong> URL regex patterns to include</li>
+                                <li><strong>exclude_patterns:</strong> URL regex patterns to exclude</li>
+                                <li><strong>file_extensions:</strong> Allowed file extensions</li>
+                                <li><strong>path_filters:</strong> URL path filters</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-accent mb-3">Content Types</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>allowed_mime_types:</strong> MIME types to crawl</li>
+                                <li><strong>min_content_length:</strong> Minimum content length</li>
+                                <li><strong>max_content_length:</strong> Maximum content length</li>
+                                <li><strong>language_filter:</strong> Content language filter</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-accent mb-3">Quality Filters</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>min_word_count:</strong> Minimum word count</li>
+                                <li><strong>duplicate_threshold:</strong> Content similarity threshold</li>
+                                <li><strong>spam_score_threshold:</strong> Spam detection threshold</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Example -->
+            <div class="mt-12 bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold text-primary mb-6">🚀 Production Configuration</h3>
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <pre class="text-sm text-gray-800"><code># Production-ready configuration
+production_config = {
+    # Performance optimized
+    'delay': 2.0,
+    'max_pages': 10000,
+    'timeout': 30,
+    'max_redirects': 5,
+
+    # Content filtering
+    'allowed_domains': ['example.com', 'blog.example.com'],
+    'exclude_patterns': [
+        r'\.pdf$',
+        r'\.jpg$',
+        r'/admin/',
+        r'/private/'
+    ],
+
+    # Quality control
+    'min_word_count': 50,
+    'min_content_length': 500,
+    'duplicate_threshold': 0.85,
+
+    # Database optimization
+    'db_path': '/data/crawler/production.db',
+    'batch_size': 50,
+    'vacuum_interval': 1000,
+
+    # Monitoring
+    'enable_metrics': True,
+    'log_level': 'INFO',
+    'stats_interval': 100,
+
+    # Export & backup
+    'export_json': True,
+    'export_csv': False,
+    'backup_interval': 3600,  # 1 hour
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Environment Variables -->
+    <section id="environment" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">🌍 Environment Variables</h2>
+                <p class="text-gray-600">Configure RatCrawler using environment variables</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Python Environment -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">
+                        <i class="fab fa-python text-accent mr-3"></i>
+                        Python Environment
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">MONGODB_URI</code>
+                                <span class="text-sm text-gray-500">Optional</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">MongoDB connection string for additional storage</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">MAX_CRAWL_DEPTH</code>
+                                <span class="text-sm text-gray-500">Default: 3</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Maximum depth for crawling</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">MAX_PAGES_PER_DOMAIN</code>
+                                <span class="text-sm text-gray-500">Default: 100</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Maximum pages to crawl per domain</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">USER_AGENT</code>
+                                <span class="text-sm text-gray-500">Optional</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Custom user agent string</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rust Environment -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">
+                        <i class="fab fa-rust text-orange-500 mr-3"></i>
+                        Rust Environment
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">RUST_LOG</code>
+                                <span class="text-sm text-gray-500">Optional</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Set logging level (debug, info, warn, error)</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">DATABASE_URL</code>
+                                <span class="text-sm text-gray-500">Optional</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Database connection URL</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">MAX_WORKERS</code>
+                                <span class="text-sm text-gray-500">Default: 4</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Maximum number of worker threads</p>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <div class="flex justify-between items-center mb-2">
+                                <code class="font-bold">CACHE_SIZE</code>
+                                <span class="text-sm text-gray-500">Default: 10000</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">URL cache size in memory</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment File Example -->
+            <div class="mt-12 bg-gray-50 p-8 rounded-lg">
+                <h3 class="text-2xl font-bold text-primary mb-6">📄 Environment File (.env)</h3>
+                <div class="bg-white p-6 rounded-lg">
+                    <pre class="text-sm text-gray-800"><code># RatCrawler Environment Configuration
+# Copy this to .env file in your project root
+
+# Database Configuration
+MONGODB_URI=mongodb://localhost:27017/ratcrawler
+DATABASE_URL=sqlite:///ratcrawler.db
+
+# Crawling Limits
+MAX_CRAWL_DEPTH=3
+MAX_PAGES_PER_DOMAIN=100
+MAX_WORKERS=4
+
+# Performance Settings
+REQUEST_TIMEOUT=30
+CRAWL_DELAY=1.5
+CACHE_SIZE=10000
+
+# User Agent
+USER_AGENT=RatCrawler/1.0 (+https://github.com/yourusername/ratcrawler)
+
+# Logging
+RUST_LOG=info
+LOG_LEVEL=INFO
+
+# Export Settings
+EXPORT_JSON=true
+EXPORT_CSV=false
+BACKUP_INTERVAL=3600
+
+# Security
+ALLOWED_DOMAINS=example.com,blog.example.com
+BLOCKED_DOMAINS=spam.com,bad.com
+
+# API Keys (if using external services)
+GOOGLE_TRENDS_API_KEY=your_api_key_here
+NEWS_API_KEY=your_api_key_here</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Configuration Examples -->
+    <section id="examples" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">💡 Configuration Examples</h2>
+                <p class="text-gray-600">Ready-to-use configurations for different scenarios</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- SEO Analysis -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-4">🔍 SEO Analysis</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <pre class="text-xs text-gray-800"><code>seo_config = {
+    'delay': 2.0,
+    'max_pages': 500,
+    'analyze_backlinks': True,
+    'export_json': True,
+    'recrawl_days': 30,
+    'user_agent': 'SEO-Analyzer/1.0'
+}</code></pre>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">For comprehensive SEO audits and backlink analysis</p>
+                </div>
+
+                <!-- Content Monitoring -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-4">📊 Content Monitoring</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <pre class="text-xs text-gray-800"><code>monitor_config = {
+    'delay': 1.0,
+    'max_pages': 1000,
+    'stay_on_domain': True,
+    'recrawl_days': 1,
+    'export_json': True
+}</code></pre>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">For monitoring website changes and content updates</p>
+                </div>
+
+                <!-- Research Crawling -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-4">📚 Research</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <pre class="text-xs text-gray-800"><code>research_config = {
+    'delay': 3.0,
+    'max_pages': 10000,
+    'max_depth': 5,
+    'export_csv': True,
+    'user_agent': 'ResearchBot/1.0'
+}</code></pre>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">For academic research and large-scale data collection</p>
+                </div>
+
+                <!-- Fast Crawling -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-4">⚡ Fast Crawling</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <pre class="text-xs text-gray-800"><code>fast_config = {
+    'delay': 0.5,
+    'max_pages': 100,
+    'max_depth': 2,
+    'timeout': 10,
+    'stay_on_domain': True
+}</code></pre>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">For quick scans and time-sensitive data collection</p>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-4">🏢 Enterprise</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <pre class="text-xs text-gray-800"><code>enterprise_config = {
+    'delay': 1.0,
+    'max_pages': 50000,
+    'batch_size': 100,
+    'enable_metrics': True,
+    'backup_interval': 1800
+}</code></pre>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">For large-scale enterprise crawling with monitoring</p>
+                </div>
+
+                <!-- Minimal -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary mb-4">🎯 Minimal</h3>
+                    <div class="bg-gray-100 p-4 rounded-lg">
+                        <pre class="text-xs text-gray-800"><code>minimal_config = {
+    'delay': 1.0,
+    'max_pages': 10,
+    'max_depth': 1,
+    'export_json': False
+}</code></pre>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-3">For testing and development with minimal resource usage</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">
+                © 2025 RatCrawler Configuration Guide.
+                <a href="index.html" class="text-accent hover:text-blue-300">← Back to Home</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

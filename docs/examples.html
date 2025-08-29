@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RatCrawler Examples & Tutorials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1f2937',
+                        secondary: '#374151',
+                        accent: '#3b82f6',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+                        <span class="font-bold text-xl text-primary">RatCrawler</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-accent transition-colors">Home</a>
+                    <a href="#quick-start" class="text-gray-700 hover:text-accent transition-colors">Quick Start</a>
+                    <a href="#tutorials" class="text-gray-700 hover:text-accent transition-colors">Tutorials</a>
+                    <a href="#use-cases" class="text-gray-700 hover:text-accent transition-colors">Use Cases</a>
+                    <a href="#advanced" class="text-gray-700 hover:text-accent transition-colors">Advanced</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-br from-primary to-secondary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">🚀 Examples & Tutorials</h1>
+            <p class="text-xl text-gray-300">Learn how to use RatCrawler with practical examples</p>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section id="quick-start" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">⚡ Quick Start Guide</h2>
+                <p class="text-gray-600">Get up and running with RatCrawler in minutes</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Python Quick Start -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">
+                        <i class="fab fa-python text-accent mr-3"></i>
+                        Python Quick Start
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">1. Basic Web Crawling</h4>
+                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                                <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
+from crawler import EnhancedProductionCrawler
+
+# Configure crawler
+config = {
+    'delay': 1.0,
+    'max_depth': 2,
+    'max_pages': 50,
+    'db_path': 'my_crawler.db'
+}
+
+# Initialize and run
+crawler = EnhancedProductionCrawler(config)
+seed_urls = ['https://example.com', 'https://python.org']
+
+results = crawler.comprehensive_crawl(seed_urls)
+print(f"✅ Crawled {results['pages_crawled']} pages")</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">2. Backlink Analysis</h4>
+                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                                <pre class="text-sm text-gray-800"><code>from backlinkprocessor import BacklinkProcessor
+
+# Analyze backlinks
+processor = BacklinkProcessor(delay=1.0)
+processor.crawl_backlinks(['https://example.com'])
+
+# Get results
+pagerank = processor.calculate_pagerank()
+processor.calculate_domain_authority()
+
+print(f"Found {len(processor.backlinks)} backlinks")</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rust Quick Start -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">
+                        <i class="fab fa-rust text-orange-500 mr-3"></i>
+                        Rust Quick Start
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">1. Async Web Crawling</h4>
+                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                                <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
+use tokio;
+
+#[tokio::main]
+async fn main() -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let config = CrawlConfig {
+        user_agent: "MyCrawler/1.0".to_string(),
+        max_pages: 100,
+        delay_ms: 1000,
+        ..Default::default()
+    };
+
+    let mut crawler = WebsiteCrawler::new(&config);
+    let mut db = WebsiteCrawlerDatabase::new("crawl.db")?;
+
+    let urls = vec!["https://example.com".to_string()];
+    let result = crawler.crawl(urls, &mut db).await?;
+
+    println!("Crawled {} pages successfully!", result.pages_crawled);
+    Ok(())
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">2. Command Line Usage</h4>
+                            <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                                <pre class="text-sm text-gray-800"><code># Build the project
+cargo build --release
+
+# Crawl a website
+./target/release/rat-crawler crawl https://example.com
+
+# Analyze backlinks
+./target/release/rat-crawler backlinks https://example.com
+
+# Integrated analysis
+./target/release/rat-crawler integrated https://example.com</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorials Section -->
+    <section id="tutorials" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">📖 Step-by-Step Tutorials</h2>
+                <p class="text-gray-600">Detailed guides for common use cases</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Tutorial 1: Website Analysis -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-search text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">Website Content Analysis</h3>
+                            <p class="text-gray-600">Extract and analyze content from websites</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">🐍 Python Implementation</h4>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <pre class="text-sm text-gray-800"><code>from crawler import EnhancedProductionCrawler
+from backlinkprocessor import BacklinkProcessor
+
+def analyze_website(url):
+    # Configure crawler
+    config = {
+        'delay': 1.5,
+        'max_depth': 3,
+        'max_pages': 100,
+        'analyze_backlinks': True,
+        'export_json': True
+    }
+
+    # Initialize components
+    crawler = EnhancedProductionCrawler(config)
+    backlink_processor = BacklinkProcessor()
+
+    # Comprehensive analysis
+    results = crawler.comprehensive_crawl([url])
+
+    # Extract insights
+    print(f"Pages crawled: {results['pages_crawled']}")
+    print(f"Backlinks found: {results['backlinks_found']}")
+    print(f"Avg word count: {results['avg_word_count']:.0f}")
+
+    return results
+
+# Usage
+results = analyze_website('https://example.com')</code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">🦀 Rust Implementation</h4>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <pre class="text-sm text-gray-800"><code>use ratcrawler::*;
+use tokio;
+
+async fn analyze_website(url: &str) -> Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    // Configure crawler
+    let config = CrawlConfig {
+        user_agent: "WebsiteAnalyzer/1.0".to_string(),
+        max_pages: 100,
+        max_depth: 3,
+        respect_robots_txt: true,
+        ..Default::default()
+    };
+
+    // Initialize crawler
+    let mut crawler = WebsiteCrawler::new(&config);
+    let mut database = WebsiteCrawlerDatabase::new("analysis.db")?;
+
+    // Crawl website
+    let result = crawler.crawl(vec![url.to_string()], &mut database).await?;
+
+    // Analyze backlinks
+    let backlink_config = BacklinkConfig {
+        user_agent: "BacklinkAnalyzer/1.0".to_string(),
+        timeout_secs: 30,
+        max_redirects: 5,
+    };
+
+    let processor = BacklinkProcessor::new(
+        backlink_config.user_agent,
+        backlink_config.timeout_secs,
+        backlink_config.max_redirects,
+    );
+
+    let analysis = processor.analyze_backlinks(url).await?;
+
+    println!("Analysis complete:");
+    println!("  Pages: {}", result.pages_crawled);
+    println!("  Backlinks: {}", analysis.total_backlinks);
+
+    Ok(())
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tutorial 2: SEO Analysis -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-success text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-chart-line text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">SEO & Backlink Analysis</h3>
+                            <p class="text-gray-600">Analyze SEO metrics and backlink profiles</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code>from backlinkprocessor import BacklinkProcessor
+import networkx as nx
+
+def seo_analysis(target_url):
+    processor = BacklinkProcessor(delay=1.0)
+
+    # Discover backlinks
+    processor.crawl_backlinks([target_url], max_depth=2)
+
+    # Build link graph
+    processor.build_link_graph()
+
+    # Calculate SEO metrics
+    pagerank_scores = processor.calculate_pagerank()
+    processor.calculate_domain_authority()
+
+    # Detect spam links
+    spam_links = processor.detect_link_spam()
+
+    # Generate comprehensive report
+    report = processor.generate_backlink_report(target_url)
+
+    print("SEO Analysis Results:")
+    print(f"  Total backlinks: {report['total_backlinks']}")
+    print(f"  Unique domains: {report['unique_referring_domains']}")
+    print(f"  Domain authority: {report['domain_authority']:.1f}")
+    print(f"  Spam links detected: {len(spam_links)}")
+
+    return report
+
+# Analyze your website
+report = seo_analysis('https://yourwebsite.com')</code></pre>
+                    </div>
+                </div>
+
+                <!-- Tutorial 3: Scheduled Crawling -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-warning text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-clock text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">Automated Scheduled Crawling</h3>
+                            <p class="text-gray-600">Set up automated crawling with scheduling</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
+import schedule
+import time
+from datetime import datetime
+from crawler import EnhancedProductionCrawler
+
+def scheduled_crawl():
+    """Perform scheduled comprehensive crawl"""
+    print(f"🕷️ Starting scheduled crawl at {datetime.now()}")
+
+    config = {
+        'delay': 1.5,
+        'max_depth': 3,
+        'max_pages': 200,
+        'db_path': 'scheduled_crawler.db',
+        'analyze_backlinks': True,
+        'export_json': True
+    }
+
+    crawler = EnhancedProductionCrawler(config)
+    seed_urls = [
+        'https://example.com',
+        'https://python.org',
+        'https://github.com'
+    ]
+
+    try:
+        results = crawler.comprehensive_crawl(seed_urls)
+        print(f"✅ Crawl completed: {results['pages_crawled']} pages")
+    except Exception as e:
+        print(f"❌ Crawl failed: {e}")
+
+def main():
+    """Main scheduler function"""
+    print("🚀 Starting RatCrawler Scheduler")
+
+    # Schedule daily crawl at 2 AM
+    schedule.every().day.at("02:00").do(scheduled_crawl)
+
+    # Schedule weekly comprehensive analysis on Sundays
+    schedule.every().sunday.at("03:00").do(lambda: print("📊 Weekly analysis would run here"))
+
+    print("⏰ Scheduler active. Waiting for scheduled tasks...")
+    print("Press Ctrl+C to stop")
+
+    try:
+        while True:
+            schedule.run_pending()
+            time.sleep(60)  # Check every minute
+    except KeyboardInterrupt:
+        print("\n🛑 Scheduler stopped by user")
+
+if __name__ == "__main__":
+    main()</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">💼 Real-World Use Cases</h2>
+                <p class="text-gray-600">Practical applications of RatCrawler</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Use Case 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-search text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">SEO Monitoring</h3>
+                    <p class="text-gray-600 mb-4">
+                        Monitor website SEO metrics, track backlinks, and analyze competitor strategies.
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Track PageRank changes</li>
+                        <li>• Monitor domain authority</li>
+                        <li>• Analyze competitor backlinks</li>
+                        <li>• Detect new linking domains</li>
+                    </ul>
+                </div>
+
+                <!-- Use Case 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-newspaper text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Content Aggregation</h3>
+                    <p class="text-gray-600 mb-4">
+                        Collect and analyze content from news sites, blogs, and industry publications.
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Automated content discovery</li>
+                        <li>• News trend analysis</li>
+                        <li>• Content quality assessment</li>
+                        <li>• Topic clustering</li>
+                    </ul>
+                </div>
+
+                <!-- Use Case 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-chart-bar text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Market Research</h3>
+                    <p class="text-gray-600 mb-4">
+                        Research market trends, competitor analysis, and industry insights.
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Competitor website analysis</li>
+                        <li>• Industry trend monitoring</li>
+                        <li>• Product feature tracking</li>
+                        <li>• Pricing strategy analysis</li>
+                    </ul>
+                </div>
+
+                <!-- Use Case 4 -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-shield-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Security Research</h3>
+                    <p class="text-gray-600 mb-4">
+                        Identify security vulnerabilities and monitor for malicious content.
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Malware detection</li>
+                        <li>• Phishing site identification</li>
+                        <li>• Security vulnerability scanning</li>
+                        <li>• Dark web monitoring</li>
+                    </ul>
+                </div>
+
+                <!-- Use Case 5 -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-graduation-cap text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Academic Research</h3>
+                    <p class="text-gray-600 mb-4">
+                        Collect data for academic studies, web science research, and network analysis.
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Web graph analysis</li>
+                        <li>• Link network studies</li>
+                        <li>• Content analysis research</li>
+                        <li>• Digital humanities projects</li>
+                    </ul>
+                </div>
+
+                <!-- Use Case 6 -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-robot text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">AI Training Data</h3>
+                    <p class="text-gray-600 mb-4">
+                        Collect diverse web content for training machine learning models.
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>• Text corpus collection</li>
+                        <li>• Multi-domain datasets</li>
+                        <li>• Language model training</li>
+                        <li>• Content classification data</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Section -->
+    <section id="advanced" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">🔬 Advanced Examples</h2>
+                <p class="text-gray-600">Complex implementations and custom integrations</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Custom Crawler -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-primary mb-6">Custom Crawler with ML Analysis</h3>
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code>import torch
+import transformers
+from crawler import EnhancedProductionCrawler
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+class MLAnalysisCrawler(EnhancedProductionCrawler):
+    def __init__(self, config):
+        super().__init__(config)
+        self.vectorizer = TfidfVectorizer(max_features=1000)
+        self.sentiment_analyzer = transformers.pipeline('sentiment-analysis')
+
+    def analyze_content_quality(self, page_data):
+        """Analyze content using ML models"""
+        if not page_data.get('content_text'):
+            return {}
+
+        # TF-IDF analysis
+        tfidf_matrix = self.vectorizer.fit_transform([page_data['content_text']])
+        content_score = tfidf_matrix.sum() / len(page_data['content_text'].split())
+
+        # Sentiment analysis
+        sentiment = self.sentiment_analyzer(page_data['content_text'][:512])[0]
+
+        # Readability metrics
+        sentences = len(page_data['content_text'].split('.'))
+        words = len(page_data['content_text'].split())
+        avg_sentence_length = words / sentences if sentences > 0 else 0
+
+        return {
+            'content_score': float(content_score),
+            'sentiment': sentiment['label'],
+            'sentiment_confidence': sentiment['score'],
+            'avg_sentence_length': avg_sentence_length,
+            'readability_score': 206.835 - 1.015 * (words/sentences) - 84.6 * (sentences/words)
+        }
+
+    def comprehensive_crawl_with_ml(self, seed_urls):
+        """Enhanced crawl with ML analysis"""
+        results = self.comprehensive_crawl(seed_urls)
+
+        # Add ML analysis to each page
+        for page in results.get('sample_pages', []):
+            page_data = self.database.get_page_content(page['url'])
+            if page_data:
+                ml_analysis = self.analyze_content_quality(page_data)
+                page.update(ml_analysis)
+
+        return results
+
+# Usage
+config = {
+    'delay': 1.0,
+    'max_pages': 50,
+    'db_path': 'ml_crawler.db'
+}
+
+ml_crawler = MLAnalysisCrawler(config)
+results = ml_crawler.comprehensive_crawl_with_ml(['https://example.com'])</code></pre>
+                    </div>
+                </div>
+
+                <!-- Distributed Crawling -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-primary mb-6">Distributed Crawling Setup</h3>
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code>#!/usr/bin/env python3
+import multiprocessing as mp
+import queue
+import time
+from crawler import EnhancedProductionCrawler
+
+class DistributedCrawler:
+    def __init__(self, num_workers=4):
+        self.num_workers = num_workers
+        self.url_queue = mp.Queue()
+        self.result_queue = mp.Queue()
+        self.workers = []
+
+    def worker_process(self, worker_id, config):
+        """Individual crawler worker"""
+        crawler = EnhancedProductionCrawler(config)
+
+        while True:
+            try:
+                url = self.url_queue.get(timeout=5)
+                print(f"Worker {worker_id}: Processing {url}")
+
+                # Crawl single page
+                page_data = crawler.crawl_page_content(url)
+                if page_data:
+                    self.result_queue.put(page_data)
+
+            except queue.Empty:
+                break
+            except Exception as e:
+                print(f"Worker {worker_id} error: {e}")
+
+    def distribute_crawl(self, urls, config):
+        """Distribute crawling across multiple processes"""
+        # Start worker processes
+        for i in range(self.num_workers):
+            worker_config = config.copy()
+            worker_config['db_path'] = f'worker_{i}.db'
+
+            p = mp.Process(target=self.worker_process, args=(i, worker_config))
+            p.start()
+            self.workers.append(p)
+
+        # Add URLs to queue
+        for url in urls:
+            self.url_queue.put(url)
+
+        # Collect results
+        results = []
+        for _ in range(len(urls)):
+            try:
+                result = self.result_queue.get(timeout=30)
+                results.append(result)
+            except queue.Empty:
+                break
+
+        # Stop workers
+        for p in self.workers:
+            p.terminate()
+            p.join()
+
+        return results
+
+# Usage
+config = {
+    'delay': 1.0,
+    'max_depth': 1,  # Single page per worker
+    'stay_on_domain': True
+}
+
+distributed_crawler = DistributedCrawler(num_workers=4)
+urls = [f'https://example.com/page{i}' for i in range(20)]
+
+results = distributed_crawler.distribute_crawl(urls, config)
+print(f"Distributed crawl completed: {len(results)} pages")</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300">
+                © 2025 RatCrawler Examples & Tutorials.
+                <a href="index.html" class="text-accent hover:text-blue-300">← Back to Home</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

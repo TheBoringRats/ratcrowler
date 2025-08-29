@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RatCrawler Contributing Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1f2937',
+                        secondary: '#374151',
+                        accent: '#3b82f6',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        danger: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-spider text-2xl text-accent mr-2"></i>
+                        <span class="font-bold text-xl text-primary">RatCrawler</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-accent transition-colors">Home</a>
+                    <a href="#getting-started" class="text-gray-700 hover:text-accent transition-colors">Getting Started</a>
+                    <a href="#development" class="text-gray-700 hover:text-accent transition-colors">Development</a>
+                    <a href="#contributing" class="text-gray-700 hover:text-accent transition-colors">Contributing</a>
+                    <a href="#guidelines" class="text-gray-700 hover:text-accent transition-colors">Guidelines</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-gradient-to-br from-primary to-secondary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold mb-4">🤝 Contributing to RatCrawler</h1>
+            <p class="text-xl text-gray-300">Help us improve RatCrawler and make it even better</p>
+        </div>
+    </section>
+
+    <!-- Getting Started -->
+    <section id="getting-started" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">🚀 Getting Started</h2>
+                <p class="text-gray-600">First steps to contribute to RatCrawler</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Fork and Clone -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">1. Fork & Clone</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-2">Fork the Repository</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+# Click the "Fork" button on GitHub<br>
+# This creates your own copy of the repository
+                                </code>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-2">Clone Your Fork</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+git clone https://github.com/yourusername/ratcrawler.git<br>
+cd ratcrawler
+                                </code>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-2">Set Up Upstream</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+git remote add upstream https://github.com/TheBoringRats/ratcrawler.git<br>
+git fetch upstream
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Development Setup -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">2. Development Setup</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-2">Python Setup</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+# Install Python dependencies<br>
+pip install -r requirements.txt<br><br>
+# Install development dependencies<br>
+pip install pytest black flake8 mypy
+                                </code>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-2">Rust Setup</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+# Install Rust (if not already installed)<br>
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh<br><br>
+# Build the project<br>
+cd rust_version<br>
+cargo build
+                                </code>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-2">Verify Setup</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+# Test Python installation<br>
+python3 main.py --help<br><br>
+# Test Rust installation<br>
+cargo test
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Workflow -->
+    <section id="development" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">🔄 Development Workflow</h2>
+                <p class="text-gray-600">How to work on RatCrawler features and fixes</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Create Feature Branch -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-accent text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-code-branch text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">Create Feature Branch</h3>
+                            <p class="text-gray-600">Always work on a separate branch for your changes</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code># Create and switch to a new branch
+git checkout -b feature/your-feature-name
+
+# Or for bug fixes
+git checkout -b fix/issue-description
+
+# Or for documentation
+git checkout -b docs/update-readme
+
+# Example branches:
+# feature/add-google-trends-integration
+# fix/crawler-timeout-issue
+# docs/add-api-examples
+# refactor/improve-error-handling</code></pre>
+                    </div>
+                </div>
+
+                <!-- Make Changes -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-success text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-edit text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">Make Your Changes</h3>
+                            <p class="text-gray-600">Implement your feature or fix</p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">Code Standards</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li>• Follow PEP 8 for Python code</li>
+                                <li>• Use rustfmt for Rust code</li>
+                                <li>• Write clear, descriptive commit messages</li>
+                                <li>• Add comments for complex logic</li>
+                                <li>• Keep functions focused and small</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-primary mb-3">Testing</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li>• Write unit tests for new features</li>
+                                <li>• Test edge cases and error conditions</li>
+                                <li>• Ensure existing tests still pass</li>
+                                <li>• Test both Python and Rust versions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commit and Push -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-warning text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-upload text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">Commit & Push Changes</h3>
+                            <p class="text-gray-600">Save your work and push to your fork</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code># Check what files you've changed
+git status
+
+# Add your changes
+git add .
+
+# Or add specific files
+git add filename.py
+git add src/new_module.rs
+
+# Commit with a descriptive message
+git commit -m "feat: add Google Trends integration
+
+- Add GoogleTrends class for trend analysis
+- Implement trend data fetching
+- Add trend visualization
+- Update documentation
+
+Closes #123"
+
+# Push to your fork
+git push origin feature/your-feature-name</code></pre>
+                    </div>
+                </div>
+
+                <!-- Create Pull Request -->
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-danger text-white p-3 rounded-lg mr-4">
+                            <i class="fas fa-code-pull-request text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-primary">Create Pull Request</h3>
+                            <p class="text-gray-600">Submit your changes for review</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-6 rounded-lg">
+                        <pre class="text-sm text-gray-800"><code>1. Go to your fork on GitHub
+2. Click "Compare & pull request"
+3. Fill out the pull request template:
+   - Title: Brief description of changes
+   - Description: Detailed explanation
+   - Link any related issues
+4. Click "Create pull request"
+
+Pull Request Template:
+```
+## Description
+Brief description of what this PR does.
+
+## Changes Made
+- Change 1
+- Change 2
+- Change 3
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+## Screenshots (if applicable)
+Add screenshots of new features or UI changes.
+
+Fixes #123
+```</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contributing Guidelines -->
+    <section id="contributing" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">📋 Contributing Guidelines</h2>
+                <p class="text-gray-600">Rules and best practices for contributions</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Code Style -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">🎨 Code Style</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-2">Python</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Follow PEP 8 style guide</li>
+                                <li>• Use type hints for function parameters</li>
+                                <li>• Maximum line length: 88 characters</li>
+                                <li>• Use docstrings for all public functions</li>
+                                <li>• Use snake_case for variables and functions</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-accent">
+                            <h4 class="font-bold text-primary mb-2">Rust</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• Use rustfmt for code formatting</li>
+                                <li>• Follow Rust naming conventions</li>
+                                <li>• Add documentation comments for public APIs</li>
+                                <li>• Handle errors properly with Result types</li>
+                                <li>• Write comprehensive unit tests</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commit Messages -->
+                <div class="bg-gray-50 p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold text-primary mb-6">📝 Commit Messages</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-2">Format</h4>
+                            <div class="bg-gray-100 p-3 rounded">
+                                <code class="text-sm text-gray-800">
+type(scope): description
+
+[optional body]
+
+[optional footer]
+                                </code>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-2">Types</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li><strong>feat:</strong> New feature</li>
+                                <li><strong>fix:</strong> Bug fix</li>
+                                <li><strong>docs:</strong> Documentation</li>
+                                <li><strong>style:</strong> Code style changes</li>
+                                <li><strong>refactor:</strong> Code refactoring</li>
+                                <li><strong>test:</strong> Adding tests</li>
+                                <li><strong>chore:</strong> Maintenance</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-success">
+                            <h4 class="font-bold text-primary mb-2">Examples</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li><code>feat: add backlink analysis</code></li>
+                                <li><code>fix: handle timeout errors</code></li>
+                                <li><code>docs: update API documentation</code></li>
+                                <li><code>test: add crawler unit tests</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testing Guidelines -->
+            <div class="mt-12 bg-gray-50 p-8 rounded-lg">
+                <h3 class="text-2xl font-bold text-primary mb-6">🧪 Testing Guidelines</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-primary mb-3">Python Testing</h4>
+                        <div class="bg-white p-4 rounded-lg">
+                            <pre class="text-sm text-gray-800"><code># Run all tests
+pytest
+
+# Run specific test file
+pytest test_crawler.py
+
+# Run with coverage
+pytest --cov=ratcrawler
+
+# Run tests in verbose mode
+pytest -v
+
+# Run specific test function
+pytest test_crawler.py::test_basic_crawl</code></pre>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-primary mb-3">Rust Testing</h4>
+                        <div class="bg-white p-4 rounded-lg">
+                            <pre class="text-sm text-gray-800"><code># Run all tests
+cargo test
+
+# Run specific test
+cargo test test_crawler
+
+# Run with verbose output
+cargo test -- --nocapture
+
+# Run benchmarks
+cargo bench
+
+# Run tests in release mode
+cargo test --release</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guidelines -->
+    <section id="guidelines" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4">📚 Guidelines</h2>
+                <p class="text-gray-600">Important guidelines for contributors</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Issue Reporting -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-bug text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Issue Reporting</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Use issue templates when available</li>
+                        <li>• Provide clear reproduction steps</li>
+                        <li>• Include error messages and logs</li>
+                        <li>• Specify your environment (OS, Python/Rust version)</li>
+                        <li>• Check for existing issues first</li>
+                    </ul>
+                </div>
+
+                <!-- Feature Requests -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-lightbulb text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Feature Requests</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Clearly describe the feature</li>
+                        <li>• Explain the use case and benefits</li>
+                        <li>• Consider backward compatibility</li>
+                        <li>• Provide mockups if applicable</li>
+                        <li>• Discuss implementation approach</li>
+                    </ul>
+                </div>
+
+                <!-- Code Review -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-eye text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Code Review</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Review code for functionality</li>
+                        <li>• Check code style and conventions</li>
+                        <li>• Verify tests are included</li>
+                        <li>• Ensure documentation is updated</li>
+                        <li>• Test the changes locally</li>
+                    </ul>
+                </div>
+
+                <!-- Documentation -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-book text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Documentation</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Update README for new features</li>
+                        <li>• Add docstrings to new functions</li>
+                        <li>• Update API documentation</li>
+                        <li>• Include code examples</li>
+                        <li>• Document configuration options</li>
+                    </ul>
+                </div>
+
+                <!-- Security -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-shield-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Security</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Never commit sensitive data</li>
+                        <li>• Use environment variables for secrets</li>
+                        <li>• Validate all inputs</li>
+                        <li>• Follow secure coding practices</li>
+                        <li>• Report security issues privately</li>
+                    </ul>
+                </div>
+
+                <!-- Community -->
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-accent mb-4">
+                        <i class="fas fa-users text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-3">Community</h3>
+                    <ul class="text-sm text-gray-600 space-y-2">
+                        <li>• Be respectful and inclusive</li>
+                        <li>• Help other contributors</li>
+                        <li>• Participate in discussions</li>
+                        <li>• Share your knowledge</li>
+                        <li>• Celebrate successes together</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Getting Help -->
+            <div class="mt-12 bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-bold text-primary mb-6">🆘 Getting Help</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-bold text-primary mb-3">Where to Ask Questions</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• <strong>GitHub Issues:</strong> For bugs and feature requests</li>
+                            <li>• <strong>GitHub Discussions:</strong> For general questions</li>
+                            <li>• <strong>Documentation:</strong> Check the docs first</li>
+                            <li>• <strong>Existing Issues:</strong> Search before creating new ones</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-primary mb-3">What to Include</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• Clear description of the problem</li>
+                            <li>• Steps to reproduce (if applicable)</li>
+                            <li>• Expected vs actual behavior</li>
+                            <li>• Your environment (OS, versions)</li>
+                            <li>• Error messages and stack traces</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-300 mb-4">
+                Thank you for contributing to RatCrawler! 🎉
+            </p>
+            <p class="text-gray-300">
+                © 2025 RatCrawler Contributing Guide.
+                <a href="index.html" class="text-accent hover:text-blue-300">← Back to Home</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
