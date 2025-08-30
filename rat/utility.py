@@ -3,8 +3,11 @@ Turso Database Rotation Utility
 Integrate this into your crawler to automatically rotate between databases
 """
 
-from rat.turso_monitoring_dashboard import TursoMonitor
+from rat.dashboard import TursoMonitor
 import time
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
+from typing import Optional, Dict
 
 
 class DatabaseRotator:
@@ -13,6 +16,8 @@ class DatabaseRotator:
     def __init__(self):
         self.monitor = TursoMonitor()
         self.current_db = None
+        # Cache SQLAlchemy engines by db name
+        self._engine_cache: Dict[str, Engine] = {}
 
     def get_next_available_database(self) -> str:
         """Get the next available database for writing"""
@@ -22,6 +27,43 @@ class DatabaseRotator:
             return available_db
         else:
             raise Exception("No available databases with capacity")
+
+    def get_engine_for_db(self, db_name: str) -> Optional[Engine]:
+        """Return a SQLAlchemy Engine for the given database name (caches engines).
+
+        Uses the monitor's stored URL and auth token to construct a SQLite SQLAlchemy URL
+        if the monitored config contains a Turso URL. Returns None if config missing.
+        """
+        if db_name in self._engine_cache:
+            return self._engine_cache[db_name]
+
+        dbs = self.monitor.get_all_databases()
+        cfg = next((d for d in dbs if d['name'] == db_name), None)
+        if not cfg:
+            return None
+
+        url = cfg.get('url')
+        auth = cfg.get('auth_token')
+
+        if not url:
+            return None
+
+        # Build SQLite SQLAlchemy URL for Turso: sqlite+<url>?secure=true
+        if auth:
+            db_url = f"sqlite+{url}?secure=true"
+        else:
+            db_url = f"sqlite+{url}"
+
+        try:
+            connect_args = {}
+            if auth:
+                connect_args = {"auth_token": auth}
+            engine = create_engine(db_url, future=True, connect_args=connect_args)
+            self._engine_cache[db_name] = engine
+            return engine
+        except Exception as e:
+            print(f"❌ Failed to create engine for {db_name}: {e}")
+            return None
 
     def record_write_operation(self, db_name: str, write_count: int = 1):
         """Record write operations for tracking monthly limits"""
@@ -64,6 +106,20 @@ def get_current_database():
         return rotator.current_db
     else:
         return rotator.get_next_available_database()
+
+
+def get_current_engine() -> Optional[Engine]:
+    """Return a SQLAlchemy Engine for the current database (or None)."""
+    db_name = None
+    try:
+        db_name = get_current_database()
+    except Exception:
+        return None
+
+    if not db_name:
+        return None
+
+    return rotator.get_engine_for_db(db_name)
 
 
 def record_writes(db_name: str, count: int = 1):

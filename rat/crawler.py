@@ -17,7 +17,7 @@ from bs4 import XMLParsedAsHTMLWarning
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from rat.backlinkprocessor import BacklinkProcessor, BacklinkData
-from rat.crawlerdb import WebsiteCrawlerDatabase
+from rat.sqlalchemy_database import SQLAlchemyDatabase
 
 class EnhancedProductionCrawler:
     """
@@ -31,7 +31,7 @@ class EnhancedProductionCrawler:
     def __init__(self, config: Dict):
         """Initialize the enhanced crawler."""
         self.config = config
-        self.database = WebsiteCrawlerDatabase(config.get('db_path', 'website_crawler.db'))
+        self.database = SQLAlchemyDatabase()
         self.backlink_processor = BacklinkProcessor(
             delay=config.get('delay', 1),
             usedatabase=False  # We'll handle database ourselves

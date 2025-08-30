@@ -492,7 +492,7 @@ import json
 import os
 from datetime import datetime, timedelta
 from flask import Flask, render_template, jsonify, request
-from rat.turso_connection import get_turso_manager, DatabaseUsage
+from rat.connection import get_turso_manager, DatabaseUsage
 import threading
 import time
 

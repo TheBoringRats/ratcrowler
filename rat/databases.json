@@ -1,0 +1,55 @@
+{
+  "databases": [
+    {
+      "name": "db1backlink",
+      "url": "libsql://db1backlink-darkbarryx.aws-ap-south-1.turso.io",
+      "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTY0NjE3NjUsImlkIjoiMWJlZDc4OWItYTRhNS00ZGJmLWE2NDAtZmI1MjdiNjJhYTkzIiwicmlkIjoiNWViOTQ0ZDQtMTFlMC00MTIxLWI4MzctZDZmNWYzNDU1NDhjIn0.utTrVzTy7APrVSxHGE4aK-Ttx6sXaBPM2w3BFHjaFL6KlqI476C6vON1Gl4_svvFGxeL3sCKqyv-Hl9b4b6bAw",
+      "apikey": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJDYm9NeFlVR0VmQ2xTUzdqY3NHT1hBIn0.truU7n1TZNQfSPvj7Nwu8MUqOwNjq-Ug16L2uLV-Iwv7GppaUyPF5IlOZC8WZW-JTll8cTlSXTOmPbKj0sATCw",
+      "organization": "darkbarryx",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0,
+      "cat": 1
+    },
+    {
+      "name": "db2backlink",
+      "url": "libsql://db2backlink-cenajbiswas.aws-ap-south-1.turso.io",
+      "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTY0NjE5MDIsImlkIjoiYjZlYWJmZTEtNTkzZS00ZDBhLWFiYWQtNDIwMTA0MDAxZTkyIiwicmlkIjoiZjFiMDkxNWUtMWNmMC00ZjY4LWI3ODQtM2RlYWFlYTFmZjZkIn0.SKhEZ5jDRHm6gdvr9g15lediKzKTW9-d5ouceo2gejYa-B--DNyAJFXO2xy_JE1QYXNpLgUxbke9I_ZnPUhsCQ",
+      "apikey": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJQaU5LUllVSEVmQ2xTUzdqY3NHT1hBIn0.jyERbsBs2XZHYE8ei_MFjkBgni5nMVmcb80bsIUBvNZV4m3I6gBG7G_ISQY4JJbrl0DoBuftk-LtXslXIwQODQ",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0,
+      "organization": "cenajbiswas",
+      "cat": 1
+    },
+
+    {
+      "name": "websitecrawler",
+      "url": "libsql://websitecrawler-coronavirusx.aws-ap-south-1.turso.io",
+      "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTY0ODIyNzAsImlkIjoiOTNhNzBmNTItNjA1ZC00NzQ2LTliN2YtMmU1NDNmMGQ5MzBiIiwicmlkIjoiY2I5OWM0ZDYtYzBhZi00ZGNmLTk4ZGItODQ5MDE3YWI3YjY4In0.0bZ_sZFxssmr5GXlHGqzMetzd5cw7XleiqPCg45Fw1PzCNsflK0j4XFKHv5O03CE0JmATD8aZQisbZ2dpPyxBg",
+      "apikey": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJHbWtzNm9VSEVmQ2xTUzdqY3NHT1hBIn0.LExCPxgysyFcRwSS8IejnbbJd51KLMEgYWaz_vhb_aN9VskKI669nHBfYqB7VBCzEEkYxm52RJ0fWa_lu9AwDw",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0,
+      "organization": "coronavirusx",
+      "cat": 2
+    },
+    {
+      "name": "websitecrawler1",
+      "url": "libsql://websitecrawler1-cortexsdv.aws-ap-south-1.turso.io",
+      "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTY0ODM0NzEsImlkIjoiNDZjYjNkZDQtODlkYi00Zjg5LWFmYmMtMTRkYzQ0M2Q2Yjc0IiwicmlkIjoiNmYyOWM1ZTYtN2RiYy00ZTQ3LWJjYTktODQ4MTI5N2QwYWFhIn0.C4tEGTS_Qkguqdn5XC2k9OZVnais8knSlTLuWl6akgo3cKY0FICmjMTt_Aa1gmzvgWAUfZ0zXzs3aA7PdBKcAw",
+      "apikey": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0SzVMYklVRkVmQ2xTUzdqY3NHT1hBIn0.5iSUr3uhX8BKY99jXLmI2xJK-hXPWgrA5l4Jc-zEcVNXNMxOnOTzfQPj2YclYjH3LaflDqRGCAQsQi0aAqhpBg",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0,
+      "organization": "cortexsdv",
+      "cat": 2
+    },
+    {
+      "name": "websitecrawler2",
+      "url": "libsql://websitecrawler2-dexbongzx.aws-ap-south-1.turso.io",
+      "auth_token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTY0ODM5MjQsImlkIjoiYjYyYmMzZWQtZDk4MS00MDE4LThjYzctNGE4YjJmYjZmMmY1IiwicmlkIjoiYjVmNGE4Y2ItMmVlYy00YmY1LWIxM2EtN2M2Y2JkZGQ3YmZjIn0.cPLX6byVlaRmImCd1cR7KlR0zg-PJvIAXqNawY5uTqUIljiLXdg_x4baPQnCuO4Qk77i52yiSpUyAQYUmtxZBA",
+      "apikey": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhT1l1ZTRVRkVmQzZfWWJudkJZT1VRIn0.WT8fciIKwAD3krWUaKQSGjHtx9ftWcU5jYJPrELdNITTGhqLS_nWxly69qj5ruqE-a7rLtB_m-NoSy6wh9W6CQ",
+      "monthly_write_limit": 10000000,
+      "storage_quota_gb": 5.0,
+      "organization": "dexbongzx",
+      "cat": 2
+    }
+  ]
+}

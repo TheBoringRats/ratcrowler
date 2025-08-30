@@ -9,8 +9,7 @@ from typing import List, Dict, Set
 from urllib.parse import urlparse
 from rat.backlinkprocessor import BacklinkProcessor, BacklinkData
 from rat.crawler import EnhancedProductionCrawler
-from rat.crawlerdb import WebsiteCrawlerDatabase
-from rat.backlinkdb import BacklinkDatabase
+from rat.sqlalchemy_database import SQLAlchemyDatabase
 
 class IntegratedBacklinkContentCrawler:
     """
@@ -27,11 +26,13 @@ class IntegratedBacklinkContentCrawler:
         self.delay = config.get('delay', 1.0)
         self.timeout = config.get('timeout', 10)
         self.db_path = config.get('db_path', 'website_crawler.db')
-
-        # Initialize components
+        # Initialize components (use SQLAlchemy-based database handler)
         self.backlink_processor = BacklinkProcessor(delay=self.delay, usedatabase=True)
-        self.website_db = WebsiteCrawlerDatabase(self.db_path)
-        self.backlink_db = BacklinkDatabase()
+
+        # Use a shared SQLAlchemy database instance for both website and backlink storage
+        # If you want to pass a specific URL, set db_url in config and pass it here
+        self.website_db = SQLAlchemyDatabase(db_url=None)
+        self.backlink_db = self.website_db
 
         # Initialize content crawler
         crawler_config = {

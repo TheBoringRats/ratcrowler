@@ -8,7 +8,7 @@ import re
 from dataclasses import dataclass
 from typing import List, Dict, Set, Tuple,Any
 import hashlib
-from rat.backlinkdb import BacklinkDatabase
+from rat.sqlalchemy_database import SQLAlchemyDatabase
 
 @dataclass
 class BacklinkData:
@@ -31,7 +31,7 @@ class BacklinkProcessor:
         self.link_graph = nx.DiGraph()
         self.domain_scores = {}
         if usedatabase:
-            self.database = BacklinkDatabase()
+            self.database = SQLAlchemyDatabase()
         else:
             self.database = None
 
