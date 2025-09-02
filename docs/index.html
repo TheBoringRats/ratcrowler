@@ -3,8 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RatCrawler - Advanced Web Crawling & Analysis System</title>
+    <title>
+      RatCrawler - Advanced Web Crawling & Multi-Source Trending Analysis
+      Platform
+    </title>
+    <meta
+      name="description"
+      content="Professional web crawling platform with AI integration, real-time analytics, and multi-source trending analysis. Features batch processing, PageRank calculation, and comprehensive monitoring."
+    />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -16,6 +24,11 @@
               success: "#10b981",
               warning: "#f59e0b",
               danger: "#ef4444",
+              spider: "#8b5cf6",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
             },
           },
         },
@@ -23,51 +36,219 @@
     </script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <style>
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 20px rgba(59, 130, 246, 0.8),
+            0 0 30px rgba(59, 130, 246, 0.6);
+        }
+      }
+
+      .workflow-icon {
+        animation: pulse-glow 2s ease-in-out infinite;
+        transition: all 0.3s ease;
+      }
+
+      .workflow-step:hover .workflow-icon {
+        transform: scale(1.1);
+      }
+
+      .data-flow {
+        z-index: 10;
+        position: relative;
+      }
+
+      .animated-crawl {
+        animation: none; /* Will be controlled by Anime.js */
+      }
+
+      /* Architecture Diagram Styles */
+      .arch-node {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 10;
+        transform: scale(1);
+        cursor: pointer;
+      }
+
+      .arch-node:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      .flow-line {
+        transition: opacity 0.5s ease;
+      }
+
+      @keyframes pulse-node {
+        0%,
+        100% {
+          box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        50% {
+          box-shadow: 0 4px 25px rgba(59, 130, 246, 0.6);
+        }
+      }
+
+      .arch-node.active {
+        animation: pulse-node 2s ease-in-out infinite;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .feature-card {
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      .code-block {
+        background: #1e293b;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      /* Enhanced Workflow Styles */
+      .workflow-phase {
+        transition: all 0.6s ease;
+      }
+
+      .workflow-phase:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
+
+      .data-particle {
+        transition: all 0.3s ease;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+      }
+
+      @keyframes flow-glow {
+        0%,
+        100% {
+          box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+        }
+      }
+
+      .data-particle.active {
+        animation: flow-glow 1.5s ease-in-out infinite;
+      }
+
+      .workflow-connection {
+        position: absolute;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(59, 130, 246, 0.5),
+          transparent
+        );
+        top: 50%;
+        transform: translateY(-1px);
+      }
+
+      @keyframes pulse-connection {
+        0% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      .workflow-connection.active {
+        animation: pulse-connection 2s ease-in-out infinite;
+      }
+    </style>
   </head>
   <body class="bg-gray-50 text-gray-900">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
             <div class="flex-shrink-0 flex items-center">
-              <i class="fas fa-spider text-2xl text-accent mr-2"></i>
-              <span class="font-bold text-xl text-primary">RatCrawler</span>
+              <i
+                class="fas fa-spider text-3xl text-spider mr-3 animate-pulse-slow"
+              ></i>
+              <span class="font-bold text-2xl text-primary">RatCrawler</span>
+              <span
+                class="ml-2 px-2 py-1 bg-spider/10 text-spider text-xs rounded-full font-semibold"
+                >v2.0</span
+              >
             </div>
           </div>
           <div class="hidden md:flex items-center space-x-8">
             <a
+              href="#quick-start"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
+              >Quick Start</a
+            >
+            <a
               href="#overview"
-              class="text-gray-700 hover:text-accent transition-colors"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
               >Overview</a
             >
             <a
-              href="#features"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >Features</a
-            >
-            <a
               href="#architecture"
-              class="text-gray-700 hover:text-accent transition-colors"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
               >Architecture</a
             >
             <a
-              href="#installation"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >Installation</a
+              href="#features"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
+              >Features</a
             >
             <a
-              href="#usage"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >Usage</a
+              href="api.html"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
+              >API Docs</a
             >
             <a
-              href="#api"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >API</a
+              href="config.html"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
+              >Configuration</a
             >
+            <a
+              href="examples.html"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
+              >Examples</a
+            >
+            <a
+              href="contributing.html"
+              class="text-gray-700 hover:text-accent transition-colors font-medium"
+              >Contributing</a
+            >
+            <a
+              href="https://github.com/swadhinbiswas/ratcrowler"
+              class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors"
+            >
+              <i class="fab fa-github mr-2"></i>GitHub
+            </a>
           </div>
         </div>
       </div>
@@ -77,41 +258,701 @@
     <section
       class="bg-gradient-to-br from-primary to-secondary text-white py-20"
     >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div class="mb-8">
-          <i class="fas fa-spider text-6xl text-accent mb-4"></i>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <div class="animate-float mb-8">
+            <i class="fas fa-spider text-8xl text-blue-400"></i>
+          </div>
+
+          <h1 class="text-5xl md:text-7xl font-bold mb-6">
+            <span
+              class="bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+            >
+              RatCrawler
+            </span>
+          </h1>
+          <p class="text-xl md:text-2xl mb-8 text-white/90 max-w-4xl mx-auto">
+            Advanced Web Crawling & Multi-Source Trending Analysis Platform
+          </p>
+          <p class="text-lg mb-8 text-white/80 max-w-3xl mx-auto">
+            Intelligent batch processing • Real-time analytics •
+            Professional-grade backlink analysis • AI-powered content
+            intelligence
+          </p>
+
+          <!-- Tech Badges -->
+          <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <span class="bg-accent px-4 py-2 rounded-full text-sm font-medium"
+              >Python 3.8+</span
+            >
+            <span
+              class="bg-orange-500 px-4 py-2 rounded-full text-sm font-medium"
+              >Rust 1.70+</span
+            >
+            <span
+              class="bg-green-500 px-4 py-2 rounded-full text-sm font-medium"
+              >SQLite Database</span
+            >
+            <span
+              class="bg-purple-500 px-4 py-2 rounded-full text-sm font-medium"
+              >MIT License</span
+            >
+          </div>
+
+          <div
+            class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+          >
+            <a
+              href="#quick-start"
+              class="bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i>
+              Get Started
+            </a>
+            <a
+              href="https://github.com/swadhinbiswas/ratcrowler"
+              class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-primary transition-colors flex items-center"
+            >
+              <i class="fab fa-github mr-2"></i>
+              View on GitHub
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+            <div class="text-center">
+              <div class="text-3xl font-bold text-white">Smart</div>
+              <div class="text-white/80">Batch Processing</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-white">Multi-Source</div>
+              <div class="text-white/80">Analytics</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-white">Cloud</div>
+              <div class="text-white/80">Database</div>
+            </div>
+            <div class="text-center">
+              <div class="text-3xl font-bold text-white">Real-time</div>
+              <div class="text-white/80">Monitoring</div>
+            </div>
+          </div>
         </div>
-        <h1 class="text-5xl font-bold mb-6">🕷️ RatCrawler</h1>
-        <p class="text-xl mb-8 text-gray-300">
-          A comprehensive web crawler and multi-source trending analysis system
-        </p>
-        <div class="flex flex-wrap justify-center gap-4 mb-8">
-          <span class="bg-accent px-4 py-2 rounded-full text-sm font-medium"
-            >Python 3.8+</span
-          >
-          <span class="bg-orange-500 px-4 py-2 rounded-full text-sm font-medium"
-            >Rust 1.70+</span
-          >
-          <span class="bg-green-500 px-4 py-2 rounded-full text-sm font-medium"
-            >SQLite Database</span
-          >
-          <span class="bg-purple-500 px-4 py-2 rounded-full text-sm font-medium"
-            >MIT License</span
-          >
+      </div>
+    </section>
+
+    <!-- Enhanced Workflow Section -->
+    <section
+      class="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 overflow-hidden"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl md:text-5xl font-bold text-primary mb-6">
+            🔄 Complete RatCrawler Data Flow
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            From seed URLs to intelligent insights - follow the complete journey
+            of data through our advanced crawling and analysis pipeline
+          </p>
         </div>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="#installation"
-            class="bg-accent hover:bg-blue-700 px-8 py-3 rounded-lg font-semibold transition-colors"
+
+        <!-- Enhanced Workflow Visualization -->
+        <div class="relative">
+          <!-- Workflow Steps Grid -->
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
           >
-            <i class="fas fa-download mr-2"></i>Get Started
-          </a>
-          <a
-            href="https://github.com/TheBoringRats/ratcrowler"
-            class="border-2 border-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg font-semibold transition-colors"
+            <!-- Phase 1: Seed URLs & Initial Crawl -->
+            <div class="workflow-phase opacity-0" id="phase1">
+              <div
+                class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-blue-200/50 hover:shadow-2xl transition-all duration-500 hover:scale-105"
+              >
+                <div class="text-center mb-6">
+                  <div
+                    class="bg-gradient-to-r from-blue-500 to-blue-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                  >
+                    <i class="fas fa-seedling text-white text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-primary mb-2">
+                    Phase 1: Seed URLs
+                  </h3>
+                  <p class="text-gray-600 text-sm">
+                    Initialize crawling process
+                  </p>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-link text-blue-500 mr-2"></i>
+                    Load seed URLs from JSON
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-spider text-blue-500 mr-2"></i>
+                    Start initial web crawling
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-database text-blue-500 mr-2"></i>
+                    Store URLs in database
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 2: Backlink Discovery -->
+            <div class="workflow-phase opacity-0" id="phase2">
+              <div
+                class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-green-200/50 hover:shadow-2xl transition-all duration-500 hover:scale-105"
+              >
+                <div class="text-center mb-6">
+                  <div
+                    class="bg-gradient-to-r from-green-500 to-green-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                  >
+                    <i class="fas fa-project-diagram text-white text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-primary mb-2">
+                    Phase 2: Backlink Crawl
+                  </h3>
+                  <p class="text-gray-600 text-sm">
+                    Discover link relationships
+                  </p>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-search text-green-500 mr-2"></i>
+                    Extract all outbound links
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-network-wired text-green-500 mr-2"></i>
+                    Build backlink network
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-save text-green-500 mr-2"></i>
+                    Store backlink data
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 3: Content Analysis -->
+            <div class="workflow-phase opacity-0" id="phase3">
+              <div
+                class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-purple-200/50 hover:shadow-2xl transition-all duration-500 hover:scale-105"
+              >
+                <div class="text-center mb-6">
+                  <div
+                    class="bg-gradient-to-r from-purple-500 to-purple-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                  >
+                    <i class="fas fa-brain text-white text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-primary mb-2">
+                    Phase 3: AI Analysis
+                  </h3>
+                  <p class="text-gray-600 text-sm">
+                    Extract intelligent insights
+                  </p>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-fire text-purple-500 mr-2"></i>
+                    Extract trending topics
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-chart-line text-purple-500 mr-2"></i>
+                    Calculate PageRank scores
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-shield-alt text-purple-500 mr-2"></i>
+                    Spam detection analysis
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 4: Database Storage -->
+            <div class="workflow-phase opacity-0" id="phase4">
+              <div
+                class="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-orange-200/50 hover:shadow-2xl transition-all duration-500 hover:scale-105"
+              >
+                <div class="text-center mb-6">
+                  <div
+                    class="bg-gradient-to-r from-orange-500 to-orange-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                  >
+                    <i class="fas fa-server text-white text-2xl"></i>
+                  </div>
+                  <h3 class="text-xl font-bold text-primary mb-2">
+                    Phase 4: Data Storage
+                  </h3>
+                  <p class="text-gray-600 text-sm">
+                    Persist & organize results
+                  </p>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-cloud text-orange-500 mr-2"></i>
+                    Store in Turso database
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-tags text-orange-500 mr-2"></i>
+                    Index trending data
+                  </div>
+                  <div class="flex items-center text-sm text-gray-700">
+                    <i class="fas fa-chart-bar text-orange-500 mr-2"></i>
+                    Generate analytics
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Animated Data Flow Visualization -->
+          <div
+            class="relative bg-white/60 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-gray-200/50"
           >
-            <i class="fab fa-github mr-2"></i>View on GitHub
-          </a>
+            <h3 class="text-2xl font-bold text-primary text-center mb-8">
+              Live Data Flow Animation
+            </h3>
+
+            <!-- Flow Container -->
+            <div class="relative h-32 overflow-hidden">
+              <!-- Flow Path -->
+              <div
+                class="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-green-200 via-purple-200 to-orange-200 rounded-full transform -translate-y-1/2"
+              ></div>
+
+              <!-- Flow Stations -->
+              <div class="absolute top-1/2 left-8 transform -translate-y-1/2">
+                <div
+                  class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <i class="fas fa-seedling text-white"></i>
+                </div>
+                <div
+                  class="text-xs text-center mt-2 font-semibold text-blue-600"
+                >
+                  Seeds
+                </div>
+              </div>
+
+              <div
+                class="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                <div
+                  class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <i class="fas fa-spider text-white"></i>
+                </div>
+                <div
+                  class="text-xs text-center mt-2 font-semibold text-green-600"
+                >
+                  Crawl
+                </div>
+              </div>
+
+              <div
+                class="absolute top-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                <div
+                  class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <i class="fas fa-brain text-white"></i>
+                </div>
+                <div
+                  class="text-xs text-center mt-2 font-semibold text-purple-600"
+                >
+                  Analyze
+                </div>
+              </div>
+
+              <div class="absolute top-1/2 right-8 transform -translate-y-1/2">
+                <div
+                  class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <i class="fas fa-database text-white"></i>
+                </div>
+                <div
+                  class="text-xs text-center mt-2 font-semibold text-orange-600"
+                >
+                  Store
+                </div>
+              </div>
+
+              <!-- Animated Data Particles -->
+              <div
+                class="data-particle absolute top-1/2 left-8 w-4 h-4 bg-blue-400 rounded-full transform -translate-y-1/2 opacity-0"
+                id="particle1"
+              ></div>
+              <div
+                class="data-particle absolute top-1/2 left-8 w-4 h-4 bg-green-400 rounded-full transform -translate-y-1/2 opacity-0"
+                id="particle2"
+              ></div>
+              <div
+                class="data-particle absolute top-1/2 left-8 w-4 h-4 bg-purple-400 rounded-full transform -translate-y-1/2 opacity-0"
+                id="particle3"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Detailed Process Flow -->
+          <div class="mt-16 grid md:grid-cols-2 gap-8">
+            <div
+              class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-200/50"
+            >
+              <h4 class="text-xl font-bold text-primary mb-6 flex items-center">
+                <i class="fas fa-cogs text-blue-500 mr-3"></i>
+                Crawling Process
+              </h4>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1"
+                  >
+                    <span class="text-blue-600 text-sm font-bold">1</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">Load Seed URLs</p>
+                    <p class="text-sm text-gray-600">
+                      Initialize from seed_urls.json file
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 mt-1"
+                  >
+                    <span class="text-green-600 text-sm font-bold">2</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">Fetch & Parse</p>
+                    <p class="text-sm text-gray-600">
+                      Extract content and discover new links
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3 mt-1"
+                  >
+                    <span class="text-purple-600 text-sm font-bold">3</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">Backlink Analysis</p>
+                    <p class="text-sm text-gray-600">
+                      Build comprehensive link network
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-gray-200/50"
+            >
+              <h4 class="text-xl font-bold text-primary mb-6 flex items-center">
+                <i class="fas fa-database text-orange-500 mr-3"></i>
+                Data Storage
+              </h4>
+              <div class="space-y-4">
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mr-3 mt-1"
+                  >
+                    <span class="text-orange-600 text-sm font-bold">1</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">Turso Database</p>
+                    <p class="text-sm text-gray-600">
+                      Store crawled data in distributed SQLite
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3 mt-1"
+                  >
+                    <span class="text-red-600 text-sm font-bold">2</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">Trending Analysis</p>
+                    <p class="text-sm text-gray-600">
+                      Extract and index trending topics
+                    </p>
+                  </div>
+                </div>
+                <div class="flex items-start">
+                  <div
+                    class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center mr-3 mt-1"
+                  >
+                    <span class="text-indigo-600 text-sm font-bold">3</span>
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">
+                      Real-time Monitoring
+                    </p>
+                    <p class="text-sm text-gray-600">
+                      Live dashboard and API access
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section
+      id="quick-start"
+      class="py-20 bg-gradient-to-br from-gray-50 to-blue-50"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4">
+            🚀 Quick Start Guide
+          </h2>
+          <p class="text-xl text-gray-600">
+            Get RatCrawler running in minutes with these simple steps
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+          <!-- Installation Steps -->
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <div class="flex items-center mb-6">
+              <div class="bg-success text-white rounded-full p-3 mr-4">
+                <i class="fas fa-download text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-primary">Installation</h3>
+            </div>
+
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div
+                  class="bg-accent text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1"
+                >
+                  1
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary mb-2">Clone Repository</h4>
+                  <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-gray-800"
+                      >git clone
+                      https://github.com/swadhinbiswas/ratcrowler.git</code
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div
+                  class="bg-accent text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1"
+                >
+                  2
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary mb-2">
+                    Install Dependencies
+                  </h4>
+                  <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-gray-800"
+                      >pip install -r requirements.txt</code
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div
+                  class="bg-accent text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1"
+                >
+                  3
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary mb-2">Set Environment</h4>
+                  <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-gray-800"
+                      >export DASHBOARD_PASSWORD=swadhin</code
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Running Steps -->
+          <div class="bg-white rounded-xl p-8 shadow-lg">
+            <div class="flex items-center mb-6">
+              <div class="bg-warning text-white rounded-full p-3 mr-4">
+                <i class="fas fa-play text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-primary">Launch System</h3>
+            </div>
+
+            <div class="space-y-6">
+              <div class="flex items-start">
+                <div
+                  class="bg-warning text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1"
+                >
+                  1
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary mb-2">
+                    Start Batch Crawler
+                  </h4>
+                  <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-gray-800">python main.py</code>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-2">
+                    Starts intelligent batch processing with automatic resume
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div
+                  class="bg-warning text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1"
+                >
+                  2
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary mb-2">Monitor Dashboard</h4>
+                  <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-gray-800"
+                      >python run_dashboard.py</code
+                    >
+                  </div>
+                  <p class="text-sm text-gray-600 mt-2">
+                    Access dashboard at
+                    <span class="font-mono text-accent"
+                      >http://localhost:8501</span
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div
+                  class="bg-warning text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1"
+                >
+                  3
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary mb-2">
+                    View Logs (Optional)
+                  </h4>
+                  <div class="bg-gray-100 p-3 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-gray-800"
+                      >python run_log_api.py</code
+                    >
+                  </div>
+                  <p class="text-sm text-gray-600 mt-2">
+                    Real-time logs at
+                    <span class="font-mono text-accent"
+                      >http://localhost:8502</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Examples -->
+        <div class="mt-16 bg-white rounded-xl p-8 shadow-lg">
+          <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+            🎯 Common Use Cases
+          </h3>
+
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+              <div
+                class="bg-gradient-to-br from-blue-100 to-blue-200 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-search text-2xl text-blue-600"></i>
+              </div>
+              <h4 class="font-bold text-primary mb-2">Web Crawling</h4>
+              <p class="text-gray-600 text-sm">
+                Automatically crawl and analyze web content with intelligent
+                batch processing
+              </p>
+              <div class="bg-gray-100 p-2 rounded mt-3">
+                <code class="text-xs text-gray-800"
+                  >Smart Batch Processing</code
+                >
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div
+                class="bg-gradient-to-br from-green-100 to-green-200 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-chart-line text-2xl text-green-600"></i>
+              </div>
+              <h4 class="font-bold text-primary mb-2">Trend Analysis</h4>
+              <p class="text-gray-600 text-sm">
+                Monitor Google Trends and social media for real-time insights
+              </p>
+              <div class="bg-gray-100 p-2 rounded mt-3">
+                <code class="text-xs text-gray-800"
+                  >Multi-source analytics</code
+                >
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div
+                class="bg-gradient-to-br from-purple-100 to-purple-200 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-link text-2xl text-purple-600"></i>
+              </div>
+              <h4 class="font-bold text-primary mb-2">Backlink Analysis</h4>
+              <p class="text-gray-600 text-sm">
+                Professional PageRank calculation and spam detection
+              </p>
+              <div class="bg-gray-100 p-2 rounded mt-3">
+                <code class="text-xs text-gray-800">Advanced algorithms</code>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Status -->
+        <div
+          class="mt-12 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-8 border border-green-200"
+        >
+          <div class="flex items-center justify-center mb-6">
+            <div class="bg-green-500 text-white rounded-full p-3 mr-4">
+              <i class="fas fa-check-circle text-xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-green-800">System Ready</h3>
+          </div>
+
+          <div class="grid md:grid-cols-4 gap-6 text-center">
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <div class="text-2xl font-bold text-green-600">Smart</div>
+              <div class="text-sm text-gray-600">Batch Processing</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <div class="text-2xl font-bold text-blue-600">Multi-Source</div>
+              <div class="text-sm text-gray-600">Analytics</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <div class="text-2xl font-bold text-purple-600">Real-time</div>
+              <div class="text-sm text-gray-600">Monitoring</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow-sm">
+              <div class="text-2xl font-bold text-orange-600">Auto</div>
+              <div class="text-sm text-gray-600">Resume</div>
+            </div>
+          </div>
+
+          <div class="text-center mt-6">
+            <p class="text-green-700 font-medium">
+              🎉 Everything is configured and ready to go!
+            </p>
+            <p class="text-sm text-gray-600 mt-2">
+              Your system will automatically resume from where it left off
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -120,69 +961,688 @@
     <section id="overview" class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold text-primary mb-4">Overview</h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-            RatCrawler is a comprehensive web crawling and multi-source trending
-            analysis system available in two high-performance implementations.
+          <h2 class="text-4xl font-bold text-primary mb-4">
+            What is RatCrawler?
+          </h2>
+          <p class="text-xl text-gray-600 max-w-4xl mx-auto">
+            RatCrawler is a sophisticated
+            <strong>multi-source trending analysis platform</strong> that
+            combines intelligent web crawling, Google Trends analysis, Twitter/X
+            trends monitoring, and professional-grade backlink analysis.
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h3 class="text-2xl font-bold text-primary mb-6">
-              🐍 Python Version (Primary)
+        <!-- Key Features Grid -->
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <div
+            class="feature-card bg-white border border-gray-200 rounded-xl p-8 text-center"
+          >
+            <div
+              class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <i class="fas fa-robot text-2xl text-accent"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-4">
+              Intelligent Batch Processing
             </h3>
-            <ul class="space-y-4">
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span
-                  >Enhanced Production Crawler with scheduled automation</span
-                >
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span
-                  >Backlink Analysis Engine with PageRank and domain
-                  authority</span
-                >
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span
-                  >Comprehensive Trending Analysis across multiple
-                  platforms</span
-                >
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span>SQLite Database with optimized schema</span>
-              </li>
-            </ul>
+            <p class="text-gray-600">
+              Automatically processes URLs with optimized batch sizes, progress
+              persistence and auto-resume capability.
+            </p>
           </div>
-          <div>
-            <h3 class="text-2xl font-bold text-primary mb-6">
-              🦀 Rust Version (High-Performance)
+
+          <div
+            class="feature-card bg-white border border-gray-200 rounded-xl p-8 text-center"
+          >
+            <div
+              class="bg-success/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <i class="fas fa-chart-line text-2xl text-success"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-4">
+              Multi-Source Analytics
             </h3>
-            <ul class="space-y-4">
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span>Async/Await concurrency with tokio runtime</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span>Memory-Safe with zero-cost abstractions</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span>Lightning-Fast compiled performance</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check text-success mt-1 mr-3"></i>
-                <span
-                  >Multi-Source Data Aggregation with parallel processing</span
+            <p class="text-gray-600">
+              Google Trends + Twitter/X + Web crawling integration for
+              comprehensive trend analysis.
+            </p>
+          </div>
+
+          <div
+            class="feature-card bg-white border border-gray-200 rounded-xl p-8 text-center"
+          >
+            <div
+              class="bg-spider/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
+            >
+              <i class="fas fa-shield-alt text-2xl text-spider"></i>
+            </div>
+            <h3 class="text-xl font-bold text-primary mb-4">
+              Professional Security
+            </h3>
+            <p class="text-gray-600">
+              PageRank calculation, domain authority assessment, and advanced
+              spam detection algorithms.
+            </p>
+          </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+            Built with Modern Technologies
+          </h3>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+            <div class="flex flex-col items-center">
+              <div
+                class="bg-blue-500 text-white w-12 h-12 rounded-lg flex items-center justify-center mb-3"
+              >
+                <i class="fab fa-python text-xl"></i>
+              </div>
+              <span class="font-semibold">Python 3.11+</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div
+                class="bg-red-500 text-white w-12 h-12 rounded-lg flex items-center justify-center mb-3"
+              >
+                <i class="fas fa-database text-xl"></i>
+              </div>
+              <span class="font-semibold">SQLAlchemy</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div
+                class="bg-pink-500 text-white w-12 h-12 rounded-lg flex items-center justify-center mb-3"
+              >
+                <i class="fas fa-chart-bar text-xl"></i>
+              </div>
+              <span class="font-semibold">Streamlit</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div
+                class="bg-green-600 text-white w-12 h-12 rounded-lg flex items-center justify-center mb-3"
+              >
+                <i class="fas fa-server text-xl"></i>
+              </div>
+              <span class="font-semibold">FastAPI</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <div
+                class="bg-gray-700 text-white w-12 h-12 rounded-lg flex items-center justify-center mb-3"
+              >
+                <i class="fas fa-cloud text-xl"></i>
+              </div>
+              <span class="font-semibold">Turso Cloud</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="py-20 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-4xl font-bold text-primary mb-4 animate-title">
+            🏗️ Architecture
+          </h2>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto animate-subtitle">
+            Modular and scalable system design
+          </p>
+        </div>
+
+        <!-- Interactive Architecture Display -->
+
+        <!-- Visual System Architecture Diagram -->
+        <div class="mb-16">
+          <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+              🏗️ System Architecture Overview
+            </h3>
+
+            <!-- Architecture Diagram -->
+            <div
+              class="relative bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-8 overflow-hidden"
+            >
+              <!-- Data Sources Layer -->
+              <div class="mb-8">
+                <h4 class="text-lg font-bold text-gray-700 mb-4 text-center">
+                  📥 Data Sources
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div
+                    class="arch-node bg-blue-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="seed-urls"
+                  >
+                    <i class="fas fa-seedling text-2xl mb-2"></i>
+                    <div class="font-bold">Seed URLs</div>
+                    <div class="text-xs">Input Sources</div>
+                  </div>
+                  <div
+                    class="arch-node bg-green-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="google-trends"
+                  >
+                    <i class="fab fa-google text-2xl mb-2"></i>
+                    <div class="font-bold">Google Trends</div>
+                    <div class="text-xs">Trending Data</div>
+                  </div>
+                  <div
+                    class="arch-node bg-blue-400 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="twitter-api"
+                  >
+                    <i class="fab fa-twitter text-2xl mb-2"></i>
+                    <div class="font-bold">Twitter/X API</div>
+                    <div class="text-xs">Social Trends</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Processing Layer -->
+              <div class="mb-8">
+                <h4 class="text-lg font-bold text-gray-700 mb-4 text-center">
+                  ⚙️ Processing Engine
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div
+                    class="arch-node bg-purple-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="crawler-engine"
+                  >
+                    <i class="fas fa-spider text-2xl mb-2"></i>
+                    <div class="font-bold">Crawler Engine</div>
+                    <div class="text-xs">Web Scraping</div>
+                  </div>
+                  <div
+                    class="arch-node bg-orange-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="content-processor"
+                  >
+                    <i class="fas fa-cogs text-2xl mb-2"></i>
+                    <div class="font-bold">Content Processor</div>
+                    <div class="text-xs">Data Extraction</div>
+                  </div>
+                  <div
+                    class="arch-node bg-red-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="backlink-analyzer"
+                  >
+                    <i class="fas fa-link text-2xl mb-2"></i>
+                    <div class="font-bold">Backlink Analyzer</div>
+                    <div class="text-xs">Link Analysis</div>
+                  </div>
+                  <div
+                    class="arch-node bg-indigo-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="trends-correlator"
+                  >
+                    <i class="fas fa-chart-line text-2xl mb-2"></i>
+                    <div class="font-bold">Trends Correlator</div>
+                    <div class="text-xs">Data Correlation</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- AI & Analytics Layer -->
+              <div class="mb-8">
+                <h4 class="text-lg font-bold text-gray-700 mb-4 text-center">
+                  🧠 AI & Analytics
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div
+                    class="arch-node bg-pink-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="pagerank-calc"
+                  >
+                    <i class="fas fa-calculator text-2xl mb-2"></i>
+                    <div class="font-bold">PageRank Calculator</div>
+                    <div class="text-xs">Authority Scoring</div>
+                  </div>
+                  <div
+                    class="arch-node bg-cyan-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="spam-detector"
+                  >
+                    <i class="fas fa-shield-alt text-2xl mb-2"></i>
+                    <div class="font-bold">Spam Detector</div>
+                    <div class="text-xs">Quality Control</div>
+                  </div>
+                  <div
+                    class="arch-node bg-teal-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="trend-predictor"
+                  >
+                    <i class="fas fa-brain text-2xl mb-2"></i>
+                    <div class="font-bold">Trend Predictor</div>
+                    <div class="text-xs">ML Analysis</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Storage Layer -->
+              <div class="mb-8">
+                <h4 class="text-lg font-bold text-gray-700 mb-4 text-center">
+                  💾 Data Storage
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div
+                    class="arch-node bg-gray-600 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="turso-db"
+                  >
+                    <i class="fas fa-database text-2xl mb-2"></i>
+                    <div class="font-bold">Turso Database</div>
+                    <div class="text-xs">Distributed SQLite</div>
+                  </div>
+                  <div
+                    class="arch-node bg-amber-600 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="cache-layer"
+                  >
+                    <i class="fas fa-memory text-2xl mb-2"></i>
+                    <div class="font-bold">Cache Layer</div>
+                    <div class="text-xs">Fast Access</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Output Layer -->
+              <div>
+                <h4 class="text-lg font-bold text-gray-700 mb-4 text-center">
+                  📊 Outputs
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div
+                    class="arch-node bg-emerald-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="dashboard"
+                  >
+                    <i class="fas fa-chart-bar text-2xl mb-2"></i>
+                    <div class="font-bold">Web Dashboard</div>
+                    <div class="text-xs">Real-time Monitoring</div>
+                  </div>
+                  <div
+                    class="arch-node bg-violet-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="api-endpoints"
+                  >
+                    <i class="fas fa-code text-2xl mb-2"></i>
+                    <div class="font-bold">API Endpoints</div>
+                    <div class="text-xs">Data Access</div>
+                  </div>
+                  <div
+                    class="arch-node bg-rose-500 text-white p-4 rounded-lg text-center shadow-lg"
+                    id="reports"
+                  >
+                    <i class="fas fa-file-alt text-2xl mb-2"></i>
+                    <div class="font-bold">Reports</div>
+                    <div class="text-xs">Analytics Export</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Animated Data Flow Lines -->
+              <svg
+                class="absolute inset-0 w-full h-full pointer-events-none"
+                style="z-index: 0"
+              >
+                <!-- Data flow paths will be drawn here by JavaScript -->
+                <defs>
+                  <marker
+                    id="arrowhead"
+                    markerWidth="10"
+                    markerHeight="7"
+                    refX="10"
+                    refY="3.5"
+                    orient="auto"
+                  >
+                    <polygon
+                      points="0 0, 10 3.5, 0 7"
+                      fill="#3B82F6"
+                      opacity="0.6"
+                    />
+                  </marker>
+                </defs>
+
+                <!-- Vertical flow lines -->
+                <line
+                  class="flow-line"
+                  x1="50%"
+                  y1="20%"
+                  x2="50%"
+                  y2="35%"
+                  stroke="#3B82F6"
+                  stroke-width="2"
+                  opacity="0"
+                  marker-end="url(#arrowhead)"
+                />
+                <line
+                  class="flow-line"
+                  x1="50%"
+                  y1="50%"
+                  x2="50%"
+                  y2="65%"
+                  stroke="#3B82F6"
+                  stroke-width="2"
+                  opacity="0"
+                  marker-end="url(#arrowhead)"
+                />
+                <line
+                  class="flow-line"
+                  x1="50%"
+                  y1="80%"
+                  x2="50%"
+                  y2="95%"
+                  stroke="#3B82F6"
+                  stroke-width="2"
+                  opacity="0"
+                  marker-end="url(#arrowhead)"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 mb-16">
+          <!-- Core Components -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg animate-section">
+            <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+              Core Components
+            </h3>
+            <div class="space-y-6">
+              <!-- Crawler Engine -->
+              <div
+                class="component-card flex items-start opacity-0"
+                data-delay="0"
+              >
+                <div
+                  class="component-icon bg-accent text-white p-4 rounded-xl mr-4 transform"
                 >
-              </li>
-            </ul>
+                  <i class="fas fa-cogs text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary text-lg mb-2">
+                    Crawler Engine
+                  </h4>
+                  <p class="text-gray-600">
+                    Handles web page discovery, content extraction, and link
+                    following
+                  </p>
+                  <div class="mt-2">
+                    <div class="bg-accent/10 rounded-full h-2 overflow-hidden">
+                      <div
+                        class="progress-bar bg-accent h-full w-0 transition-all duration-1000"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Backlink Processor -->
+              <div
+                class="component-card flex items-start opacity-0"
+                data-delay="200"
+              >
+                <div
+                  class="component-icon bg-success text-white p-4 rounded-xl mr-4 transform"
+                >
+                  <i class="fas fa-link text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary text-lg mb-2">
+                    Backlink Processor
+                  </h4>
+                  <p class="text-gray-600">
+                    Analyzes link relationships, calculates PageRank, and
+                    detects spam
+                  </p>
+                  <div class="mt-2">
+                    <div class="bg-success/10 rounded-full h-2 overflow-hidden">
+                      <div
+                        class="progress-bar bg-success h-full w-0 transition-all duration-1000"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Trends Analyzer -->
+              <div
+                class="component-card flex items-start opacity-0"
+                data-delay="400"
+              >
+                <div
+                  class="component-icon bg-warning text-white p-4 rounded-xl mr-4 transform"
+                >
+                  <i class="fas fa-chart-bar text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary text-lg mb-2">
+                    Trends Analyzer
+                  </h4>
+                  <p class="text-gray-600">
+                    Aggregates data from multiple sources for trending analysis
+                  </p>
+                  <div class="mt-2">
+                    <div class="bg-warning/10 rounded-full h-2 overflow-hidden">
+                      <div
+                        class="progress-bar bg-warning h-full w-0 transition-all duration-1000"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Database Layer -->
+              <div
+                class="component-card flex items-start opacity-0"
+                data-delay="600"
+              >
+                <div
+                  class="component-icon bg-spider text-white p-4 rounded-xl mr-4 transform"
+                >
+                  <i class="fas fa-database text-xl"></i>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-primary text-lg mb-2">
+                    Database Layer
+                  </h4>
+                  <p class="text-gray-600">
+                    Manages data persistence, indexing, and query optimization
+                  </p>
+                  <div class="mt-2">
+                    <div class="bg-spider/10 rounded-full h-2 overflow-hidden">
+                      <div
+                        class="progress-bar bg-spider h-full w-0 transition-all duration-1000"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Flow -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg animate-section">
+            <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+              Data Flow
+            </h3>
+            <div class="space-y-6">
+              <!-- Flow Step 1 -->
+              <div class="flow-step flex items-center opacity-0" data-step="1">
+                <div
+                  class="flow-number bg-success text-white rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold mr-4 transform"
+                >
+                  1
+                </div>
+                <div class="flex-1">
+                  <span class="text-gray-700 font-medium"
+                    >Seed URLs are loaded and prioritized</span
+                  >
+                  <div class="mt-2">
+                    <div class="flow-arrow text-success opacity-0">
+                      <i class="fas fa-arrow-down text-lg"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Flow Step 2 -->
+              <div class="flow-step flex items-center opacity-0" data-step="2">
+                <div
+                  class="flow-number bg-success text-white rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold mr-4 transform"
+                >
+                  2
+                </div>
+                <div class="flex-1">
+                  <span class="text-gray-700 font-medium"
+                    >Pages are crawled with respect to robots.txt</span
+                  >
+                  <div class="mt-2">
+                    <div class="flow-arrow text-success opacity-0">
+                      <i class="fas fa-arrow-down text-lg"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Flow Step 3 -->
+              <div class="flow-step flex items-center opacity-0" data-step="3">
+                <div
+                  class="flow-number bg-success text-white rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold mr-4 transform"
+                >
+                  3
+                </div>
+                <div class="flex-1">
+                  <span class="text-gray-700 font-medium"
+                    >Content is extracted and stored in database</span
+                  >
+                  <div class="mt-2">
+                    <div class="flow-arrow text-success opacity-0">
+                      <i class="fas fa-arrow-down text-lg"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Flow Step 4 -->
+              <div class="flow-step flex items-center opacity-0" data-step="4">
+                <div
+                  class="flow-number bg-success text-white rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold mr-4 transform"
+                >
+                  4
+                </div>
+                <div class="flex-1">
+                  <span class="text-gray-700 font-medium"
+                    >Backlinks are discovered and analyzed</span
+                  >
+                  <div class="mt-2">
+                    <div class="flow-arrow text-success opacity-0">
+                      <i class="fas fa-arrow-down text-lg"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Flow Step 5 -->
+              <div class="flow-step flex items-center opacity-0" data-step="5">
+                <div
+                  class="flow-number bg-success text-white rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold mr-4 transform"
+                >
+                  5
+                </div>
+                <div class="flex-1">
+                  <span class="text-gray-700 font-medium"
+                    >Trends data is aggregated and processed</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Animated Feature Cards -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="feature-card bg-white rounded-xl p-6 shadow-lg opacity-0 transform translate-y-8"
+            data-delay="0"
+          >
+            <div class="flex items-center mb-4">
+              <i class="fas fa-cogs text-2xl text-accent mr-3 card-icon"></i>
+              <h3 class="text-xl font-bold text-primary">Auto Batch Crawler</h3>
+            </div>
+            <p class="text-gray-600">
+              Intelligent URL batch processing from backlinks database with
+              automatic progress tracking and resume capability.
+            </p>
+          </div>
+
+          <div
+            class="feature-card bg-white rounded-xl p-6 shadow-lg opacity-0 transform translate-y-8"
+            data-delay="100"
+          >
+            <div class="flex items-center mb-4">
+              <i class="fas fa-globe text-2xl text-success mr-3 card-icon"></i>
+              <h3 class="text-xl font-bold text-primary">
+                Professional Crawler
+              </h3>
+            </div>
+            <p class="text-gray-600">
+              Advanced async HTTP client with comprehensive content extraction,
+              robots.txt respect, and error handling.
+            </p>
+          </div>
+
+          <div
+            class="feature-card bg-white rounded-xl p-6 shadow-lg opacity-0 transform translate-y-8"
+            data-delay="200"
+          >
+            <div class="flex items-center mb-4">
+              <i
+                class="fas fa-chart-line text-2xl text-warning mr-3 card-icon"
+              ></i>
+              <h3 class="text-xl font-bold text-primary">Trending Analysis</h3>
+            </div>
+            <p class="text-gray-600">
+              Real-time data from Google Trends and Twitter/X with
+              cross-platform analytics and trend correlation.
+            </p>
+          </div>
+
+          <div
+            class="feature-card bg-white rounded-xl p-6 shadow-lg opacity-0 transform translate-y-8"
+            data-delay="300"
+          >
+            <div class="flex items-center mb-4">
+              <i
+                class="fas fa-database text-2xl text-spider mr-3 card-icon"
+              ></i>
+              <h3 class="text-xl font-bold text-primary">Database Layer</h3>
+            </div>
+            <p class="text-gray-600">
+              Multi-database support with automatic schema migration, connection
+              pooling, and cloud backup.
+            </p>
+          </div>
+
+          <div
+            class="feature-card bg-white rounded-xl p-6 shadow-lg opacity-0 transform translate-y-8"
+            data-delay="400"
+          >
+            <div class="flex items-center mb-4">
+              <i
+                class="fas fa-tachometer-alt text-2xl text-danger mr-3 card-icon"
+              ></i>
+              <h3 class="text-xl font-bold text-primary">Monitoring Suite</h3>
+            </div>
+            <p class="text-gray-600">
+              Real-time dashboard and API monitoring with authentication,
+              performance metrics, and health checks.
+            </p>
+          </div>
+
+          <div
+            class="feature-card bg-white rounded-xl p-6 shadow-lg opacity-0 transform translate-y-8"
+            data-delay="500"
+          >
+            <div class="flex items-center mb-4">
+              <i
+                class="fas fa-shield-alt text-2xl text-primary mr-3 card-icon"
+              ></i>
+              <h3 class="text-xl font-bold text-primary">
+                Security & Analysis
+              </h3>
+            </div>
+            <p class="text-gray-600">
+              Advanced spam detection, PageRank calculation, domain authority
+              assessment, and network analysis.
+            </p>
           </div>
         </div>
       </div>
@@ -315,199 +1775,313 @@
     </section>
 
     <!-- Architecture Section -->
-    <section id="architecture" class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold text-primary mb-4">🏗️ Architecture</h2>
-          <p class="text-xl text-gray-600">
-            Modular and scalable system design
-          </p>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-12">
-          <div class="bg-gray-50 p-8 rounded-lg">
-            <h3 class="text-2xl font-bold text-primary mb-6">
-              Core Components
-            </h3>
-            <div class="space-y-6">
-              <div class="flex items-start">
-                <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                  <i class="fas fa-cog"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-primary">Crawler Engine</h4>
-                  <p class="text-gray-600">
-                    Handles web page discovery, content extraction, and link
-                    following
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                  <i class="fas fa-link"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-primary">Backlink Processor</h4>
-                  <p class="text-gray-600">
-                    Analyzes link relationships, calculates PageRank, and
-                    detects spam
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                  <i class="fas fa-chart-bar"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-primary">Trends Analyzer</h4>
-                  <p class="text-gray-600">
-                    Aggregates data from multiple sources for trending analysis
-                  </p>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <div class="bg-accent text-white p-3 rounded-lg mr-4">
-                  <i class="fas fa-database"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-primary">Database Layer</h4>
-                  <p class="text-gray-600">
-                    Manages data persistence, indexing, and query optimization
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-gray-50 p-8 rounded-lg">
-            <h3 class="text-2xl font-bold text-primary mb-6">Data Flow</h3>
-            <div class="space-y-4">
-              <div class="flex items-center">
-                <div class="bg-success text-white p-2 rounded-full mr-4">
-                  <span class="text-sm font-bold">1</span>
-                </div>
-                <span class="text-gray-700"
-                  >Seed URLs are loaded and prioritized</span
-                >
-              </div>
-              <div class="flex items-center">
-                <div class="bg-success text-white p-2 rounded-full mr-4">
-                  <span class="text-sm font-bold">2</span>
-                </div>
-                <span class="text-gray-700"
-                  >Pages are crawled with respect to robots.txt</span
-                >
-              </div>
-              <div class="flex items-center">
-                <div class="bg-success text-white p-2 rounded-full mr-4">
-                  <span class="text-sm font-bold">3</span>
-                </div>
-                <span class="text-gray-700"
-                  >Content is extracted and stored in database</span
-                >
-              </div>
-              <div class="flex items-center">
-                <div class="bg-success text-white p-2 rounded-full mr-4">
-                  <span class="text-sm font-bold">4</span>
-                </div>
-                <span class="text-gray-700"
-                  >Backlinks are discovered and analyzed</span
-                >
-              </div>
-              <div class="flex items-center">
-                <div class="bg-success text-white p-2 rounded-full mr-4">
-                  <span class="text-sm font-bold">5</span>
-                </div>
-                <span class="text-gray-700"
-                  >Trends data is aggregated and processed</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Installation Section -->
     <section id="installation" class="py-20 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold text-primary mb-4">🔧 Installation</h2>
+          <h2 class="text-4xl font-bold text-primary mb-4">
+            🔧 Installation & Setup
+          </h2>
           <p class="text-xl text-gray-600">
-            Get RatCrawler up and running quickly
+            Complete installation guide for RatCrawler multi-source analysis
+            platform
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-12">
+        <!-- Prerequisites -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-8 mb-12">
+          <h3 class="text-2xl font-bold text-blue-800 mb-6">
+            📋 Prerequisites
+          </h3>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="font-bold text-blue-700 mb-3">System Requirements</h4>
+              <ul class="space-y-2 text-blue-600">
+                <li>• <strong>Python:</strong> 3.8+ (Recommended: 3.13+)</li>
+                <li>• <strong>Memory:</strong> 4GB RAM minimum</li>
+                <li>• <strong>Storage:</strong> 2GB free space</li>
+                <li>• <strong>Network:</strong> Stable internet connection</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-bold text-blue-700 mb-3">
+                Optional Dependencies
+              </h4>
+              <ul class="space-y-2 text-blue-600">
+                <li>• <strong>Docker:</strong> For containerized deployment</li>
+                <li>• <strong>Git:</strong> For source code management</li>
+                <li>• <strong>Rust:</strong> For high-performance variant</li>
+                <li>• <strong>Node.js:</strong> For additional tools</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
           <!-- Python Installation -->
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h3 class="text-2xl font-bold text-primary mb-6">
               <i class="fab fa-python text-3xl text-accent mr-3"></i>
-              Python Version
+              Python Setup (Recommended)
             </h3>
-            <div class="space-y-4">
+            <div class="space-y-6">
               <div>
-                <h4 class="font-bold text-primary mb-2">
-                  1. Install Dependencies
+                <h4 class="font-bold text-primary mb-3 flex items-center">
+                  <span
+                    class="bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2"
+                    >1</span
+                  >
+                  Clone Repository
                 </h4>
                 <div class="bg-gray-100 p-4 rounded-lg">
                   <code class="text-sm text-gray-800">
-                    pip install requests beautifulsoup4 networkx schedule
-                    feedparser newspaper3k lxml_html_clean
-                  </code>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-bold text-primary mb-2">2. Clone Repository</h4>
-                <div class="bg-gray-100 p-4 rounded-lg">
-                  <code class="text-sm text-gray-800">
-                    git clone https://github.com/TheBoringRats/ratcrowler.git<br />
+                    git clone https://github.com/swadhinbiswas/ratcrowler.git<br />
                     cd ratcrowler
                   </code>
                 </div>
               </div>
+
               <div>
-                <h4 class="font-bold text-primary mb-2">3. Quick Start</h4>
+                <h4 class="font-bold text-primary mb-3 flex items-center">
+                  <span
+                    class="bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2"
+                    >2</span
+                  >
+                  Install Core Dependencies
+                </h4>
                 <div class="bg-gray-100 p-4 rounded-lg">
-                  <code class="text-sm text-gray-800"> python3 main.py </code>
+                  <code class="text-sm text-gray-800">
+                    pip install -r requirements.txt
+                  </code>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">
+                  Installs: SQLAlchemy, Streamlit, FastAPI, aiohttp,
+                  BeautifulSoup4, and more
+                </p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-primary mb-3 flex items-center">
+                  <span
+                    class="bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2"
+                    >3</span
+                  >
+                  Optional: Turso Cloud Database
+                </h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    pip install -r requirements_turso.txt
+                  </code>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">
+                  For cloud database integration and scaling
+                </p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-primary mb-3 flex items-center">
+                  <span
+                    class="bg-accent text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2"
+                    >4</span
+                  >
+                  Set Environment Variables
+                </h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    export DASHBOARD_PASSWORD=swadhin<br />
+                    export TURSO_DATABASE_URL=your_url # Optional<br />
+                    export TURSO_AUTH_TOKEN=your_token # Optional
+                  </code>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-primary mb-3 flex items-center">
+                  <span
+                    class="bg-success text-white rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2"
+                    >✓</span
+                  >
+                  Launch System
+                </h4>
+                <div class="bg-gray-100 p-4 rounded-lg">
+                  <code class="text-sm text-gray-800">
+                    python main.py # Start batch crawler<br />
+                    python run_dashboard.py # Launch dashboard
+                  </code>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Rust Installation -->
+          <!-- Advanced Setup -->
           <div class="bg-white p-8 rounded-lg shadow-md">
             <h3 class="text-2xl font-bold text-primary mb-6">
-              <i class="fab fa-rust text-3xl text-orange-500 mr-3"></i>
-              Rust Version
+              <i class="fas fa-cogs text-3xl text-orange-500 mr-3"></i>
+              Advanced Setup
             </h3>
-            <div class="space-y-4">
+            <div class="space-y-6">
               <div>
-                <h4 class="font-bold text-primary mb-2">1. Install Rust</h4>
+                <h4 class="font-bold text-primary mb-3">
+                  🐳 Docker Deployment
+                </h4>
                 <div class="bg-gray-100 p-4 rounded-lg">
                   <code class="text-sm text-gray-800">
-                    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |
-                    sh
+                    docker build -t ratcrawler .<br />
+                    docker run -p 8501:8501 -p 8502:8502 ratcrawler
                   </code>
                 </div>
               </div>
+
               <div>
-                <h4 class="font-bold text-primary mb-2">2. Build Project</h4>
+                <h4 class="font-bold text-primary mb-3">
+                  🦀 Rust High-Performance Version
+                </h4>
                 <div class="bg-gray-100 p-4 rounded-lg">
                   <code class="text-sm text-gray-800">
                     cd rust_version<br />
-                    cargo build --release
+                    cargo build --release<br />
+                    ./target/release/rat-crawler
                   </code>
                 </div>
+                <p class="text-sm text-gray-600 mt-2">
+                  For maximum performance and memory efficiency
+                </p>
               </div>
+
               <div>
-                <h4 class="font-bold text-primary mb-2">3. Run Crawler</h4>
+                <h4 class="font-bold text-primary mb-3">
+                  🏗️ Development Environment
+                </h4>
                 <div class="bg-gray-100 p-4 rounded-lg">
                   <code class="text-sm text-gray-800">
-                    ./target/release/rat-crawler crawl https://example.com
+                    python -m venv venv<br />
+                    source venv/bin/activate # Linux/Mac<br />
+                    venv\Scripts\activate # Windows<br />
+                    pip install -e .
                   </code>
                 </div>
               </div>
+
+              <div>
+                <h4 class="font-bold text-primary mb-3">
+                  🔧 Configuration Files
+                </h4>
+                <div class="space-y-2">
+                  <div class="flex items-center">
+                    <i class="fas fa-file-code text-accent mr-2"></i>
+                    <span class="text-sm"
+                      ><code>seed_urls.json</code> - Initial URL list</span
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <i class="fas fa-file-code text-accent mr-2"></i>
+                    <span class="text-sm"
+                      ><code>trends.json</code> - Trending data cache</span
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <i class="fas fa-database text-accent mr-2"></i>
+                    <span class="text-sm"
+                      ><code>website_crawler.db</code> - Local database</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification -->
+        <div class="mt-12 bg-green-50 border border-green-200 rounded-xl p-8">
+          <h3 class="text-2xl font-bold text-green-800 mb-6">
+            ✅ Installation Verification
+          </h3>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+              <h4 class="font-bold text-green-700 mb-2">Database Check</h4>
+              <div class="bg-gray-100 p-3 rounded">
+                <code class="text-xs text-gray-800"
+                  >python -c "from rat.database import *; print('✓ Database
+                  OK')"</code
+                >
+              </div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+              <h4 class="font-bold text-green-700 mb-2">Crawler Test</h4>
+              <div class="bg-gray-100 p-3 rounded">
+                <code class="text-xs text-gray-800"
+                  >python test_enhanced_crawler.py</code
+                >
+              </div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-sm">
+              <h4 class="font-bold text-green-700 mb-2">Dashboard Test</h4>
+              <div class="bg-gray-100 p-3 rounded">
+                <code class="text-xs text-gray-800"
+                  >curl http://localhost:8501</code
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="mt-12 bg-yellow-50 border border-yellow-200 rounded-xl p-8">
+          <h3 class="text-2xl font-bold text-yellow-800 mb-6">
+            🛠️ Troubleshooting
+          </h3>
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h4 class="font-bold text-yellow-700 mb-3">Common Issues</h4>
+              <ul class="space-y-2 text-yellow-600">
+                <li>
+                  • <strong>Permission Error:</strong> Use
+                  <code>sudo pip install</code> or virtual environment
+                </li>
+                <li>
+                  • <strong>Port Conflicts:</strong> Change ports in
+                  configuration files
+                </li>
+                <li>
+                  • <strong>Memory Issues:</strong> Reduce batch size in
+                  settings
+                </li>
+                <li>
+                  • <strong>Network Timeouts:</strong> Check firewall and proxy
+                  settings
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-bold text-yellow-700 mb-3">Support Channels</h4>
+              <ul class="space-y-2 text-yellow-600">
+                <li>
+                  •
+                  <a
+                    href="https://github.com/TheBoringRats/ratcrowler/issues"
+                    class="underline"
+                    >GitHub Issues</a
+                  >
+                </li>
+                <li>
+                  •
+                  <a
+                    href="https://github.com/TheBoringRats/ratcrowler/discussions"
+                    class="underline"
+                    >Discussions</a
+                  >
+                </li>
+                <li>
+                  •
+                  <a
+                    href="https://github.com/TheBoringRats/ratcrowler/wiki"
+                    class="underline"
+                    >Wiki Documentation</a
+                  >
+                </li>
+                <li>• <strong>Email:</strong> support@theboringrats.com</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -518,101 +2092,296 @@
     <section id="usage" class="py-20 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-          <h2 class="text-4xl font-bold text-primary mb-4">🎮 Usage</h2>
-          <p class="text-xl text-gray-600">Examples and command-line usage</p>
+          <h2 class="text-4xl font-bold text-primary mb-4">
+            🎮 Usage & Examples
+          </h2>
+          <p class="text-xl text-gray-600">
+            Complete guide to using RatCrawler's powerful features
+          </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Python Usage -->
-          <div class="bg-gray-50 p-6 rounded-lg">
-            <h3 class="text-xl font-bold text-primary mb-4">
-              🐍 Python Commands
-            </h3>
+        <!-- Main Commands -->
+        <div class="grid lg:grid-cols-2 gap-12 mb-16">
+          <!-- Batch Crawling -->
+          <div
+            class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-xl border border-blue-200"
+          >
+            <div class="flex items-center mb-6">
+              <div class="bg-blue-500 text-white p-3 rounded-lg mr-4">
+                <i class="fas fa-layer-group text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-blue-800">Batch Processing</h3>
+            </div>
+
             <div class="space-y-4">
               <div>
-                <h4 class="font-semibold text-primary">Basic Crawling</h4>
-                <div class="bg-white p-3 rounded border-l-4 border-accent">
-                  <code class="text-sm">python3 main.py</code>
-                </div>
-              </div>
-              <div>
-                <h4 class="font-semibold text-primary">
-                  Google Trends Analysis
+                <h4 class="font-semibold text-blue-700 mb-2">
+                  🚀 Start Auto Batch Crawler
                 </h4>
-                <div class="bg-white p-3 rounded border-l-4 border-accent">
-                  <code class="text-sm"
-                    >cd engine && python3 googletrends.py --limit 5</code
-                  >
+                <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                  <code class="text-sm text-gray-800">python main.py</code>
+                  <p class="text-xs text-gray-600 mt-2">
+                    Processes 50 URLs at a time with automatic progress saving
+                  </p>
                 </div>
               </div>
+
               <div>
-                <h4 class="font-semibold text-primary">Backlink Analysis</h4>
-                <div class="bg-white p-3 rounded border-l-4 border-accent">
-                  <code class="text-sm">python3 backlinkprocessor.py</code>
+                <h4 class="font-semibold text-blue-700 mb-2">
+                  📊 Monitor Progress
+                </h4>
+                <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                  <code class="text-sm text-gray-800"
+                    >python run_dashboard.py</code
+                  >
+                  <p class="text-xs text-gray-600 mt-2">
+                    Real-time dashboard at http://localhost:8501
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-semibold text-blue-700 mb-2">
+                  🔍 View Detailed Logs
+                </h4>
+                <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                  <code class="text-sm text-gray-800"
+                    >python run_log_api.py</code
+                  >
+                  <p class="text-xs text-gray-600 mt-2">
+                    Detailed logging API at http://localhost:8502
+                  </p>
                 </div>
               </div>
             </div>
+
+            <div class="mt-6 bg-blue-100 p-4 rounded-lg">
+              <h5 class="font-bold text-blue-800 mb-2">✨ Key Features:</h5>
+              <ul class="text-sm text-blue-700 space-y-1">
+                <li>• Automatic resume from last processed URL</li>
+                <li>• Progress saved to JSON after each batch</li>
+                <li>• Smart URL queue management</li>
+                <li>• Intelligent error handling and retry logic</li>
+              </ul>
+            </div>
           </div>
 
-          <!-- Rust Usage -->
-          <div class="bg-gray-50 p-6 rounded-lg">
-            <h3 class="text-xl font-bold text-primary mb-4">
-              🦀 Rust Commands
-            </h3>
+          <!-- Multi-Source Analysis -->
+          <div
+            class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-xl border border-green-200"
+          >
+            <div class="flex items-center mb-6">
+              <div class="bg-green-500 text-white p-3 rounded-lg mr-4">
+                <i class="fas fa-chart-line text-xl"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-green-800">
+                Trending Analysis
+              </h3>
+            </div>
+
             <div class="space-y-4">
               <div>
-                <h4 class="font-semibold text-primary">Web Crawling</h4>
-                <div class="bg-white p-3 rounded border-l-4 border-accent">
-                  <code class="text-sm"
-                    >./rat-crawler crawl https://example.com</code
+                <h4 class="font-semibold text-green-700 mb-2">
+                  📈 Google Trends
+                </h4>
+                <div
+                  class="bg-white p-4 rounded-lg border-l-4 border-green-500"
+                >
+                  <code class="text-sm text-gray-800"
+                    >cd engine && python googletrends.py --limit 10</code
                   >
+                  <p class="text-xs text-gray-600 mt-2">
+                    Analyze top trending topics with custom limits
+                  </p>
                 </div>
               </div>
+
               <div>
-                <h4 class="font-semibold text-primary">Backlink Analysis</h4>
-                <div class="bg-white p-3 rounded border-l-4 border-accent">
-                  <code class="text-sm"
-                    >./rat-crawler backlinks https://example.com</code
+                <h4 class="font-semibold text-green-700 mb-2">
+                  🐦 Twitter/X Trends
+                </h4>
+                <div
+                  class="bg-white p-4 rounded-lg border-l-4 border-green-500"
+                >
+                  <code class="text-sm text-gray-800"
+                    >cd engine && python xtrends.py</code
                   >
+                  <p class="text-xs text-gray-600 mt-2">
+                    Social media trending analysis and correlation
+                  </p>
                 </div>
               </div>
+
               <div>
-                <h4 class="font-semibold text-primary">Integrated Analysis</h4>
-                <div class="bg-white p-3 rounded border-l-4 border-accent">
-                  <code class="text-sm"
-                    >./rat-crawler integrated https://example.com</code
+                <h4 class="font-semibold text-green-700 mb-2">
+                  🔗 Backlink Analysis
+                </h4>
+                <div
+                  class="bg-white p-4 rounded-lg border-l-4 border-green-500"
+                >
+                  <code class="text-sm text-gray-800"
+                    >python test_backlink_storage.py</code
                   >
+                  <p class="text-xs text-gray-600 mt-2">
+                    PageRank calculation and spam detection
+                  </p>
                 </div>
               </div>
+            </div>
+
+            <div class="mt-6 bg-green-100 p-4 rounded-lg">
+              <h5 class="font-bold text-green-800 mb-2">
+                🎯 Analytics Features:
+              </h5>
+              <ul class="text-sm text-green-700 space-y-1">
+                <li>• Cross-platform trend correlation</li>
+                <li>• Domain authority assessment</li>
+                <li>• Network analysis with PageRank</li>
+                <li>• Real-time data aggregation</li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <!-- Configuration -->
-        <div class="mt-12 bg-gray-50 p-8 rounded-lg">
-          <h3 class="text-2xl font-bold text-primary mb-6">⚙️ Configuration</h3>
+        <!-- Configuration Examples -->
+        <div class="bg-gray-50 p-8 rounded-xl mb-16">
+          <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+            ⚙️ Advanced Configuration
+          </h3>
+
           <div class="grid md:grid-cols-2 gap-8">
             <div>
-              <h4 class="font-bold text-primary mb-3">Crawler Settings</h4>
-              <ul class="space-y-2 text-gray-600">
-                <li>• <strong>delay:</strong> Request delay between pages</li>
-                <li>• <strong>max_depth:</strong> Maximum crawl depth</li>
-                <li>• <strong>max_pages:</strong> Maximum pages to crawl</li>
-                <li>• <strong>user_agent:</strong> Custom user agent string</li>
-                <li>• <strong>stay_on_domain:</strong> Domain restriction</li>
-              </ul>
+              <h4 class="font-bold text-primary mb-4">🎛️ Crawler Settings</h4>
+              <div class="bg-white p-4 rounded-lg shadow-sm">
+                <div class="bg-gray-100 p-3 rounded text-sm">
+                  <code class="text-gray-800">
+                    # main.py configuration<br />
+                    BATCH_SIZE = 50 # URLs per batch<br />
+                    DELAY_BETWEEN_REQUESTS = 1 # seconds<br />
+                    MAX_CONCURRENT_REQUESTS = 10<br />
+                    RESPECT_ROBOTS_TXT = True<br />
+                    ENABLE_DETAILED_LOGGING = True
+                  </code>
+                </div>
+              </div>
+
+              <h4 class="font-bold text-primary mb-4 mt-6">
+                🗄️ Database Options
+              </h4>
+              <div class="bg-white p-4 rounded-lg shadow-sm">
+                <div class="bg-gray-100 p-3 rounded text-sm">
+                  <code class="text-gray-800">
+                    # Local SQLite (default)<br />
+                    DATABASE_URL = "sqlite:///website_crawler.db"<br /><br />
+                    # Turso Cloud Database<br />
+                    TURSO_DATABASE_URL = "libsql://your-db.turso.io"<br />
+                    TURSO_AUTH_TOKEN = "your-auth-token"
+                  </code>
+                </div>
+              </div>
             </div>
+
             <div>
-              <h4 class="font-bold text-primary mb-3">Database Settings</h4>
-              <ul class="space-y-2 text-gray-600">
-                <li>• <strong>db_path:</strong> SQLite database location</li>
-                <li>• <strong>export_json:</strong> JSON export option</li>
-                <li>• <strong>export_csv:</strong> CSV export option</li>
-                <li>• <strong>recrawl_days:</strong> Recrawl frequency</li>
-                <li>
-                  • <strong>analyze_backlinks:</strong> Backlink analysis toggle
-                </li>
-              </ul>
+              <h4 class="font-bold text-primary mb-4">
+                🔐 Security & Authentication
+              </h4>
+              <div class="bg-white p-4 rounded-lg shadow-sm">
+                <div class="bg-gray-100 p-3 rounded text-sm">
+                  <code class="text-gray-800">
+                    # Environment variables<br />
+                    export DASHBOARD_PASSWORD=swadhin<br />
+                    export LOG_API_TOKEN=your-secret-token<br />
+                    export USER_AGENT="RatCrawler/2.0"<br />
+                    export RATE_LIMIT=true
+                  </code>
+                </div>
+              </div>
+
+              <h4 class="font-bold text-primary mb-4 mt-6">
+                📊 Monitoring Setup
+              </h4>
+              <div class="bg-white p-4 rounded-lg shadow-sm">
+                <div class="bg-gray-100 p-3 rounded text-sm">
+                  <code class="text-gray-800">
+                    # Dashboard: http://localhost:8501<br />
+                    # Log API: http://localhost:8502<br />
+                    # Health Check: /health<br />
+                    # Metrics: /metrics<br />
+                    # Status: /status
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-world Examples -->
+        <div class="bg-white border-2 border-accent/20 rounded-xl p-8">
+          <h3 class="text-2xl font-bold text-primary mb-8 text-center">
+            🌟 Real-World Use Cases
+          </h3>
+
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+              <div
+                class="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-search text-2xl text-accent"></i>
+              </div>
+              <h4 class="font-bold text-primary mb-3">SEO Research</h4>
+              <div class="bg-gray-50 p-4 rounded-lg text-left">
+                <code class="text-xs text-gray-700">
+                  # Analyze competitor backlinks<br />
+                  python test_backlink_storage.py<br /><br />
+                  # Monitor domain authority<br />
+                  python test_enhanced_crawler.py
+                </code>
+              </div>
+              <p class="text-sm text-gray-600 mt-3">
+                Comprehensive SEO analysis with PageRank and domain authority
+                metrics
+              </p>
+            </div>
+
+            <div class="text-center">
+              <div
+                class="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-chart-bar text-2xl text-accent"></i>
+              </div>
+              <h4 class="font-bold text-primary mb-3">Market Intelligence</h4>
+              <div class="bg-gray-50 p-4 rounded-lg text-left">
+                <code class="text-xs text-gray-700">
+                  # Track trending topics<br />
+                  cd engine && python googletrends.py<br /><br />
+                  # Social media analysis<br />
+                  python xtrends.py --realtime
+                </code>
+              </div>
+              <p class="text-sm text-gray-600 mt-3">
+                Real-time market trends and social media sentiment analysis
+              </p>
+            </div>
+
+            <div class="text-center">
+              <div
+                class="bg-accent/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4"
+              >
+                <i class="fas fa-database text-2xl text-accent"></i>
+              </div>
+              <h4 class="font-bold text-primary mb-3">Data Collection</h4>
+              <div class="bg-gray-50 p-4 rounded-lg text-left">
+                <code class="text-xs text-gray-700">
+                  # Large-scale crawling<br />
+                  python main.py<br /><br />
+                  # Export results<br />
+                  python dashboard.py --export
+                </code>
+              </div>
+              <p class="text-sm text-gray-600 mt-3">
+                Automated data collection with smart queue management and
+                intelligent batch processing
+              </p>
             </div>
           </div>
         </div>
@@ -719,6 +2488,13 @@
             <ul class="space-y-2">
               <li>
                 <a
+                  href="#quick-start"
+                  class="text-gray-300 hover:text-accent transition-colors"
+                  >Quick Start</a
+                >
+              </li>
+              <li>
+                <a
                   href="#overview"
                   class="text-gray-300 hover:text-accent transition-colors"
                   >Overview</a
@@ -785,7 +2561,7 @@
             <ul class="space-y-2">
               <li>
                 <a
-                  href="https://github.com/TheBoringRats/ratcrowler/blob/main/CONTRIBUTING.md"
+                  href="https://github.com/swadhinbiswas"
                   class="text-gray-300 hover:text-accent transition-colors"
                   >Contributing</a
                 >
@@ -809,7 +2585,7 @@
         </div>
         <div class="border-t border-gray-700 mt-8 pt-8 text-center">
           <p class="text-gray-300">
-            © 2025 RatCrawler. Built with ❤️ by TheBoringRats.
+            © 2025 RatCrawler. Built with ❤️ by Swadhin Biswas.
             <br />
             <span class="text-sm"
               >Inspired by the silent and agile nature of a rat.</span
@@ -828,6 +2604,500 @@
     </button>
 
     <script>
+      // Anime.js Architecture Animations
+      document.addEventListener("DOMContentLoaded", function () {
+        // Architecture Diagram Animations
+        function animateArchitectureDiagram() {
+          // Animate architecture nodes with staggered delays
+          anime({
+            targets: ".arch-node",
+            scale: [0.8, 1],
+            opacity: [0, 1],
+            duration: 800,
+            delay: function (el, i) {
+              return i * 100;
+            },
+            easing: "easeOutElastic(1, .6)",
+          });
+
+          // Animate flow lines
+          setTimeout(() => {
+            anime({
+              targets: ".flow-line",
+              opacity: [0, 0.6],
+              duration: 1000,
+              delay: function (el, i) {
+                return i * 500;
+              },
+              easing: "easeOutExpo",
+            });
+          }, 1000);
+
+          // Add pulsing effect to random nodes
+          setInterval(() => {
+            const nodes = document.querySelectorAll(".arch-node");
+            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+            randomNode.classList.add("active");
+            setTimeout(() => {
+              randomNode.classList.remove("active");
+            }, 2000);
+          }, 3000);
+        }
+
+        // Intersection Observer for architecture diagram
+        const archObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animateArchitectureDiagram();
+                archObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        const archDiagram = document.querySelector("#architecture");
+        if (archDiagram) {
+          archObserver.observe(archDiagram);
+        }
+
+        // Interactive hover effects for architecture nodes
+        document.querySelectorAll(".arch-node").forEach((node) => {
+          node.addEventListener("mouseenter", function () {
+            anime({
+              targets: this,
+              scale: 1.1,
+              duration: 200,
+              easing: "easeOutQuad",
+            });
+          });
+
+          node.addEventListener("mouseleave", function () {
+            anime({
+              targets: this,
+              scale: 1,
+              duration: 200,
+              easing: "easeOutQuad",
+            });
+          });
+
+          // Add click effect with information tooltip
+          node.addEventListener("click", function () {
+            anime({
+              targets: this,
+              scale: [1, 1.2, 1],
+              duration: 300,
+              easing: "easeOutElastic(1, .8)",
+            });
+
+            // Show tooltip with component details
+            showComponentTooltip(this);
+          });
+        });
+
+        // Component information system
+        const componentInfo = {
+          "seed-urls": {
+            title: "Seed URLs",
+            description:
+              "Starting point URLs that initiate the crawling process. These are loaded from configuration files or user input.",
+            features: [
+              "URL validation",
+              "Priority queuing",
+              "Batch processing",
+            ],
+          },
+          "google-trends": {
+            title: "Google Trends Integration",
+            description:
+              "Fetches trending search data from Google Trends API to correlate with web content.",
+            features: [
+              "Real-time trends",
+              "Geographic data",
+              "Category filtering",
+            ],
+          },
+          "twitter-api": {
+            title: "Twitter/X API",
+            description:
+              "Monitors social media trends and hashtags for comprehensive trend analysis.",
+            features: [
+              "Hashtag tracking",
+              "Sentiment analysis",
+              "Real-time streaming",
+            ],
+          },
+          "crawler-engine": {
+            title: "Web Crawler Engine",
+            description:
+              "Core crawling component that discovers and extracts content from web pages.",
+            features: [
+              "Robots.txt compliance",
+              "Rate limiting",
+              "Content extraction",
+            ],
+          },
+          "content-processor": {
+            title: "Content Processor",
+            description:
+              "Processes and cleans extracted content, removing noise and extracting meaningful data.",
+            features: [
+              "HTML parsing",
+              "Text extraction",
+              "Content deduplication",
+            ],
+          },
+          "backlink-analyzer": {
+            title: "Backlink Analyzer",
+            description:
+              "Analyzes link relationships between pages to build a comprehensive link graph.",
+            features: [
+              "Link discovery",
+              "Authority calculation",
+              "Spam detection",
+            ],
+          },
+          "trends-correlator": {
+            title: "Trends Correlator",
+            description:
+              "Correlates data from multiple sources to identify trending patterns and insights.",
+            features: [
+              "Multi-source correlation",
+              "Pattern recognition",
+              "Trend prediction",
+            ],
+          },
+          "pagerank-calc": {
+            title: "PageRank Calculator",
+            description:
+              "Implements Google's PageRank algorithm to calculate page authority scores.",
+            features: [
+              "Authority scoring",
+              "Link weight calculation",
+              "Iterative computation",
+            ],
+          },
+          "spam-detector": {
+            title: "Spam Detection System",
+            description:
+              "Advanced machine learning system to detect and filter spam content and links.",
+            features: [
+              "ML-based detection",
+              "Quality scoring",
+              "Content filtering",
+            ],
+          },
+          "trend-predictor": {
+            title: "AI Trend Predictor",
+            description:
+              "Machine learning system that predicts future trends based on historical data.",
+            features: [
+              "Predictive modeling",
+              "Time series analysis",
+              "Confidence scoring",
+            ],
+          },
+          "turso-db": {
+            title: "Turso Database",
+            description:
+              "Distributed SQLite database for scalable and reliable data storage.",
+            features: [
+              "Distributed architecture",
+              "ACID compliance",
+              "Automatic scaling",
+            ],
+          },
+          "cache-layer": {
+            title: "Cache Layer",
+            description:
+              "High-performance caching system for frequently accessed data and computations.",
+            features: [
+              "In-memory caching",
+              "Cache invalidation",
+              "Performance optimization",
+            ],
+          },
+          dashboard: {
+            title: "Web Dashboard",
+            description:
+              "Real-time web interface for monitoring crawling progress and viewing analytics.",
+            features: [
+              "Real-time updates",
+              "Interactive charts",
+              "System monitoring",
+            ],
+          },
+          "api-endpoints": {
+            title: "API Endpoints",
+            description:
+              "RESTful API for programmatic access to data and system functionality.",
+            features: ["REST API", "Authentication", "Rate limiting"],
+          },
+          reports: {
+            title: "Analytics Reports",
+            description:
+              "Comprehensive reporting system for exporting and analyzing crawled data.",
+            features: ["Data export", "Custom reports", "Scheduled generation"],
+          },
+        };
+
+        function showComponentTooltip(element) {
+          const componentId = element.id;
+          const info = componentInfo[componentId];
+
+          if (info) {
+            // Create or update tooltip
+            let tooltip = document.getElementById("component-tooltip");
+            if (!tooltip) {
+              tooltip = document.createElement("div");
+              tooltip.id = "component-tooltip";
+              tooltip.className =
+                "fixed z-50 bg-white border border-gray-200 rounded-lg shadow-xl p-4 max-w-sm";
+              tooltip.style.display = "none";
+              document.body.appendChild(tooltip);
+            }
+
+            tooltip.innerHTML = `
+              <h4 class="font-bold text-lg text-primary mb-2">${info.title}</h4>
+              <p class="text-gray-600 text-sm mb-3">${info.description}</p>
+              <div class="space-y-1">
+                <h5 class="font-semibold text-sm text-gray-700">Key Features:</h5>
+                ${info.features
+                  .map(
+                    (feature) =>
+                      `<div class="text-xs text-gray-600">• ${feature}</div>`
+                  )
+                  .join("")}
+              </div>
+              <button onclick="closeTooltip()" class="mt-3 text-xs text-blue-600 hover:text-blue-800">Close</button>
+            `;
+
+            // Position tooltip
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = rect.left + window.scrollX + "px";
+            tooltip.style.top = rect.bottom + window.scrollY + 10 + "px";
+            tooltip.style.display = "block";
+
+            // Animate tooltip appearance
+            anime({
+              targets: tooltip,
+              opacity: [0, 1],
+              scale: [0.8, 1],
+              duration: 300,
+              easing: "easeOutExpo",
+            });
+          }
+        }
+
+        // Global function to close tooltip
+        window.closeTooltip = function () {
+          const tooltip = document.getElementById("component-tooltip");
+          if (tooltip) {
+            anime({
+              targets: tooltip,
+              opacity: [1, 0],
+              scale: [1, 0.8],
+              duration: 200,
+              easing: "easeOutExpo",
+              complete: () => {
+                tooltip.style.display = "none";
+              },
+            });
+          }
+        };
+
+        // Close tooltip when clicking outside
+        document.addEventListener("click", function (e) {
+          const tooltip = document.getElementById("component-tooltip");
+          if (
+            tooltip &&
+            !tooltip.contains(e.target) &&
+            !e.target.closest(".arch-node")
+          ) {
+            closeTooltip();
+          }
+        });
+
+        // Animate title and subtitle
+        anime({
+          targets: ".animate-title",
+          translateY: [-50, 0],
+          opacity: [0, 1],
+          duration: 1000,
+          easing: "easeOutExpo",
+        });
+
+        anime({
+          targets: ".animate-subtitle",
+          translateY: [-30, 0],
+          opacity: [0, 1],
+          duration: 1000,
+          delay: 300,
+          easing: "easeOutExpo",
+        });
+
+        // Animate sections
+        anime({
+          targets: ".animate-section",
+          translateY: [50, 0],
+          opacity: [0, 1],
+          duration: 800,
+          delay: 600,
+          easing: "easeOutExpo",
+        });
+
+        // Component cards animation
+        const componentCards = document.querySelectorAll(".component-card");
+        componentCards.forEach((card, index) => {
+          const delay = parseInt(card.dataset.delay) || 0;
+
+          anime({
+            targets: card,
+            translateX: [-100, 0],
+            opacity: [0, 1],
+            duration: 800,
+            delay: 1000 + delay,
+            easing: "easeOutExpo",
+            complete: function () {
+              // Animate progress bars
+              const progressBar = card.querySelector(".progress-bar");
+              if (progressBar) {
+                anime({
+                  targets: progressBar,
+                  width: ["0%", "85%"],
+                  duration: 1500,
+                  easing: "easeOutQuart",
+                });
+              }
+            },
+          });
+
+          // Icon bounce animation
+          const icon = card.querySelector(".component-icon");
+          anime({
+            targets: icon,
+            scale: [0.8, 1.1, 1],
+            duration: 600,
+            delay: 1200 + delay,
+            easing: "easeOutElastic(1, .8)",
+          });
+        });
+
+        // Data flow animation
+        const flowSteps = document.querySelectorAll(".flow-step");
+        flowSteps.forEach((step, index) => {
+          const stepNumber = parseInt(step.dataset.step);
+
+          anime({
+            targets: step,
+            translateX: [100, 0],
+            opacity: [0, 1],
+            duration: 600,
+            delay: 1200 + stepNumber * 200,
+            easing: "easeOutExpo",
+            complete: function () {
+              // Animate flow arrows
+              const arrow = step.querySelector(".flow-arrow");
+              if (arrow) {
+                anime({
+                  targets: arrow,
+                  opacity: [0, 1],
+                  translateY: [-10, 0],
+                  duration: 400,
+                  delay: 300,
+                  easing: "easeOutExpo",
+                });
+              }
+            },
+          });
+
+          // Number circle bounce
+          const number = step.querySelector(".flow-number");
+          anime({
+            targets: number,
+            scale: [0, 1.2, 1],
+            duration: 500,
+            delay: 1400 + stepNumber * 200,
+            easing: "easeOutElastic(1, .6)",
+          });
+        });
+
+        // Feature cards staggered animation
+        const featureCards = document.querySelectorAll(".feature-card");
+        featureCards.forEach((card, index) => {
+          const delay = parseInt(card.dataset.delay) || 0;
+
+          anime({
+            targets: card,
+            translateY: [50, 0],
+            opacity: [0, 1],
+            duration: 800,
+            delay: 2000 + delay,
+            easing: "easeOutExpo",
+          });
+
+          // Card icon animation
+          const cardIcon = card.querySelector(".card-icon");
+          if (cardIcon) {
+            anime({
+              targets: cardIcon,
+              rotate: ["0deg", "360deg"],
+              duration: 1000,
+              delay: 2200 + delay,
+              easing: "easeOutExpo",
+            });
+          }
+        });
+
+        // Continuous floating animation for component icons
+        anime({
+          targets: ".component-icon",
+          translateY: [-5, 5],
+          duration: 2000,
+          direction: "alternate",
+          loop: true,
+          easing: "easeInOutSine",
+          delay: function (el, i) {
+            return i * 200;
+          },
+        });
+
+        // Flow numbers pulse animation
+        anime({
+          targets: ".flow-number",
+          scale: [1, 1.1, 1],
+          duration: 1500,
+          direction: "alternate",
+          loop: true,
+          easing: "easeInOutSine",
+          delay: function (el, i) {
+            return i * 300;
+          },
+        });
+
+        // Hover animations for feature cards
+        featureCards.forEach((card) => {
+          card.addEventListener("mouseenter", function () {
+            anime({
+              targets: this,
+              scale: 1.05,
+              duration: 200,
+              easing: "easeOutQuad",
+            });
+          });
+
+          card.addEventListener("mouseleave", function () {
+            anime({
+              targets: this,
+              scale: 1,
+              duration: 200,
+              easing: "easeOutQuad",
+            });
+          });
+        });
+      });
+
       // Smooth scrolling for navigation links
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
@@ -882,6 +3152,159 @@
           card.style.transform = "translateY(20px)";
           card.style.transition = "opacity 0.6s ease, transform 0.6s ease";
           observer.observe(card);
+        });
+
+      // Enhanced Workflow Animations
+      const workflowPhases = document.querySelectorAll(".workflow-phase");
+      const particles = document.querySelectorAll(".data-particle");
+
+      // Animate workflow phases on scroll
+      const workflowObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const phase = entry.target;
+              const index = Array.from(workflowPhases).indexOf(phase);
+
+              anime({
+                targets: phase,
+                opacity: [0, 1],
+                translateY: [50, 0],
+                scale: [0.9, 1],
+                duration: 800,
+                delay: index * 200,
+                easing: "easeOutExpo",
+              });
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      workflowPhases.forEach((phase) => {
+        workflowObserver.observe(phase);
+      });
+
+      // Continuous particle flow animation
+      function animateParticleFlow() {
+        particles.forEach((particle, index) => {
+          anime({
+            targets: particle,
+            translateX: [0, window.innerWidth * 0.7],
+            opacity: [0, 1, 1, 0],
+            scale: [0.5, 1, 1, 0.5],
+            duration: 4000,
+            delay: index * 1500,
+            easing: "easeInOutQuad",
+            complete: function () {
+              // Reset particle position
+              particle.style.transform = "translateX(0px) translateY(-50%)";
+              // Restart animation after a delay
+              setTimeout(() => animateParticleFlow(), 2000 + index * 500);
+            },
+          });
+        });
+      }
+
+      // Start particle animation when workflow section is visible
+      const workflowSection = document.querySelector(
+        ".py-20.bg-gradient-to-br.from-slate-50"
+      );
+      if (workflowSection) {
+        const flowObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                animateParticleFlow();
+                flowObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.3 }
+        );
+
+        flowObserver.observe(workflowSection);
+      }
+
+      // Add hover effects to workflow phases
+      workflowPhases.forEach((phase) => {
+        phase.addEventListener("mouseenter", function () {
+          anime({
+            targets: this.querySelector(".shadow-xl"),
+            scale: 1.05,
+            boxShadow: "0 25px 50px rgba(0, 0, 0, 0.15)",
+            duration: 300,
+            easing: "easeOutQuad",
+          });
+
+          // Pulse the icon
+          const icon = this.querySelector(
+            ".fa-seedling, .fa-project-diagram, .fa-brain, .fa-server"
+          );
+          if (icon) {
+            anime({
+              targets: icon,
+              scale: [1, 1.2, 1],
+              duration: 600,
+              easing: "easeOutElastic(1, .8)",
+            });
+          }
+        });
+
+        phase.addEventListener("mouseleave", function () {
+          anime({
+            targets: this.querySelector(".shadow-xl"),
+            scale: 1,
+            boxShadow: "0 20px 25px rgba(0, 0, 0, 0.1)",
+            duration: 300,
+            easing: "easeOutQuad",
+          });
+        });
+      });
+
+      // Flow stations pulse animation
+      const flowStations = document.querySelectorAll(".w-12.h-12.rounded-full");
+      flowStations.forEach((station, index) => {
+        anime({
+          targets: station,
+          scale: [1, 1.1, 1],
+          duration: 2000,
+          delay: index * 500,
+          direction: "alternate",
+          loop: true,
+          easing: "easeInOutSine",
+        });
+      });
+
+      // Staggered animation for detailed process steps
+      const processSteps = document.querySelectorAll(".flex.items-start");
+      const processObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const steps = entry.target.querySelectorAll(".flex.items-start");
+              steps.forEach((step, index) => {
+                anime({
+                  targets: step,
+                  opacity: [0, 1],
+                  translateX: [-30, 0],
+                  duration: 600,
+                  delay: index * 150,
+                  easing: "easeOutExpo",
+                });
+              });
+              processObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      // Observe process containers
+      document
+        .querySelectorAll(".bg-white\\/70.backdrop-blur-sm")
+        .forEach((container) => {
+          processObserver.observe(container);
         });
     </script>
   </body>

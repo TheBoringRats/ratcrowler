@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RatCrawler Configuration Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -44,24 +45,24 @@
               >Home</a
             >
             <a
-              href="#basic-config"
+              href="api.html"
               class="text-gray-700 hover:text-accent transition-colors"
-              >Basic Config</a
+              >API Docs</a
             >
             <a
-              href="#advanced-config"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >Advanced</a
-            >
-            <a
-              href="#environment"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >Environment</a
-            >
-            <a
-              href="#examples"
+              href="examples.html"
               class="text-gray-700 hover:text-accent transition-colors"
               >Examples</a
+            >
+            <a
+              href="contributing.html"
+              class="text-gray-700 hover:text-accent transition-colors"
+              >Contributing</a
+            >
+            <a
+              href="https://github.com/swadhinbiswas/ratcrowler"
+              class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors"
+              ><i class="fab fa-github mr-2"></i>GitHub</a
             >
           </div>
         </div>
@@ -745,5 +746,55 @@ NEWS_API_KEY=your_api_key_here</code></pre>
         </p>
       </div>
     </footer>
+
+    <script>
+      // Basic Anime.js animations for Configuration documentation
+      document.addEventListener("DOMContentLoaded", function () {
+        // Animate main title and sections
+        anime({
+          targets: "h1, h2, h3, .bg-white, .bg-gray-50",
+          translateY: [30, 0],
+          opacity: [0, 1],
+          duration: 800,
+          delay: function (el, i) {
+            return i * 150;
+          },
+          easing: "easeOutExpo",
+        });
+
+        // Animate config cards and code blocks
+        anime({
+          targets: ".border, pre, .shadow-md",
+          scale: [0.95, 1],
+          opacity: [0, 1],
+          duration: 600,
+          delay: 500,
+          easing: "easeOutExpo",
+        });
+
+        // Icon animations
+        anime({
+          targets: "i.fas, i.fab",
+          rotate: ["0deg", "360deg"],
+          duration: 1000,
+          delay: 800,
+          easing: "easeOutExpo",
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

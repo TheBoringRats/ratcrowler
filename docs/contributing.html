@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RatCrawler Contributing Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -44,24 +45,24 @@
               >Home</a
             >
             <a
-              href="#getting-started"
+              href="api.html"
               class="text-gray-700 hover:text-accent transition-colors"
-              >Getting Started</a
+              >API Docs</a
             >
             <a
-              href="#development"
+              href="config.html"
               class="text-gray-700 hover:text-accent transition-colors"
-              >Development</a
+              >Configuration</a
             >
             <a
-              href="#contributing"
+              href="examples.html"
               class="text-gray-700 hover:text-accent transition-colors"
-              >Contributing</a
+              >Examples</a
             >
             <a
-              href="#guidelines"
-              class="text-gray-700 hover:text-accent transition-colors"
-              >Guidelines</a
+              href="https://github.com/swadhinbiswas/ratcrowler"
+              class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent/90 transition-colors"
+              ><i class="fab fa-github mr-2"></i>GitHub</a
             >
           </div>
         </div>
@@ -111,7 +112,7 @@
                 <h4 class="font-bold text-primary mb-2">Clone Your Fork</h4>
                 <div class="bg-gray-100 p-3 rounded">
                   <code class="text-sm text-gray-800">
-                    git clone https://github.com/yourusername/ratcrawler.git<br />
+                    git clone https://github.com/swadhinbiswas/ratcrawler.git<br />
                     cd ratcrawler
                   </code>
                 </div>
@@ -122,7 +123,7 @@
                 <div class="bg-gray-100 p-3 rounded">
                   <code class="text-sm text-gray-800">
                     git remote add upstream
-                    https://github.com/TheBoringRats/ratcrawler.git<br />
+                    https://github.com/swadhinbiswas/ratcrawler.git<br />
                     git fetch upstream
                   </code>
                 </div>
@@ -648,5 +649,55 @@ cargo test --release</code></pre>
         </p>
       </div>
     </footer>
+
+    <script>
+      // Basic Anime.js animations for Contributing documentation
+      document.addEventListener("DOMContentLoaded", function () {
+        // Animate main title and sections
+        anime({
+          targets: "h1, h2, h3, .bg-white, .bg-gray-50",
+          translateY: [30, 0],
+          opacity: [0, 1],
+          duration: 800,
+          delay: function (el, i) {
+            return i * 150;
+          },
+          easing: "easeOutExpo",
+        });
+
+        // Animate contribution steps and code blocks
+        anime({
+          targets: ".border, pre, .shadow-md, .rounded-lg",
+          scale: [0.95, 1],
+          opacity: [0, 1],
+          duration: 600,
+          delay: 400,
+          easing: "easeOutExpo",
+        });
+
+        // Animate step numbers and icons
+        anime({
+          targets: ".bg-accent, i.fas, i.fab",
+          scale: [0, 1.2, 1],
+          duration: 800,
+          delay: 600,
+          easing: "easeOutElastic(1, .6)",
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
