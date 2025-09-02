@@ -5,8 +5,8 @@ Run this to test the monitoring system with sample data
 
 import time
 import random
-from rat.turso_monitoring_dashboard import TursoMonitor, DatabaseConfig
-from rat.turso_rotation_utility import DatabaseRotator
+from rat.dashboard import TursoMonitor, DatabaseConfig
+from rat.utility import DatabaseRotator
 
 
 def create_sample_databases():

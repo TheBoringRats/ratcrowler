@@ -1,7 +1,14 @@
 [
-  "https://example.com",
   "https://github.com",
   "https://stackoverflow.com",
   "https://wikipedia.org",
-  "https://python.org"
+  "https://python.org",
+  "https://www.google.com",
+  "https://www.youtube.com",
+  "https://www.microsoft.com",
+  "https://www.apple.com",
+  "https://developer.mozilla.org",
+  "https://www.w3schools.com",
+  "https://www.freecodecamp.org"
+
 ]

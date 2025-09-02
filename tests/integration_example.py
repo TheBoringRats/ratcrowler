@@ -12,7 +12,7 @@ print("=" * 50)
 # from backlinkdb import BacklinkDatabase
 
 # NEW WAY (Turso with automatic rotation):
-from rat.turso_database_adapter import TursoWebsiteCrawlerDatabase, TursoBacklinkDatabase
+from rat.adapter import TursoWebsiteCrawlerDatabase, TursoBacklinkDatabase
 
 # Your existing crawler code stays almost the same!
 def example_crawler_usage():
@@ -66,7 +66,7 @@ def example_migration():
     print("\n🔄 Integration Example 2: Data Migration")
     print("=" * 50)
 
-    from rat.turso_database_adapter import migrate_to_turso
+    from rat.adapter import migrate_to_turso
 
     # One-time migration of existing SQLite data to Turso
     success = migrate_to_turso()
@@ -83,7 +83,7 @@ def example_monitoring():
     print("\n📊 Integration Example 3: Monitoring & Rotation")
     print("=" * 50)
 
-    from rat.turso_rotation_utility import check_database_health, get_current_database
+    from rat.utility import check_database_health, get_current_database
 
     # Check current database status
     current_db = get_current_database()

@@ -17,7 +17,7 @@ def test_turso_adapter():
     try:
         # Test imports
         print("📦 Testing imports...")
-        from rat.turso_database_adapter import TursoDatabaseAdapter, TursoConnection
+        from rat.adapter import TursoDatabaseAdapter, TursoConnection
         print("✅ Imports successful")
 
         # Test database adapter initialization
@@ -49,7 +49,7 @@ def test_rotation_utility():
     try:
         # Test basic rotation functions
         print("📦 Testing rotation utility imports...")
-        from rat.turso_rotation_utility import DatabaseRotator
+        from rat.utility import DatabaseRotator
         print("✅ Rotation utility imports successful")
 
         # Test rotator initialization

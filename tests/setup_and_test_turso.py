@@ -5,8 +5,8 @@ Loads configuration from turso_config.json and tests the integration
 
 import json
 import os
-from rat.turso_monitoring_dashboard import TursoMonitor, DatabaseConfig
-from rat.turso_database_adapter import TursoWebsiteCrawlerDatabase, TursoBacklinkDatabase
+from rat.dashboard import TursoMonitor, DatabaseConfig
+from rat.adapter import TursoWebsiteCrawlerDatabase, TursoBacklinkDatabase
 
 
 def load_and_setup_databases():

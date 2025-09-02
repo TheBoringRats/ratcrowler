@@ -1,0 +1,12 @@
+{
+  "current_page": 1,
+  "batch_size": 50,
+  "total_urls": 83970,
+  "urls_processed": 0,
+  "successful_crawls": 0,
+  "failed_crawls": 0,
+  "last_update": "2025-09-02T09:54:26.892897",
+  "session_id": 18,
+  "db_name": "websitecrawler",
+  "is_running": false
+}

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 RatCrawler - Automatic Batch Web Crawler
-Automatically crawls 50 URLs at a time from backlinks database,
-saves progress, and resumes from where it left off.
+Automatically crawls 50 URLs at a time, saves progress, and resumes from where it left off
 """
 
 import asyncio
@@ -10,6 +9,7 @@ import sys
 import os
 import subprocess
 import signal
+from pathlib import Path
 
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -22,15 +22,10 @@ from rat.logger import log_manager
 def start_dashboard_background():
     """Start the dashboard in background"""
     try:
-        # Check if dashboard.py exists
-        if os.path.exists("dashboard.py"):
-            dashboard_process = subprocess.Popen([
-                sys.executable, "-m", "streamlit", "run", "dashboard.py", "--server.port=8501"
-            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            return dashboard_process
-        else:
-            print("⚠️ dashboard.py not found")
-            return None
+        dashboard_process = subprocess.Popen([
+            sys.executable, "run_enhanced_dashboard.py"
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return dashboard_process
     except Exception as e:
         print(f"⚠️ Could not start dashboard: {e}")
         return None
@@ -39,15 +34,10 @@ def start_dashboard_background():
 def start_log_api_background():
     """Start the log API in background"""
     try:
-        # Check if log_api.py exists
-        if os.path.exists("rat/log_api.py"):
-            api_process = subprocess.Popen([
-                sys.executable, "-m", "uvicorn", "rat.log_api:app", "--host=0.0.0.0", "--port=8000"
-            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            return api_process
-        else:
-            print("⚠️ rat/log_api.py not found")
-            return None
+        api_process = subprocess.Popen([
+            sys.executable, "rat/log_api.py"
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return api_process
     except Exception as e:
         print(f"⚠️ Could not start log API: {e}")
         return None

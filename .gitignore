@@ -42,7 +42,8 @@ website_crawler.db
 test.db
 x_cookies.json
 web_crawl.db
-/rat/databases.json
+rat/databases.json
 *logs*
 *.sqlite
 *.db
+databases.json
