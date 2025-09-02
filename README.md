@@ -7,6 +7,12 @@
 [![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0+-red?style=for-the-badge&logo=sqlite)](https://sqlalchemy.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Monitoring-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+![Database Support](https://img.shields.io/badge/Databases-SQLite%20%7C%20Turso%20%7C%20PostgreSQL*-orange?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.5.0--Multi--DB-purple?style=for-the-badge)
+
+**🚀 Latest Update: Multi-Database Support Architecture**
+
+_Now supporting SQLite Local + Turso Cloud with PostgreSQL, MySQL, and MongoDB adapters coming soon!_
 
 **Advanced Web Crawling & Multi-Source Trending Analysis Platform**
 
@@ -18,7 +24,7 @@ _Intelligent batch processing • Real-time analytics • Professional-grade bac
 
 ## 🌟 **What is RatCrawler?**
 
-RatCrawler is a sophisticated **multi-source trending analysis platform** that combines intelligent web crawling, Google Trends analysis, Twitter/X trends monitoring, and professional-grade backlink analysis. Built with modern Python technologies, it features automatic batch processing, real-time monitoring, and comprehensive analytics capabilities.
+RatCrawler is a sophisticated **multi-source trending analysis platform** that combines intelligent web crawling, Google Trends analysis, Twitter/X trends monitoring, and professional-grade backlink analysis. Built with modern Python technologies, it features automatic batch processing, real-time monitoring, and **multi-database support** for enterprise-scale operations.
 
 ### ✨ **Key Highlights**
 
@@ -26,7 +32,7 @@ RatCrawler is a sophisticated **multi-source trending analysis platform** that c
 - 📊 **Multi-Source Analytics**: Google Trends + Twitter/X + Web crawling integration
 - 🔍 **Professional Backlink Analysis**: PageRank calculation, domain authority, spam detection
 - 📈 **Real-time Monitoring**: Streamlit dashboard + FastAPI monitoring server
-- 🗄️ **Enterprise Database**: SQLAlchemy with Turso cloud + SQLite local support
+- 🗄️ **Multi-Database Architecture**: SQLite Local + Turso Cloud with PostgreSQL/MySQL/MongoDB support coming soon
 - 🛡️ **Advanced Security**: Dashboard authentication + spam detection algorithms
 
 ---
@@ -377,7 +383,7 @@ graph TB
 - **Auto Batch Crawler**: Intelligent URL batch processing from backlinks database
 - **Professional Crawler**: Advanced async HTTP client with comprehensive content extraction
 - **Trending Analysis Engine**: Real-time data from Google Trends and Twitter/X
-- **Database Layer**: Multi-database support with automatic schema migration
+- **Multi-Database Layer**: SQLite Local + Turso Cloud with PostgreSQL/MySQL/MongoDB coming soon
 - **Monitoring Suite**: Real-time dashboard and API monitoring
 
 ---
@@ -646,13 +652,18 @@ CRAWLER_MAX_RETRIES=3
 - **Log aggregation**: Centralized logging system
 - **Health checks**: Automated system health monitoring
 
-### 🗄️ **Enterprise Database Support**
+### 🗄️ **Multi-Database Support**
 
-- **Multi-database**: SQLite local + Turso cloud support
-- **Auto-migration**: Schema evolution management
-- **Connection pooling**: Efficient database connections
-- **Transaction safety**: ACID compliance
-- **Backup strategies**: Data protection and recovery
+- **Current Support**:
+  - **SQLite Local**: Fast local database with file-based storage
+  - **Turso Cloud**: Distributed SQLite with automatic rotation & scaling
+- **Coming Soon**: PostgreSQL, MySQL, MongoDB adapters
+- **Advanced Features**:
+  - **Auto-migration**: Schema evolution management
+  - **Connection pooling**: Efficient database connections
+  - **Load balancing**: Automatic database rotation
+  - **Transaction safety**: ACID compliance
+  - **Backup strategies**: Data protection and recovery
 
 ---
 
@@ -807,6 +818,14 @@ graph TB
 - **Predictive Analytics**: Forecast crawling completion times
 - **ROI Analysis**: Content value vs crawling cost assessment
 - **Trend Detection**: Automatic identification of emerging topics
+
+#### 🗄️ **Database Support Roadmap**
+
+- **✅ Current**: SQLite Local + Turso Cloud (Distributed SQLite)
+- **🔄 Next**: PostgreSQL adapter with advanced indexing
+- **🔄 Soon**: MySQL/MariaDB support with clustering
+- **🔄 Future**: MongoDB integration for document-based storage
+- **🔄 Enterprise**: Redis caching layer + connection pooling
 
 ### 📅 **Development Timeline**
 
