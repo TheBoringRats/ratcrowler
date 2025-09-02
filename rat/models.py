@@ -61,6 +61,8 @@ class CrawledPage(Base):
     internal_links_count: Mapped[Optional[int]] = mapped_column(Integer)
     external_links_count: Mapped[Optional[int]] = mapped_column(Integer)
     images_count: Mapped[Optional[int]] = mapped_column(Integer)
+    content_type: Mapped[Optional[str]] = mapped_column(String(50))  # Content type: html, pdf, image, document, etc.
+    file_extension: Mapped[Optional[str]] = mapped_column(String(10))  # File extension: .pdf, .jpg, .doc, etc.
     crawl_time: Mapped[DateTime] = mapped_column(DateTime, server_default=func.now())
 
     # Relationships

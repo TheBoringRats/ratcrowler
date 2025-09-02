@@ -1,5 +1,5 @@
 from typing import Optional, List, Dict, Any
-from config import config
+from rat.config import config
 import json
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
@@ -14,9 +14,7 @@ class DBList:
             self.dbdata = self.loaddb
         else:
             self.dbdata = []
-
-        print(f"📊 Loaded {len(self.dbdata)} database configurations")
-        self.crowdb = []  # Changed to list to store multiple DBs
+        self.crowdb = []
         self.backlink = []
         self.crawler_enginelist = []
         self.backlink_enginelist = []

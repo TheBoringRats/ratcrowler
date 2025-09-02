@@ -1,4 +1,4 @@
-from dblist import DBList
+from rat.dblist import DBList
 from sqlalchemy.exc import OperationalError
 from typing import List, Dict,Optional,Any
 import requests
@@ -31,7 +31,16 @@ class Health:
         orgname=db.get("organization")
         healthinfo=self.__dbfindhealth(dbname,orgname,apikey)
         uses=healthinfo.get("total",{})
-        if uses.get("rows_read")<9000000 and uses.get('storage_bytes')<4000000000:
+
+        # Ensure values are not None before comparison
+        rows_read = uses.get("rows_read", 0)
+        storage_bytes = uses.get("storage_bytes", 0)
+        if rows_read is None:
+            rows_read = 0
+        if storage_bytes is None:
+            storage_bytes = 0
+
+        if rows_read<9000000 and storage_bytes<4000000000:
               self.useable_databases_crawler.append(db)
         else:
               self.useable_databases_crawler.append(None)
@@ -41,13 +50,20 @@ class Health:
          orgname=dbw.get("organization")
          healthinfo=self.__dbfindhealth(dbname,orgname,apikey)
          uses=healthinfo.get("total",{})
-         if uses.get("rows_read")<9000000 and uses.get('storage_bytes')<4000000000:
+
+         # Ensure values are not None before comparison
+         rows_read = uses.get("rows_read", 0)
+         storage_bytes = uses.get("storage_bytes", 0)
+         if rows_read is None:
+             rows_read = 0
+         if storage_bytes is None:
+             storage_bytes = 0
+
+         if rows_read<9000000 and storage_bytes<4000000000:
               self.useable_databases_backlink.append(dbw)
          else:
               self.useable_databases_backlink.append(None)
 
   def current_limit(self,dbname:str,orgname:str,authkey:str)->Optional[Dict[str,Any]]:
      health=self.__dbfindhealth(dbname,orgname,authkey)
-     if health.get("status")=="ok":
-         return health.get("total",{})
-     return None
+     return health.get("total",{})

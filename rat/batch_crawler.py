@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Professional Backlink-Based Web Crawler for RatCrawler
-Crawls URLs discovered from backlinks with comprehensive data extraction
+Batch-Based Professional Web Crawler for RatCrawler
+Processes URLs in small batches (50 URLs per page) to handle large datasets efficiently
 """
 
 import asyncio
@@ -10,19 +10,19 @@ import hashlib
 import json
 import re
 import time
-from typing import List, Dict, Set, Optional, Tuple
+from typing import List, Dict, Set, Optional, Tuple, Generator
 from urllib.parse import urljoin, urlparse, parse_qs
 from urllib.robotparser import RobotFileParser
 from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 from dataclasses import dataclass
 from datetime import datetime
-import hashlib
 import warnings
 
 # Suppress BeautifulSoup XML parsing warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from .sqlalchemy_database import SQLAlchemyDatabase
+from .logger import log_manager
 
 
 @dataclass
@@ -56,17 +56,37 @@ class CrawlResult:
     error_message: Optional[str] = None
 
 
-class ProfessionalBacklinkCrawler:
+@dataclass
+class BatchProgress:
+    """Track batch crawling progress"""
+    current_page: int = 1
+    total_pages: int = 0
+    urls_per_page: int = 50
+    total_urls: int = 0
+    processed_urls: int = 0
+    successful_crawls: int = 0
+    failed_crawls: int = 0
+    start_time: float = 0
+    current_batch_time: float = 0
+
+
+class BatchBacklinkCrawler:
     """
-    Professional web crawler that processes URLs from backlinks database
-    with comprehensive data extraction and search engine optimization features
+    Professional web crawler that processes URLs in batches from backlinks database
+    Designed to handle large datasets efficiently by processing 50 URLs at a time
     """
 
-    def __init__(self, db_handler: SQLAlchemyDatabase, max_concurrent: int = 10, delay: float = 1.0):
+    def __init__(self, db_handler: SQLAlchemyDatabase, max_concurrent: int = 10, delay: float = 1.0,
+                 batch_size: int = 50):
         self.db = db_handler
         self.max_concurrent = max_concurrent
         self.delay = delay
+        self.batch_size = batch_size
         self.session_timeout = aiohttp.ClientTimeout(total=30, connect=10)
+
+        # Progress tracking
+        self.progress = BatchProgress()
+        self.progress.urls_per_page = batch_size
 
         # Professional browser-like headers
         self.headers = {
@@ -88,7 +108,7 @@ class ProfessionalBacklinkCrawler:
         self.robots_cache: Dict[str, RobotFileParser] = {}
         self.robots_cache_time: Dict[str, float] = {}
 
-        # File extensions for different content types (for categorization, not filtering)
+        # Content type mappings
         self.file_extensions = {
             'documents': {'.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.txt', '.rtf'},
             'archives': {'.zip', '.rar', '.7z', '.tar', '.gz', '.bz2'},
@@ -98,25 +118,85 @@ class ProfessionalBacklinkCrawler:
             'scripts': {'.js', '.ts', '.coffee'},
             'data': {'.json', '.xml', '.rss', '.csv', '.yaml', '.yml'},
             'fonts': {'.woff', '.woff2', '.ttf', '.eot', '.otf'},
-            'other': set()  # Catch-all for other extensions
+            'other': set()
         }
 
-        # Flatten all extensions for easy checking
-        self.all_extensions = set()
-        for ext_set in self.file_extensions.values():
-            self.all_extensions.update(ext_set)
+    def get_total_urls_count(self) -> int:
+        """Get total count of unique URLs from backlinks without loading all data"""
+        try:
+            # Use efficient COUNT query instead of loading all data
+            with self.db.get_session("backlink") as session:
+                from sqlalchemy import text
+
+                # Count unique URLs from both source and target columns
+                count_query = text("""
+                    SELECT COUNT(DISTINCT url) FROM (
+                        SELECT source_url as url FROM backlinks WHERE source_url IS NOT NULL
+                        UNION
+                        SELECT target_url as url FROM backlinks WHERE target_url IS NOT NULL
+                    ) unique_urls
+                """)
+
+                result = session.execute(count_query).scalar()
+                return result or 0
+
+        except Exception as e:
+            log_manager.system_logger.log_metric("url_count_error", str(e))
+            print(f"❌ Error counting URLs: {e}")
+            return 0
+
+    def get_urls_batch(self, page: int, limit: int = 50) -> List[str]:
+        """Get a batch of unique URLs from backlinks database using pagination"""
+        try:
+            offset = (page - 1) * limit
+
+            with self.db.get_session("backlink") as session:
+                from sqlalchemy import text
+
+                # Get unique URLs with pagination
+                batch_query = text("""
+                    SELECT DISTINCT url FROM (
+                        SELECT source_url as url FROM backlinks WHERE source_url IS NOT NULL
+                        UNION
+                        SELECT target_url as url FROM backlinks WHERE target_url IS NOT NULL
+                    ) unique_urls
+                    ORDER BY url
+                    LIMIT :limit OFFSET :offset
+                """)
+
+                result = session.execute(batch_query, {"limit": limit, "offset": offset})
+                urls = [row[0] for row in result.fetchall()]
+
+                # Filter valid URLs
+                valid_urls = [url for url in urls if self.is_valid_url(url)]
+
+                log_manager.db_logger.log_db_operation(
+                    "batch_fetch", "backlinks",
+                    record_count=len(valid_urls),
+                    page=page,
+                    success=True
+                )
+
+                return valid_urls
+
+        except Exception as e:
+            log_manager.db_logger.log_db_operation(
+                "batch_fetch", "backlinks",
+                page=page,
+                success=False,
+                error=str(e)
+            )
+            print(f"❌ Error fetching URL batch {page}: {e}")
+            return []
 
     def is_valid_url(self, url: str) -> bool:
-        """Check if URL is valid and crawlable (now includes all file types)"""
+        """Check if URL is valid and crawlable"""
         try:
             parsed = urlparse(url)
             if parsed.scheme not in ['http', 'https']:
                 return False
 
-            # No longer skip any file extensions - we want to capture ALL links
-            # This allows us to store links to PDFs, images, documents, etc.
-
-            # Skip query parameters that indicate non-HTML content (keep this for actual downloads)
+            # Skip query parameters that indicate downloads
             if parsed.query:
                 query_params = parse_qs(parsed.query)
                 if any(param in query_params for param in ['download', 'attachment']):
@@ -136,7 +216,6 @@ class ProfessionalBacklinkCrawler:
                 if any(path_lower.endswith(ext) for ext in extensions):
                     return content_type
 
-            # Check if it's likely HTML or unknown
             if '.' not in parsed.path or parsed.path.endswith('/'):
                 return 'html'
             else:
@@ -148,9 +227,7 @@ class ProfessionalBacklinkCrawler:
         """Normalize URL by removing fragments and sorting query parameters"""
         try:
             parsed = urlparse(url)
-            # Remove fragment
             parsed = parsed._replace(fragment='')
-            # Sort query parameters
             if parsed.query:
                 query_dict = parse_qs(parsed.query)
                 sorted_query = '&'.join(f"{k}={v[0]}" for k, v in sorted(query_dict.items()))
@@ -164,8 +241,6 @@ class ProfessionalBacklinkCrawler:
         try:
             parsed = urlparse(url)
             base_url = f"{parsed.scheme}://{parsed.netloc}"
-
-            # Check cache (cache for 24 hours)
             cache_key = base_url
             current_time = time.time()
 
@@ -173,7 +248,6 @@ class ProfessionalBacklinkCrawler:
                 if current_time - self.robots_cache_time[cache_key] < 86400:  # 24 hours
                     rp = self.robots_cache[cache_key]
                 else:
-                    # Cache expired, refresh
                     rp = RobotFileParser()
                     rp.set_url(f"{base_url}/robots.txt")
                     try:
@@ -181,10 +255,8 @@ class ProfessionalBacklinkCrawler:
                         self.robots_cache[cache_key] = rp
                         self.robots_cache_time[cache_key] = current_time
                     except Exception:
-                        # If robots.txt can't be read, assume we can crawl
                         return True
             else:
-                # Not in cache, fetch
                 rp = RobotFileParser()
                 rp.set_url(f"{base_url}/robots.txt")
                 try:
@@ -192,27 +264,23 @@ class ProfessionalBacklinkCrawler:
                     self.robots_cache[cache_key] = rp
                     self.robots_cache_time[cache_key] = current_time
                 except Exception:
-                    # If robots.txt can't be read, assume we can crawl
                     return True
 
-            # Check if we can fetch
             return rp.can_fetch('*', url)
 
         except Exception:
-            # If there's any error, assume we can crawl
             return True
 
     def extract_page_data(self, html: str, url: str) -> Dict:
         """Extract comprehensive data from HTML content"""
         try:
-            # Detect if content is XML and choose appropriate parser
             parser = 'html.parser'
             if html.strip().startswith('<?xml') or '<rss' in html.lower() or '<feed' in html.lower():
                 try:
                     import lxml
                     parser = 'lxml'
                 except ImportError:
-                    parser = 'html.parser'  # Fallback to html parser
+                    parser = 'html.parser'
 
             soup = BeautifulSoup(html, parser)
 
@@ -228,7 +296,7 @@ class ProfessionalBacklinkCrawler:
             meta_description = None
             meta_desc = soup.find('meta', attrs={'name': 'description'})
             if meta_desc:
-                content = meta_desc.get('content')  # type: ignore
+                content = meta_desc.get('content')
                 if content:
                     meta_description = str(content).strip()
 
@@ -236,7 +304,7 @@ class ProfessionalBacklinkCrawler:
             meta_keywords = []
             meta_kw = soup.find('meta', attrs={'name': 'keywords'})
             if meta_kw:
-                content = meta_kw.get('content')  # type: ignore
+                content = meta_kw.get('content')
                 if content:
                     content_str = str(content)
                     meta_keywords = [kw.strip() for kw in content_str.split(',') if kw.strip()]
@@ -245,7 +313,7 @@ class ProfessionalBacklinkCrawler:
             canonical_url = None
             canonical = soup.find('link', attrs={'rel': 'canonical'})
             if canonical:
-                href = canonical.get('href')  # type: ignore
+                href = canonical.get('href')
                 if href:
                     canonical_url = str(href)
                     if canonical_url and not canonical_url.startswith(('http://', 'https://')):
@@ -255,7 +323,7 @@ class ProfessionalBacklinkCrawler:
             robots_meta = None
             robots = soup.find('meta', attrs={'name': 'robots'})
             if robots:
-                content = robots.get('content')  # type: ignore
+                content = robots.get('content')
                 if content:
                     robots_meta = str(content)
 
@@ -274,13 +342,10 @@ class ProfessionalBacklinkCrawler:
                     h2_tags.append(text.strip())
 
             # Extract text content
-            # Remove script and style elements
             for script in soup(["script", "style"]):
                 script.extract()
 
             content_text = soup.get_text(separator=' ', strip=True)
-
-            # Count words
             word_count = len(content_text.split()) if content_text else 0
 
             # Extract links
@@ -292,7 +357,7 @@ class ProfessionalBacklinkCrawler:
             base_domain = parsed_base.netloc
 
             for link in soup.find_all('a', href=True):
-                href = link.get('href')  # type: ignore
+                href = link.get('href')
                 if href:
                     href_str = str(href)
                     if href_str.startswith(('http://', 'https://')):
@@ -306,7 +371,7 @@ class ProfessionalBacklinkCrawler:
 
             # Extract images
             for img in soup.find_all('img'):
-                src = img.get('src')  # type: ignore
+                src = img.get('src')
                 if src:
                     src_str = str(src)
                     if src_str.startswith(('http://', 'https://')):
@@ -318,9 +383,9 @@ class ProfessionalBacklinkCrawler:
             language = None
             html_tag = soup.find('html')
             if html_tag:
-                lang = html_tag.get('lang')  # type: ignore
+                lang = html_tag.get('lang')
                 if lang:
-                    language = str(lang)[:10]  # Limit to 10 chars
+                    language = str(lang)[:10]
 
             return {
                 'title': title,
@@ -347,14 +412,12 @@ class ProfessionalBacklinkCrawler:
         start_time = time.time()
         result = CrawlResult(url=url)
 
-        # Set content type and file extension
         result.content_type = self.get_content_type(url)
         parsed = urlparse(url)
         if '.' in parsed.path:
             result.file_extension = '.' + parsed.path.split('.')[-1].lower()
 
         try:
-            # Check robots.txt
             if not self.can_fetch_url(url):
                 result.error_message = "Blocked by robots.txt"
                 return result
@@ -365,20 +428,16 @@ class ProfessionalBacklinkCrawler:
                 result.http_status_code = response.status
                 result.response_time_ms = int((time.time() - start_time) * 1000)
 
-                # Track redirect chain
                 if response.history:
                     result.redirect_chain = [str(h.url) for h in response.history] + [str(response.url)]
                     result.original_url = str(response.history[0].url)
 
-                # Only process successful responses
                 if response.status != 200:
                     result.error_message = f"HTTP {response.status}"
                     return result
 
-                # Get content
                 content = await response.read()
 
-                # Detect encoding (fallback method without chardet)
                 try:
                     html = content.decode('utf-8')
                     result.charset = 'utf-8'
@@ -392,17 +451,12 @@ class ProfessionalBacklinkCrawler:
 
                 result.page_size = len(content)
                 result.content_html = html
-
-                # Generate content hash
                 result.content_hash = hashlib.md5(content).hexdigest()
 
-                # Extract page data based on content type
                 if result.content_type == 'html':
-                    # Full HTML processing for web pages
                     page_data = self.extract_page_data(html, url)
                     result.__dict__.update(page_data)
                 else:
-                    # Basic processing for non-HTML content
                     result.title = f"{result.content_type.upper()} File: {parsed.path.split('/')[-1]}"
                     result.meta_description = f"File of type: {result.content_type}"
                     if result.file_extension:
@@ -420,227 +474,226 @@ class ProfessionalBacklinkCrawler:
 
         return result
 
-    def get_urls_from_backlinks(self) -> List[str]:
-        """Get unique URLs from backlinks database"""
-        print("🔍 Fetching URLs from backlinks database...")
-
-        try:
-            backlinks = self.db.get_all_backlinks()
-            urls = set()
-
-            for backlink in backlinks:
-                # Add both source and target URLs
-                if backlink.get('source_url'):
-                    urls.add(backlink['source_url'])
-                if backlink.get('target_url'):
-                    urls.add(backlink['target_url'])
-
-            # Filter valid URLs
-            valid_urls = [url for url in urls if self.is_valid_url(url)]
-            print(f"✅ Found {len(valid_urls)} valid URLs from {len(backlinks)} backlinks")
-
-            return valid_urls
-
-        except Exception as e:
-            print(f"❌ Error fetching URLs from backlinks: {e}")
-            return []
-
-    async def crawl_urls_batch(self, urls: List[str], session_id: int, db_name: str) -> Dict:
-        """Crawl URLs in batches with concurrency control and detailed logging"""
-        print(f"🚀 Starting crawl of {len(urls)} URLs with session {session_id}")
-        print(f"🗄️ Database: {db_name}")
-        print(f"⚙️ Max concurrent: {self.max_concurrent}")
-        print(f"⏱️ Delay between requests: {self.delay}s")
-        print("=" * 60)
+    async def crawl_batch(self, urls: List[str], session_id: int, db_name: str, page_num: int) -> Dict:
+        """Crawl a single batch of URLs"""
+        print(f"📦 Processing page {page_num}: {len(urls)} URLs")
+        log_manager.crawler_logger.log_crawl_start(f"batch-{page_num}", urls, {"batch_size": len(urls)})
 
         semaphore = asyncio.Semaphore(self.max_concurrent)
         results = []
-        processed_count = 0
 
-        async def crawl_with_semaphore(url: str, url_index: int):
-            nonlocal processed_count
+        async def crawl_with_semaphore(url: str):
             async with semaphore:
-                await asyncio.sleep(self.delay)  # Rate limiting
-
-                print(f"\n🌐 [{url_index + 1}/{len(urls)}] Processing: {url}")
-
+                await asyncio.sleep(self.delay)
                 async with aiohttp.ClientSession() as session:
                     result = await self.fetch_page(session, url)
-
-                    # Detailed logging for each URL
-                    if result.crawl_success:
-                        print(f"✅ [{url_index + 1}] SUCCESS - {result.url}")
-                        print(f"   📄 Title: {result.title[:100] if result.title else 'No title'}...")
-                        print(f"   📊 Status: {result.http_status_code}")
-                        print(f"   ⏱️ Response time: {result.response_time_ms}ms")
-                        print(f"   📝 Content type: {result.content_type}")
-                        print(f"   📏 Page size: {result.page_size} bytes")
-                        print(f"   🔤 Word count: {result.word_count}")
-                        if result.language:
-                            print(f"   🌍 Language: {result.language}")
-                        if result.redirect_chain:
-                            print(f"   🔄 Redirects: {len(result.redirect_chain) - 1}")
-                    else:
-                        print(f"❌ [{url_index + 1}] FAILED - {result.url}")
-                        print(f"   💥 Error: {result.error_message}")
-
-                    processed_count += 1
                     return result
 
-        # Process URLs in batches
-        batch_size = 100
-        total_batches = (len(urls) + batch_size - 1) // batch_size
+        batch_start_time = time.time()
 
-        for i in range(0, len(urls), batch_size):
-            batch_urls = urls[i:i + batch_size]
-            current_batch = i // batch_size + 1
+        # Process URLs in this batch
+        tasks = [crawl_with_semaphore(url) for url in urls]
+        batch_results = await asyncio.gather(*tasks, return_exceptions=True)
 
-            print(f"\n📦 Processing batch {current_batch}/{total_batches}")
-            print(f"📋 URLs in this batch: {len(batch_urls)}")
-            print("-" * 40)
+        # Process results
+        successful_count = 0
+        failed_count = 0
 
-            tasks = [crawl_with_semaphore(url, i + j) for j, url in enumerate(batch_urls)]
-            batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+        for result in batch_results:
+            if isinstance(result, Exception):
+                print(f"❌ Task error: {result}")
+                failed_count += 1
+                continue
 
-            # Process results with detailed database logging
-            batch_stored = 0
-            batch_failed = 0
+            results.append(result)
 
-            for result in batch_results:
-                if isinstance(result, Exception):
-                    print(f"❌ Task error: {result}")
-                    batch_failed += 1
-                    continue
+            if isinstance(result, CrawlResult) and result.crawl_success:
+                successful_count += 1
 
-                results.append(result)
+                # Log the crawled page
+                log_manager.crawler_logger.log_url_crawled(
+                    result.url,
+                    result.http_status_code or 0,
+                    "success",
+                    result.response_time_ms or 0
+                )
 
-                # Store successful results with detailed logging
-                if isinstance(result, CrawlResult) and result.crawl_success:
-                    print(f"\n💾 Storing in database: {result.url}")
+                page_data = {
+                    'url': result.url,
+                    'original_url': result.original_url,
+                    'redirect_chain': result.redirect_chain,
+                    'title': result.title,
+                    'meta_description': result.meta_description,
+                    'content_text': result.content_text,
+                    'content_html': result.content_html,
+                    'content_hash': result.content_hash,
+                    'word_count': result.word_count,
+                    'page_size': result.page_size,
+                    'http_status_code': result.http_status_code,
+                    'response_time_ms': result.response_time_ms,
+                    'language': result.language,
+                    'charset': result.charset,
+                    'h1_tags': result.h1_tags,
+                    'h2_tags': result.h2_tags,
+                    'meta_keywords': result.meta_keywords,
+                    'canonical_url': result.canonical_url,
+                    'robots_meta': result.robots_meta,
+                    'internal_links_count': result.internal_links_count,
+                    'external_links_count': result.external_links_count,
+                    'images_count': result.images_count,
+                    'content_type': result.content_type,
+                    'file_extension': result.file_extension
+                }
 
-                    page_data = {
-                        'url': result.url,
-                        'original_url': result.original_url,
-                        'redirect_chain': result.redirect_chain,
-                        'title': result.title,
-                        'meta_description': result.meta_description,
-                        'content_text': result.content_text,
-                        'content_html': result.content_html,
-                        'content_hash': result.content_hash,
-                        'word_count': result.word_count,
-                        'page_size': result.page_size,
-                        'http_status_code': result.http_status_code,
-                        'response_time_ms': result.response_time_ms,
-                        'language': result.language,
-                        'charset': result.charset,
-                        'h1_tags': result.h1_tags,
-                        'h2_tags': result.h2_tags,
-                        'meta_keywords': result.meta_keywords,
-                        'canonical_url': result.canonical_url,
-                        'robots_meta': result.robots_meta,
-                        'internal_links_count': result.internal_links_count,
-                        'external_links_count': result.external_links_count,
-                        'images_count': result.images_count,
-                        'content_type': result.content_type,
-                        'file_extension': result.file_extension
-                    }
+                try:
+                    self.db.store_crawled_page(page_data, session_id, db_name)
+                except Exception as e:
+                    print(f"❌ Error storing page {result.url}: {e}")
+                    failed_count += 1
+                    successful_count -= 1
+            else:
+                failed_count += 1
 
-                    try:
-                        self.db.store_crawled_page(page_data, session_id, db_name)
-                        print(f"✅ Stored successfully in {db_name}")
-                        print(f"   🔑 Hash: {result.content_hash}")
-                        print(f"   📊 Links: {result.internal_links_count} internal, {result.external_links_count} external")
-                        print(f"   🖼️ Images: {result.images_count}")
-                        batch_stored += 1
-                    except Exception as e:
-                        print(f"❌ Database error for {result.url}: {e}")
-                        batch_failed += 1
-                else:
-                    batch_failed += 1
+        batch_time = time.time() - batch_start_time
+        self.progress.current_batch_time = batch_time
 
-            print(f"\n📊 Batch {current_batch} summary:")
-            print(f"   ✅ Stored: {batch_stored}")
-            print(f"   ❌ Failed: {batch_failed}")
-            print(f"   📈 Progress: {processed_count}/{len(urls)} ({processed_count/len(urls)*100:.1f}%)")
+        # Update progress
+        self.progress.processed_urls += len(urls)
+        self.progress.successful_crawls += successful_count
+        self.progress.failed_crawls += failed_count
 
-        # Final summary
-        successful = len([r for r in results if r.crawl_success])
-        failed = len([r for r in results if not r.crawl_success])
+        # Progress report
+        elapsed_time = time.time() - self.progress.start_time
+        urls_per_second = self.progress.processed_urls / elapsed_time if elapsed_time > 0 else 0
+        eta_seconds = (self.progress.total_urls - self.progress.processed_urls) / urls_per_second if urls_per_second > 0 else 0
 
-        print(f"\n🎉 Final crawl results:")
-        print(f"   📊 Total URLs: {len(urls)}")
-        print(f"   ✅ Successful: {successful}")
-        print(f"   ❌ Failed: {failed}")
-        print(f"   📈 Success rate: {successful/len(urls)*100:.1f}%")
+        print(f"✅ Page {page_num} completed: {successful_count} successful, {failed_count} failed")
+        print(f"📊 Progress: {self.progress.processed_urls}/{self.progress.total_urls} URLs "
+              f"({self.progress.processed_urls/self.progress.total_urls*100:.1f}%)")
+        print(f"⏱️  Speed: {urls_per_second:.1f} URLs/sec | ETA: {eta_seconds/60:.1f} minutes")
+        print(f"⏱️  Batch time: {batch_time:.1f}s")
+        print()
 
         return {
-            'total_urls': len(urls),
-            'successful': successful,
-            'failed': failed,
+            'page': page_num,
+            'urls_processed': len(urls),
+            'successful': successful_count,
+            'failed': failed_count,
+            'batch_time': batch_time,
             'results': results
         }
 
-    def crawl_single_url_sync(self, url: str) -> CrawlResult:
-        """Synchronous wrapper for crawling a single URL"""
-        import asyncio
+    async def run_batch_crawl(self, start_page: int = 1, max_pages: Optional[int] = None) -> Dict:
+        """Run batch-based crawl process"""
+        print("🔥 Starting Batch-Based Professional Web Crawler")
+        print("=" * 60)
 
-        async def _crawl_single():
-            async with aiohttp.ClientSession(
-                timeout=self.session_timeout,
-                headers=self.headers
-            ) as session:
-                return await self.fetch_page(session, url)
+        # Initialize progress tracking
+        self.progress.start_time = time.time()
+        self.progress.current_page = start_page
 
-        try:
-            # Create new event loop for this crawl
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            result = loop.run_until_complete(_crawl_single())
-            loop.close()
-            return result
-        except Exception as e:
-            # Return error result
-            return CrawlResult(
-                url=url,
-                crawl_success=False,
-                error_message=str(e)
-            )
+        # Get total URL count
+        print("🔍 Analyzing database size...")
+        total_urls = self.get_total_urls_count()
 
-    async def run_full_crawl(self) -> Dict:
-        """Run complete crawl process from backlinks to storage"""
-        print("🔥 Starting Professional Backlink-Based Web Crawler")
-
-        # Get URLs from backlinks
-        urls = self.get_urls_from_backlinks()
-        if not urls:
+        if total_urls == 0:
             return {'error': 'No URLs found in backlinks database'}
+
+        self.progress.total_urls = total_urls
+        self.progress.total_pages = (total_urls + self.batch_size - 1) // self.batch_size
+
+        if max_pages:
+            self.progress.total_pages = min(self.progress.total_pages, max_pages)
+
+        print(f"📊 Database Analysis:")
+        print(f"   Total URLs: {total_urls:,}")
+        print(f"   Batch size: {self.batch_size}")
+        print(f"   Total pages: {self.progress.total_pages}")
+        print(f"   Starting from page: {start_page}")
+        if max_pages:
+            print(f"   Max pages to process: {max_pages}")
+        print()
 
         # Create crawl session
         config_data = {
-            'crawler_type': 'backlink_based',
+            'crawler_type': 'batch_backlink_based',
+            'batch_size': self.batch_size,
             'max_concurrent': self.max_concurrent,
             'delay': self.delay,
-            'total_urls': len(urls),
+            'total_urls': total_urls,
+            'start_page': start_page,
+            'max_pages': max_pages,
             'timestamp': datetime.now().isoformat()
         }
 
         try:
-            session_id, db_name = self.db.create_crawl_session(urls, config_data)
+            # Create a minimal seed list for session creation
+            first_batch = self.get_urls_batch(start_page, min(10, self.batch_size))
+            session_id, db_name = self.db.create_crawl_session(first_batch, config_data)
             print(f"✅ Created crawl session {session_id} in database {db_name}")
         except Exception as e:
             return {'error': f'Failed to create crawl session: {e}'}
 
         try:
-            # Run the crawl
-            results = await self.crawl_urls_batch(urls, session_id, db_name)
+            # Process pages in batches
+            all_results = []
+            total_successful = 0
+            total_failed = 0
+
+            for page in range(start_page, start_page + self.progress.total_pages):
+                # Get batch of URLs
+                batch_urls = self.get_urls_batch(page, self.batch_size)
+
+                if not batch_urls:
+                    print(f"📝 No more URLs found at page {page}, ending crawl")
+                    break
+
+                # Crawl this batch
+                batch_result = await self.crawl_batch(batch_urls, session_id, db_name, page)
+                all_results.append(batch_result)
+
+                total_successful += batch_result['successful']
+                total_failed += batch_result['failed']
+
+                self.progress.current_page = page
+
+                # Respect rate limiting between batches
+                if page < start_page + self.progress.total_pages - 1:  # Not the last page
+                    print(f"⏸️  Pausing {self.delay}s between batches...")
+                    await asyncio.sleep(self.delay)
 
             # Finish the session
             self.db.finish_crawl_session(str(session_id), 'completed')
 
-            results['session_id'] = session_id
-            results['db_name'] = db_name
+            # Final summary
+            total_time = time.time() - self.progress.start_time
+            avg_speed = self.progress.processed_urls / total_time if total_time > 0 else 0
 
-            print("🎉 Crawl process completed successfully!")
+            results = {
+                'session_id': session_id,
+                'db_name': db_name,
+                'total_urls_found': total_urls,
+                'total_urls_processed': self.progress.processed_urls,
+                'total_pages_processed': len(all_results),
+                'successful_crawls': total_successful,
+                'failed_crawls': total_failed,
+                'total_time_seconds': total_time,
+                'average_speed_urls_per_second': avg_speed,
+                'batch_results': all_results,
+                'start_page': start_page,
+                'batch_size': self.batch_size
+            }
+
+            print("🎉 Batch Crawl Process Completed Successfully!")
+            print("=" * 60)
+            print(f"📊 Final Results:")
+            print(f"   URLs Processed: {self.progress.processed_urls:,}")
+            print(f"   Successful: {total_successful:,}")
+            print(f"   Failed: {total_failed:,}")
+            print(f"   Total Time: {total_time/60:.1f} minutes")
+            print(f"   Average Speed: {avg_speed:.1f} URLs/second")
+            print(f"   Pages Processed: {len(all_results)}")
+
             return results
 
         except Exception as e:
@@ -649,64 +702,63 @@ class ProfessionalBacklinkCrawler:
                 self.db.finish_crawl_session(str(session_id), 'failed')
             except:
                 pass
-            return {'error': f'Crawl failed: {e}'}
+            return {'error': f'Batch crawl failed: {e}'}
 
 
-async def main():
-    """Main function to run the professional crawler"""
-    print("🚀 RatCrawler Professional Backlink Crawler")
-    print("=" * 50)
+async def run_batch_crawler(start_page: int = 1, max_pages: Optional[int] = None,
+                           batch_size: int = 50, max_concurrent: int = 10, delay: float = 1.0):
+    """
+    Main function to run the batch-based crawler
 
-    # Initialize database handler
-    db_handler = SQLAlchemyDatabase()
-
-    # Create crawler instance
-    crawler = ProfessionalBacklinkCrawler(
-        db_handler=db_handler,
-        max_concurrent=5,  # Conservative concurrency
-        delay=2.0  # Respectful delay between requests
-    )
-
-    # Run the crawl
-    results = await crawler.run_full_crawl()
-
-    # Print results
-    if 'error' in results:
-        print(f"❌ Error: {results['error']}")
-    else:
-        print("📊 Crawl Results:")
-        print(f"   Session ID: {results.get('session_id')}")
-        print(f"   Database: {results.get('db_name')}")
-        print(f"   Total URLs: {results.get('total_urls')}")
-        print(f"   Successful: {results.get('successful')}")
-        print(f"   Failed: {results.get('failed')}")
-
-
-async def run_crawler():
-    """Main function to run the professional crawler"""
-    print("🚀 RatCrawler Professional Backlink Crawler")
-    print("=" * 50)
+    Args:
+        start_page: Page number to start from (1-based)
+        max_pages: Maximum number of pages to process (None for all)
+        batch_size: Number of URLs per batch/page
+        max_concurrent: Maximum concurrent requests
+        delay: Delay between requests in seconds
+    """
+    print("🚀 RatCrawler Batch-Based Professional Crawler")
+    print("=" * 60)
 
     # Initialize database handler
     db_handler = SQLAlchemyDatabase()
 
     # Create crawler instance
-    crawler = ProfessionalBacklinkCrawler(
+    crawler = BatchBacklinkCrawler(
         db_handler=db_handler,
-        max_concurrent=5,  # Conservative concurrency
-        delay=2.0  # Respectful delay between requests
+        max_concurrent=max_concurrent,
+        delay=delay,
+        batch_size=batch_size
     )
 
-    # Run the crawl
-    results = await crawler.run_full_crawl()
+    # Run the batch crawl
+    results = await crawler.run_batch_crawl(start_page=start_page, max_pages=max_pages)
 
     # Print results
     if 'error' in results:
         print(f"❌ Error: {results['error']}")
+        return False
     else:
-        print("📊 Crawl Results:")
-        print(f"   Session ID: {results.get('session_id')}")
-        print(f"   Database: {results.get('db_name')}")
-        print(f"   Total URLs: {results.get('total_urls')}")
-        print(f"   Successful: {results.get('successful')}")
-        print(f"   Failed: {results.get('failed')}")
+        return True
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Batch-based Professional Web Crawler')
+    parser.add_argument('--start-page', type=int, default=1, help='Page to start from (default: 1)')
+    parser.add_argument('--max-pages', type=int, help='Maximum pages to process (default: all)')
+    parser.add_argument('--batch-size', type=int, default=50, help='URLs per batch (default: 50)')
+    parser.add_argument('--max-concurrent', type=int, default=10, help='Max concurrent requests (default: 10)')
+    parser.add_argument('--delay', type=float, default=1.0, help='Delay between requests (default: 1.0)')
+
+    args = parser.parse_args()
+
+    # Run the crawler
+    asyncio.run(run_batch_crawler(
+        start_page=args.start_page,
+        max_pages=args.max_pages,
+        batch_size=args.batch_size,
+        max_concurrent=args.max_concurrent,
+        delay=args.delay
+    ))
