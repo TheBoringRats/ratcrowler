@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
+use std::collections::HashMap;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BacklinkData {
@@ -10,7 +11,7 @@ pub struct BacklinkData {
     pub page_title: String,
     pub domain_authority: f64,
     pub is_nofollow: bool,
-    pub crawl_date: DateTime<Utc>,
+    pub discovered_at: DateTime<Utc>,
 }
 
 impl BacklinkData {
@@ -29,7 +30,128 @@ impl BacklinkData {
             page_title,
             domain_authority: 0.0,
             is_nofollow: false,
-            crawl_date: Utc::now(),
+            discovered_at: Utc::now(),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CrawlResult {
+    pub url: String,
+    pub original_url: Option<String>,
+    pub redirect_chain: Option<Vec<String>>,
+    pub title: Option<String>,
+    pub meta_description: Option<String>,
+    pub content_text: Option<String>,
+    pub content_html: Option<String>,
+    pub content_hash: Option<String>,
+    pub word_count: Option<i32>,
+    pub page_size: Option<i32>,
+    pub http_status_code: Option<i32>,
+    pub response_time_ms: Option<i32>,
+    pub language: Option<String>,
+    pub charset: Option<String>,
+    pub h1_tags: Option<Vec<String>>,
+    pub h2_tags: Option<Vec<String>>,
+    pub meta_keywords: Option<Vec<String>>,
+    pub canonical_url: Option<String>,
+    pub robots_meta: Option<String>,
+    pub internal_links_count: Option<i32>,
+    pub external_links_count: Option<i32>,
+    pub images_count: Option<i32>,
+    pub content_type: Option<String>,
+    pub file_extension: Option<String>,
+    pub crawl_success: bool,
+    pub error_message: Option<String>,
+    pub crawled_at: DateTime<Utc>,
+    // Additional fields for crawler statistics
+    pub session_id: Option<String>,
+    pub pages_crawled: Option<usize>,
+    pub errors: Option<usize>,
+    pub duration: Option<std::time::Duration>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ScheduleConfig {
+    pub backlink_hours: Vec<u32>,
+    pub crawling_hours: Vec<u32>,
+    pub timezone: String,
+    pub session_duration_hours: u32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DashboardStats {
+    pub total_urls_crawled: i64,
+    pub total_backlinks_found: i64,
+    pub unique_domains: i64,
+    pub crawl_rate_per_hour: f64,
+    pub backlink_rate_per_hour: f64,
+    pub database_size_mb: f64,
+    pub system_memory_usage: f64,
+    pub system_cpu_usage: f64,
+    pub last_updated: DateTime<Utc>,
+    pub current_mode: String, // "crawling" or "backlink_processing"
+    pub next_mode_switch: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SeedUrl {
+    pub url: String,
+    pub added_at: DateTime<Utc>,
+    pub priority: i32,
+    pub last_crawled: Option<DateTime<Utc>>,
+    pub crawl_count: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SystemHealth {
+    pub database_status: String,
+    pub crawler_status: String,
+    pub backlink_processor_status: String,
+    pub scheduler_status: String,
+    pub uptime_seconds: u64,
+    pub errors_last_hour: i32,
+    pub warnings_last_hour: i32,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CrawlerConfig {
+    pub max_concurrent_requests: usize,
+    pub delay_between_requests_ms: u64,
+    pub request_timeout_seconds: u64,
+    pub max_retries: u32,
+    pub respect_robots_txt: bool,
+    pub user_agents: Vec<String>,
+    pub max_depth: u32,
+    pub enable_javascript: bool,
+}
+
+impl Default for CrawlerConfig {
+    fn default() -> Self {
+        Self {
+            max_concurrent_requests: 10,
+            delay_between_requests_ms: 1000,
+            request_timeout_seconds: 30,
+            max_retries: 3,
+            respect_robots_txt: true,
+            user_agents: vec![
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36".to_string(),
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36".to_string(),
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0".to_string(),
+            ],
+            max_depth: 4,
+            enable_javascript: false,
+        }
+    }
+}
+
+impl Default for ScheduleConfig {
+    fn default() -> Self {
+        Self {
+            backlink_hours: vec![2, 8, 14, 20], // 4 times a day, 2 hours each
+            crawling_hours: (0..24).filter(|h| ![2, 3, 8, 9, 14, 15, 20, 21].contains(h)).collect(),
+            timezone: "UTC".to_string(),
+            session_duration_hours: 2,
         }
     }
 }
@@ -254,14 +376,6 @@ impl Default for BacklinkConfig {
             max_redirects: 5,
         }
     }
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CrawlResult {
-    pub session_id: String,
-    pub pages_crawled: usize,
-    pub errors: usize,
-    pub duration: std::time::Duration,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

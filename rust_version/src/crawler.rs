@@ -5,8 +5,9 @@ use std::time::{Duration, Instant};
 use std::cmp::Ordering;
 use url::{Url, ParseError};
 use regex::Regex;
+use chrono::Utc;
 use crate::models::*;
-use crate::database::WebsiteCrawlerDatabase;
+use crate::database::Database;
 
 #[derive(Eq, PartialEq)]
 struct UrlPriority {
@@ -63,13 +64,14 @@ impl WebsiteCrawler {
         }
     }
 
-    pub async fn crawl(&mut self, seed_urls: Vec<String>, database: &mut WebsiteCrawlerDatabase) -> Result<CrawlResult, CrawlError> {
+    pub async fn crawl(&mut self, seed_urls: Vec<String>, database: &Database) -> Result<CrawlResult, CrawlError> {
         println!("🔍 Debug: Starting crawl with {} seed URLs", seed_urls.len());
         for (i, url) in seed_urls.iter().enumerate() {
             println!("🔍 Debug: Seed URL {}: {}", i + 1, url);
         }
 
-        let session_id = database.create_crawl_session(&seed_urls, &serde_json::to_value(CrawlConfig::default())?)?;
+        let session_id = database.create_crawl_session(&seed_urls, &serde_json::to_value(CrawlConfig::default()).unwrap())
+            .map_err(|e| CrawlError::DatabaseError(e.to_string()))?;
         println!("🔍 Debug: Created session with ID: {}", session_id);
 
         let mut visited_urls = HashSet::new();
@@ -155,11 +157,9 @@ impl WebsiteCrawler {
 
                     // Log error
                     if let Err(db_err) = database.log_crawl_error(
-                        &session_id,
                         &url,
                         &format!("{:?}", e),
-                        &e.to_string(),
-                        None,
+                        &session_id,
                     ) {
                         errors.push(CrawlError::DatabaseError(db_err.to_string()));
                     }
@@ -172,10 +172,37 @@ impl WebsiteCrawler {
         let _ = database.finish_crawl_session(&session_id, "completed");
 
         Ok(CrawlResult {
-            session_id,
-            pages_crawled: crawled_pages.len(),
-            errors: errors.len(),
-            duration: Duration::from_secs(0), // Would need to track actual duration
+            url: String::new(), // We need to track the primary URL
+            original_url: None,
+            redirect_chain: None,
+            title: None,
+            meta_description: None,
+            content_text: None,
+            content_html: None,
+            content_hash: None,
+            word_count: None,
+            page_size: None,
+            http_status_code: None,
+            response_time_ms: None,
+            language: None,
+            charset: None,
+            h1_tags: None,
+            h2_tags: None,
+            meta_keywords: None,
+            canonical_url: None,
+            robots_meta: None,
+            internal_links_count: None,
+            external_links_count: None,
+            images_count: None,
+            content_type: None,
+            file_extension: None,
+            crawl_success: true,
+            error_message: None,
+            crawled_at: Utc::now(),
+            session_id: Some(session_id),
+            pages_crawled: Some(crawled_pages.len()),
+            errors: Some(errors.len()),
+            duration: Some(Duration::from_secs(0)), // Would need to track actual duration
         })
     }
 

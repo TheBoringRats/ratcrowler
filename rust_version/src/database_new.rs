@@ -436,11 +436,6 @@ impl Database {
                 crawled_at: DateTime::parse_from_rfc3339(&row.get::<_, String>(26)?)
                     .map_err(|_| rusqlite::Error::InvalidColumnType(26, "crawled_at".to_string(), rusqlite::types::Type::Text))?
                     .with_timezone(&Utc),
-                // Additional fields for crawler statistics
-                session_id: None,
-                pages_crawled: None,
-                errors: None,
-                duration: None,
             })
         })?;
 
@@ -450,26 +445,5 @@ impl Database {
         }
 
         Ok(results)
-    }
-
-    // Methods for crawler compatibility
-    pub fn create_crawl_session(&self, _seed_urls: &[String], _config: &serde_json::Value) -> Result<String, anyhow::Error> {
-        use uuid::Uuid;
-        Ok(Uuid::new_v4().to_string())
-    }
-
-    pub fn store_crawled_page(&self, _page: &crate::models::CrawledPage, _session_id: &str) -> Result<(), anyhow::Error> {
-        // TODO: Implement storage of crawled page
-        Ok(())
-    }
-
-    pub fn log_crawl_error(&self, _url: &str, _error: &str, _session_id: &str) -> Result<(), anyhow::Error> {
-        // TODO: Implement error logging
-        Ok(())
-    }
-
-    pub fn finish_crawl_session(&self, _session_id: &str, _status: &str) -> Result<(), anyhow::Error> {
-        // TODO: Implement session finishing
-        Ok(())
     }
 }

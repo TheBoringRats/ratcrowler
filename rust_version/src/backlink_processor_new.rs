@@ -105,7 +105,7 @@ impl BacklinkProcessor {
         Ok(total_backlinks)
     }
 
-    pub async fn discover_backlinks_for_url(&self, url: &str, max_depth: u32) -> Result<Vec<BacklinkData>> {
+    async fn discover_backlinks_for_url(&self, url: &str, max_depth: u32) -> Result<Vec<BacklinkData>> {
         let mut discovered = Vec::new();
         let mut queue = vec![(url.to_string(), 0)];
         let mut visited = HashSet::new();
@@ -184,8 +184,7 @@ impl BacklinkProcessor {
                         let link_str = link_url.to_string();
 
                         // Check if it's an external link (potential backlink)
-                        let source_url_parsed = Url::parse(url)?;
-                        let source_domain = source_url_parsed.host_str().unwrap_or("");
+                        let source_domain = Url::parse(url)?.host_str().unwrap_or("");
                         let target_domain = link_url.host_str().unwrap_or("");
 
                         if source_domain != target_domain && !target_domain.is_empty() {
@@ -222,16 +221,11 @@ impl BacklinkProcessor {
         Ok((backlinks, outbound_links))
     }
 
-    fn extract_context(&self, element: &scraper::ElementRef, _document: &Html) -> String {
+    fn extract_context(&self, element: &scraper::ElementRef, document: &Html) -> String {
         // Extract surrounding text as context
         if let Some(parent) = element.parent() {
-            if let Some(_parent_element) = parent.value().as_element() {
-                // Collect text from all text nodes in the parent
-                let parent_text: String = parent.descendants()
-                    .filter_map(|node| node.value().as_text())
-                    .map(|text| text.text.as_ref())
-                    .collect::<Vec<_>>()
-                    .join(" ");
+            if let Some(parent_element) = parent.value().as_element() {
+                let parent_text: String = parent.text().collect();
                 // Return first 200 chars as context
                 parent_text.chars().take(200).collect()
             } else {
