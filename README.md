@@ -1,13 +1,16 @@
 <div align="center">
+
 # 🕷️ RatCrawler
 
 ![RatCrawler Logo](https://img.shields.io/badge/🕷️-RatCrawler-brightgreen?style=for-the-badge)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python)](https://python.org)
+[![Rust](https://img.shields.io/badge/rust-orange?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
 [![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0+-red?style=for-the-badge&logo=sqlite)](https://sqlalchemy.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Monitoring-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 ![Database Support](https://img.shields.io/badge/Databases-SQLite%20%7C%20Turso%20%7C%20PostgreSQL*-orange?style=for-the-badge)
-![Version](https://img.shields.io/badge/Version-1.5.0--Multi--DB-purple?style=for-the-badge)
+
+---
 
 **🚀 Latest Update: Multi-Database Support Architecture**
 
@@ -828,28 +831,28 @@ graph TB
 
 ### 📅 **Development Timeline**
 
-**Phase 1: Enhanced Robots.txt (Next 2 weeks)**
+**Phase 1: Enhanced Robots.txt**
 
 - ✅ Basic robots.txt checking (Current)
 - 🔄 Smart sitemap discovery
 - 🔄 Dynamic crawl delays
 - 🔄 User-agent rotation
 
-**Phase 2: AI Content Analysis (Next 4 weeks)**
+**Phase 2: AI Content Analysis**
 
 - 🔄 Content classification models
 - 🔄 Quality scoring algorithms
 - 🔄 Sentiment analysis integration
 - 🔄 Multi-language enhancement
 
-**Phase 3: Smart Prioritization (Next 6 weeks)**
+**Phase 3: Smart Prioritization**
 
 - 🔄 PageRank prediction models
 - 🔄 Content freshness detection
 - 🔄 Value assessment algorithms
 - 🔄 Priority queue implementation
 
-**Phase 4: Advanced Features (Next 8 weeks)**
+**Phase 4: Advanced Features**
 
 - 🔄 Adaptive crawling engine
 - 🔄 Enhanced spam detection
