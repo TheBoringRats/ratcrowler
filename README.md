@@ -1,6 +1,5 @@
-# 🕷️ RatCrawler
-
 <div align="center">
+# 🕷️ RatCrawler
 
 ![RatCrawler Logo](https://img.shields.io/badge/🕷️-RatCrawler-brightgreen?style=for-the-badge)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge&logo=python)](https://python.org)
